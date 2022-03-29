@@ -1,9 +1,6 @@
-from django.db import models
 from helpers.models import TrackingModel
-from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.contrib.auth.models import (PermissionsMixin, UserManager, AbstractUser)
 from django.utils.translation import gettext_lazy as _
-from django.utils import timezone
 import jwt
 from datetime import datetime, timedelta
 from django.conf import settings
@@ -46,8 +43,7 @@ class MyUserManager(UserManager):
 
 
 class User(AbstractUser, PermissionsMixin, TrackingModel):
-    pass
-
+    
     @property
     def token(self):
         token = jwt.encode(
