@@ -5,7 +5,8 @@ from .models import Warehouse
 from .serializers import WarehouseSerializer
 
 
-class WarehouseAPIView(ListCreateAPIView):
+# Создает и выводит для конкретного пользователя его склады (запросами GET, POST)
+class WarehouseAPIView(ListCreateAPIView): 
 	serializer_class = WarehouseSerializer
 	permission_classes = (IsAuthenticated,)
 
@@ -16,6 +17,7 @@ class WarehouseAPIView(ListCreateAPIView):
 		return Warehouse.objects.filter(owner=self.request.user)
 
 
+# Выводит список складов всех пользователей
 class WarehouseListAPIView(ListAPIView):
 	serializer_class = WarehouseSerializer
 	authentication_classes = []
@@ -24,6 +26,7 @@ class WarehouseListAPIView(ListAPIView):
 		return Warehouse.objects.all()
 
 
+# Разными запросами изменяет, выдает, удаляет детали склада
 class WarehouseDetailAPIView(RetrieveUpdateDestroyAPIView):
 	serializer_class = WarehouseSerializer
 	permission_classes = (IsAuthenticated,)
