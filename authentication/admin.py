@@ -30,9 +30,6 @@ class UserAdmin(BaseUserAdmin):
 
 class WarehouseAdmin(admin.ModelAdmin):
     list_display = ('name', 'square', 'adress')
-    fieldsets = (
-        (None, {'fields': ('name', 'square', 'adress')}),
-    )
 
     search_fields =  ('name', 'square', 'adress')
     ordering = ('name', 'square', 'adress')

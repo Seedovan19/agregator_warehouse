@@ -12,18 +12,19 @@ const App = () => {
 
   const [ isLoading, setIsLoading ] = useState(false);
   const [ type, setType ] = useState('');
-  const [ palletQuantity, setPalletQuantity ] = useState('');
+  const [ alco, setAlco ] = useState('');
 
   useEffect(() => {
     setIsLoading(true);
 
-    getWarehousesData(type)
+    getWarehousesData(type, alco)
       .then((data) => {
         setWarehouses(data)
         console.log(data)
         setIsLoading(false)
       })
-  },[type]);
+  },[type, alco]);
+  
   return (
     <>
     <CssBaseline />
@@ -36,8 +37,8 @@ const App = () => {
           isLoading = {isLoading}
           type = {type}
           setType = {setType}
-          palletQuantity = {palletQuantity}
-          setPalletQuantity = {setPalletQuantity}
+          alco = {alco}
+          setAlco = {setAlco}
         />
       </Grid>
       <Grid item xs={12} md={4}>
