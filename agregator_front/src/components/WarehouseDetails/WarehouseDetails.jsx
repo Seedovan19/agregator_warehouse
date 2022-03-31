@@ -1,13 +1,11 @@
 import React from 'react'
-import { Box, Typography, Button, Card, CardMedia, CardContent, CardActions, Chip } from '@material-ui/core';
+import { Typography, Button, Card, CardMedia, CardContent, CardActions } from '@material-ui/core';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
 
 import useStyles from './styles.js';
 
 
 const WarehouseDetails = ({ warehouse, selected, refProp }) => {
-  console.log(selected)
-  console.log(refProp.current)
   if (selected) refProp?.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   const classes = useStyles();
 

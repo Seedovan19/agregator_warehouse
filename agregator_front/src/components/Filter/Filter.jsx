@@ -1,16 +1,12 @@
-import { Typography, InputLabel, MenuItem, FormControl, FormControlLabel, Select, Checkbox } from '@material-ui/core'
+import React from 'react';
+import { Typography, InputLabel, MenuItem, FormControl, Select, Button } from '@material-ui/core'
 import useStyles from './styles'
 
 
 
-const Filter = ({ type, setType, alco, setAlco }) => {
+const Filter = ({ type, setType, setModalActive }) => {
+
     const classes = useStyles();
-    const options = [
-        {
-          label: "Хранение алкоголя",
-          value: {alco},
-        }
-      ];
 
     return (
       <div className={ classes.container }>
@@ -28,18 +24,8 @@ const Filter = ({ type, setType, alco, setAlco }) => {
               <MenuItem value="C">C</MenuItem>
             </Select>
           </FormControl>
-          { options?.map((option, _) => (
-              <FormControlLabel
-                control={
-                      <Checkbox
-                        onChange={(e) => setAlco(true)}
-                      />
-                    }
-              label={option.label}
-              key={option.value}
-            />
-          )) }
-          
+          <Button className="filter_button" onClick={() => setModalActive(true)}>Фильтры</Button> 
+          {/* //TODO: нарисовать кнопку класс filter_button */}
       </div>
     );
 }

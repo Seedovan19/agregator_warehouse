@@ -1,10 +1,10 @@
 import React, { useState, useEffect, createRef } from 'react'
 import { CircularProgress, Grid } from '@material-ui/core';
+// import { FormInputMultiCheckbox } from "./form-components/FormInputMultiCheckbox";
 import WarehouseDetails from '../WarehouseDetails/WarehouseDetails'
-import Filter from '../Filter/Filter'
 import useStyles from './styles'
 
-const List = ({ warehouses, childClicked, isLoading, type, setType, alco, setAlco }) => {
+const List = ({ warehouses, childClicked, isLoading }) => {
   const classes = useStyles();
 
 
@@ -16,12 +16,6 @@ const List = ({ warehouses, childClicked, isLoading, type, setType, alco, setAlc
 
   return (
     <div className={ classes.container }>
-      <Filter
-          type = {type}
-          setType = {setType}
-          alco = {alco}
-          setAlco = {setAlco}
-      />
       { isLoading ? (
         <div className={classes.loading}>
           <CircularProgress size="5rem"/>
