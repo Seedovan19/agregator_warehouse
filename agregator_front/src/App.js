@@ -18,6 +18,7 @@ const App = () => {
   const [ type, setType ] = useState('');
   const [ alco, setAlco ] = useState(false);
   const [ transport, setTransportation ] = useState(false);
+  const [activeFilter, setActiveFilter] = React.useState([]);
 
   useEffect(() => {
     setIsLoading(true);
@@ -66,6 +67,8 @@ const App = () => {
       setAlco = {setAlco}
       transport = {transport}
       setTransportation = {setTransportation}
+      activeFilter = {activeFilter}
+      setActiveFilter = {setActiveFilter}
     />
     </>
     </div>

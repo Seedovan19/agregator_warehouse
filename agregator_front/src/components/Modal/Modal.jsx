@@ -2,12 +2,8 @@ import React from 'react'
 import { Dialog, DialogTitle, FormControlLabel, Checkbox, Button } from '@material-ui/core';
 
 
-const Modal = ({modalActive, setModalActive, alco, setAlco, transport, setTransportation }) => {
-
-    const [checked, setChecked] = React.useState({
-        alcohol: false,
-        transportation: false,
-    });
+const Modal = ({modalActive, setModalActive, alco, setAlco, transport, setTransportation, activeFilter, setActiveFilter }) => {
+    const { alcohol, transportation } = activeFilter;
 
     const handleClickApplyFilters = () => {
         console.log(alcohol);
@@ -18,12 +14,13 @@ const Modal = ({modalActive, setModalActive, alco, setAlco, transport, setTransp
 
 
     const handleCheckChange = (event) => {
-        setChecked({
-          ...checked,
+        setActiveFilter({
+          ...activeFilter,
           [event.target.name]: event.target.checked,
         });
     };
-    const { alcohol, transportation } = checked;
+
+    //TODO: options: [{},{}] - Жалуется на то, что в cheked несколько полей с одинаковым значением 
     
     return (
         <Dialog
