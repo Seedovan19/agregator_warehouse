@@ -1,7 +1,5 @@
 import React from 'react'
-import { AppBar, Toolbar, Typography, InputBase, Box } from '@material-ui/core'
-import SearchIcon from "@material-ui/icons/Search"
-
+import { AppBar, Toolbar, Button, Box } from '@material-ui/core'
 import useStyles from './styles'
 
 const Header = () => {
@@ -10,20 +8,11 @@ const Header = () => {
   return (
     <AppBar position="static">
       <Toolbar className={ classes.toolbar }>
-        <Typography variant="h5" className={ classes.title }>
-          Подберите склад для паллетного хранения
-        </Typography>
-        <Box display="flex">
-          <Typography variant="h6" className={ classes.title }>
-            Найдите склад
-          </Typography>
-            <div className={ classes.search }>
-              <div className={ classes.searchIcon }>
-                <SearchIcon />
-              </div>
-              <InputBase placeholder="Найти..." classes= {{ root: classes.inputRoot, input: classes.inputInput }}/>
-            </div>
+        <img className = { classes.logo } src={require('./logo.png')} onClick={() => window.open('/', '_blank')} ></img>
+        <Box mr={3}>
+          <Button className={ classes.button_login} >Вход</Button>
         </Box>
+        <Button className={ classes.button_sign_up} variant="contained">Регистрация</Button>
       </Toolbar>
     </AppBar>
   );

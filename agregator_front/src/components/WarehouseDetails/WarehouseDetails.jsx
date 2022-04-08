@@ -13,7 +13,7 @@ const WarehouseDetails = ({ warehouse, selected, refProp }) => {
     <Card elevation={6}>
       <CardMedia
         style={{ height: 300 }}
-        image={ warehouse.photo ? warehouse.photo.images.large.url : 'https://www.foodserviceandhospitality.com/wp-content/uploads/2016/09/Restaurant-Placeholder-001.jpg'}
+        image={ warehouse.image ? warehouse.image : 'https://www.foodserviceandhospitality.com/wp-content/uploads/2016/09/Restaurant-Placeholder-001.jpg'}
         title={ warehouse.adress }
       />
       <CardContent>

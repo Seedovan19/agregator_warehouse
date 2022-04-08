@@ -1,6 +1,5 @@
 import React, { useState, useEffect, createRef } from 'react'
-import { CircularProgress, Grid } from '@material-ui/core';
-// import { FormInputMultiCheckbox } from "./form-components/FormInputMultiCheckbox";
+import { CircularProgress, Grid, Typography } from '@material-ui/core';
 import WarehouseDetails from '../WarehouseDetails/WarehouseDetails'
 import useStyles from './styles'
 
@@ -23,7 +22,11 @@ const List = ({ warehouses, childClicked, isLoading }) => {
       ) : (
         <>
         <Grid container spacing={3} className={classes.list}>
-          { warehouses?.map((warehouse, i) => (
+          { warehouses.length == 0 ? (
+            <Typography>
+              К сожалению склады не найдены...
+            </Typography>
+          ) : (warehouses?.map((warehouse, i) => (
             <Grid ref={elRefs[i]} item key={i} xs={12}>
               <WarehouseDetails 
                 selected={childClicked?.lng === warehouse?.wh_lat && childClicked?.lat === warehouse?.wh_lon} //TODO: WAT? исправить где-то местами все перепутал
@@ -31,7 +34,7 @@ const List = ({ warehouses, childClicked, isLoading }) => {
                 warehouse={warehouse}
               />
             </Grid>
-          )) }
+          ))) }
         </Grid>
       </>
       )}

@@ -3,7 +3,6 @@ import { Typography, InputLabel, MenuItem, FormControl, Select, Button } from '@
 import useStyles from './styles'
 
 
-
 const Filter = ({ type, setType, setModalActive }) => {
 
     const classes = useStyles();
