@@ -12,12 +12,12 @@ const WarehouseDetails = ({ warehouse, selected, refProp }) => {
   return (
     <Card elevation={6}>
       <CardMedia
-        style={{ height: 300 }}
+        style={{ height: '10px' }}
         image={ warehouse.image ? warehouse.image : 'https://www.foodserviceandhospitality.com/wp-content/uploads/2016/09/Restaurant-Placeholder-001.jpg'}
         title={ warehouse.adress }
       />
       <CardContent>
-        <Typography gutterBottom variant="h5">{ warehouse.adress }</Typography>
+        <Typography gutterBottom className = {classes.text}>{ warehouse.adress }</Typography>
         { warehouse?.adress && (
           <Typography gutterBottom variant="body2" color="textSecondary" className={classes.subtitle}>
             <LocationOnIcon />{warehouse.adress}

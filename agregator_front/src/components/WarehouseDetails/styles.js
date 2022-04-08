@@ -10,4 +10,9 @@ export default makeStyles(() => ({
   spacing: {
     display: 'flex', alignItems: 'center', justifyContent: 'space-between',
   },
+
+  text: {
+    fontFamily: 'Montserrat-medium',
+    color: 'black',
+}
 }));
