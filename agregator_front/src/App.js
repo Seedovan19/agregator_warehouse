@@ -37,7 +37,7 @@ const App = () => {
     <CssBaseline />
     <Header />
 
-    <Grid container spacing = {1} style = {{ width: '100%'}}>
+    <Grid container>
       <Grid item xs={12} md={4}>
         <Filter
             type = {type}
@@ -52,7 +52,7 @@ const App = () => {
           setType = {setType}
         />
       </Grid>
-      <Grid item xs={0} md={5}>
+      <Grid item xs={12} md={8}>
         <WarehouseMap
           warehouses = {warehouses}
           setChildClicked = {setChildClicked}

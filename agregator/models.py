@@ -50,11 +50,6 @@ class Security(TrackingModel, models.Model):
         ('Hydrant', 'Гидрантная'),
         ('None', 'Нет'),
     )
-    # warehouse = models.OneToOneField(
-    #     Warehouse,
-    #     on_delete=models.CASCADE,
-    #     primary_key=True,
-    # )
     security_post = models.BooleanField()      
     all_day_security = models.BooleanField()
     video_control = models.BooleanField()
@@ -113,6 +108,12 @@ class Warehouse(TrackingModel, models.Model):
         ('B+', 'B+'),
         ('C', 'C'),
     )
+    WAREHOUSE_VARIANT = (
+        ('No value', 'Не задано'),
+        ('Sharing', 'Склад от компании'),
+        ('3pl', '3pl-оператор'),
+        ('Storage_only_wh', 'Склад ответственного хранения'),
+    )
 
     name = models.CharField(max_length=100, blank=True, null=True)
     image = models.ImageField (blank=True, null=True, upload_to = upload_path)
@@ -122,6 +123,8 @@ class Warehouse(TrackingModel, models.Model):
     floor_storage_cost = models.IntegerField()
     description = models.CharField(max_length=500, blank=True, null=True)
     warehouse_class = models.CharField(max_length=100, choices=CLASS_VALUES, default='No value')
+    warehouse_variant = models.CharField(max_length=100, choices=WAREHOUSE_VARIANT, default='No value')
+    long_term_commitment = models.BooleanField(default=False)
     integrated = models.BooleanField()
     wh_lon = models.FloatField(blank=True, null=True)
     wh_lat = models.FloatField(blank=True, null=True)

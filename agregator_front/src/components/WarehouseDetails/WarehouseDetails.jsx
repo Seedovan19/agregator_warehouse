@@ -1,8 +1,9 @@
 import React from 'react'
-import { Typography, Button, Card, CardMedia, CardContent, CardActions } from '@material-ui/core';
+import { Typography, Button, Card, CardMedia, CardContent, CardActions, Grid } from '@material-ui/core';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
 
 import useStyles from './styles.js';
+import WarehouseVariant from './WarehouseVariant/WarehouseVariant.jsx';
 
 
 const WarehouseDetails = ({ warehouse, selected, refProp }) => {
@@ -11,24 +12,31 @@ const WarehouseDetails = ({ warehouse, selected, refProp }) => {
 
   return (
     <Card elevation={6}>
-      <CardMedia
-        style={{ height: '10px' }}
-        image={ warehouse.image ? warehouse.image : 'https://www.foodserviceandhospitality.com/wp-content/uploads/2016/09/Restaurant-Placeholder-001.jpg'}
-        title={ warehouse.adress }
-      />
-      <CardContent>
-        <Typography gutterBottom className = {classes.text}>{ warehouse.adress }</Typography>
-        { warehouse?.adress && (
-          <Typography gutterBottom variant="body2" color="textSecondary" className={classes.subtitle}>
-            <LocationOnIcon />{warehouse.adress}
-          </Typography>
-        )}
-      </CardContent>
-      <CardActions>
-        <Button size="small" color="primary" onClick={() => window.open('/', '_blank')}>
-          Подробнее
-        </Button>
-      </CardActions>
+      <Grid container className={classes.card_container}>
+        <Grid item md = {4} className={classes.picture_item} >
+          <CardMedia
+            className ={ classes.card_picture }
+            image={ warehouse.image ? warehouse.image : 'https://www.foodserviceandhospitality.com/wp-content/uploads/2016/09/Restaurant-Placeholder-001.jpg'}
+            title={ warehouse.adress }
+          />
+        </Grid>
+        <Grid item md = {8}>
+        <CardContent>
+            <Typography gutterBottom className = {classes.card_top_text}>{ warehouse.adress }</Typography>
+            <WarehouseVariant warehouse_variant = {warehouse.warehouse_variant} is_long_term = {warehouse.long_term_commitment}/>
+            { warehouse?.adress && (
+              <Typography gutterBottom variant="body2" color="textSecondary" className={classes.subtitle}>
+                <LocationOnIcon />{warehouse.adress}
+              </Typography>
+            )}
+          </CardContent>
+          <CardActions>
+            <Button size="small" color="primary" onClick={() => window.open('/', '_blank')}>
+              Подробнее
+            </Button>
+          </CardActions>
+        </Grid>
+      </Grid>
     </Card>
   );
 };

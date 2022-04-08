@@ -22,7 +22,7 @@ const List = ({ warehouses, childClicked, isLoading }) => {
       ) : (
         <>
         <Grid container spacing={3} className={classes.list}>
-          { warehouses.length == 0 ? (
+          { warehouses.length === 0 ? (
             <Typography>
               К сожалению склады не найдены...
             </Typography>
