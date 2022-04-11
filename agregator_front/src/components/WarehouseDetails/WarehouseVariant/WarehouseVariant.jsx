@@ -11,27 +11,27 @@ const WarehouseVariant = ({ warehouse_variant, is_long_term }) => {
         return (
             <div>
                 
-                <Chip className={classes.label} label="Склад от компании" variant="outlined" />
+                <Chip className={`${classes.label} ${classes.from_company}`}  label="Склад от компании" variant="outlined" />
                 {is_long_term ? (
-                <Chip className={classes.label} label="Долгосрочное хранение" variant="outlined" />
+                <Chip className={`${classes.label} ${classes.long_term_storage}`} label="Долгосрочное хранение" variant="outlined" />
                  ) : (<></>) }
             </div>
         )
     } else if (warehouse_variant === 'Storage_only_wh') {
         return (
             <div>
-                <Chip className={classes.label} label="Склад ответхранения" variant="outlined" />
+                <Chip className={`${classes.label} ${classes.only_storage}`} label="Склад ответхранения" variant="outlined" />
                 {is_long_term ? (
-                <Chip className={classes.label} label="Долгосрочное хранение" variant="outlined" />
+                <Chip className={`${classes.label} ${classes.long_term_storage}`} label="Долгосрочное хранение" variant="outlined" />
                  ) : (<></>) }
             </div>
         )
     } else if (warehouse_variant === '3pl') { 
         return (
             <div>
-                <Chip className={classes.label} label="3pl-оператор" variant="outlined" />
+                <Chip className={`${classes.label} ${classes.three_pl}`} label="3pl-оператор" variant="outlined" />
                 {is_long_term ? (
-                    <Chip className={classes.label} label="Долгосрочное хранение" variant="outlined" />
+                    <Chip className={`${classes.label} ${classes.long_term_storage}`} label="Долгосрочное хранение" variant="outlined" />
                 ) : (<></>) }
             </div>
         )
@@ -39,7 +39,7 @@ const WarehouseVariant = ({ warehouse_variant, is_long_term }) => {
         return(
             <div>
                 {is_long_term ? (
-                    <Chip className={classes.label} label="Долгосрочное хранение" variant="outlined" />
+                    <Chip className={`${classes.label} ${classes.long_term_storage}`} label="Долгосрочное хранение" variant="outlined" />
                 ) : (<></>) }
             </div>
         )

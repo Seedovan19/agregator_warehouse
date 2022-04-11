@@ -16,6 +16,7 @@ const App = () => {
   const [ modalActive, setModalActive ] = useState(false);
   const [ isLoading, setIsLoading ] = useState(false);
   const [ type, setType ] = useState('');
+  const [ palletQuantity, setPalletQuantity ] = useState('');
   const [ alco, setAlco ] = useState(false);
   const [ transport, setTransportation ] = useState(false);
   const [activeFilter, setActiveFilter] = React.useState([]);
@@ -42,6 +43,8 @@ const App = () => {
         <Filter
             type = {type}
             setType = {setType}
+            palletQuantity = {palletQuantity}
+            setPalletQuantity = {setPalletQuantity}
             setModalActive = {setModalActive}
         />
         <List 
