@@ -1,33 +1,37 @@
 import React from 'react'
 import { Chip } from '@material-ui/core';
+import useStyles from './styles.js';
 
 
 
 const WarehouseVariant = ({ warehouse_variant, is_long_term }) => {
+    const classes = useStyles();
+
     if (warehouse_variant === 'Sharing') {
         return (
             <div>
-                <Chip label="Склад от компании" variant="outlined" />
+                
+                <Chip className={classes.label} label="Склад от компании" variant="outlined" />
                 {is_long_term ? (
-                <Chip label="Долгосрочное хранение" variant="outlined" />
+                <Chip className={classes.label} label="Долгосрочное хранение" variant="outlined" />
                  ) : (<></>) }
             </div>
         )
     } else if (warehouse_variant === 'Storage_only_wh') {
         return (
             <div>
-                <Chip label="Склад ответхранения" variant="outlined" />
+                <Chip className={classes.label} label="Склад ответхранения" variant="outlined" />
                 {is_long_term ? (
-                <Chip label="Долгосрочное хранение" variant="outlined" />
+                <Chip className={classes.label} label="Долгосрочное хранение" variant="outlined" />
                  ) : (<></>) }
             </div>
         )
     } else if (warehouse_variant === '3pl') { 
         return (
             <div>
-                <Chip label="3pl-оператор" variant="outlined" />
+                <Chip className={classes.label} label="3pl-оператор" variant="outlined" />
                 {is_long_term ? (
-                    <Chip label="Долгосрочное хранение" variant="outlined" />
+                    <Chip className={classes.label} label="Долгосрочное хранение" variant="outlined" />
                 ) : (<></>) }
             </div>
         )
@@ -35,7 +39,7 @@ const WarehouseVariant = ({ warehouse_variant, is_long_term }) => {
         return(
             <div>
                 {is_long_term ? (
-                    <Chip label="Долгосрочное хранение" variant="outlined" />
+                    <Chip className={classes.label} label="Долгосрочное хранение" variant="outlined" />
                 ) : (<></>) }
             </div>
         )

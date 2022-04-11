@@ -11,7 +11,7 @@ export default makeStyles((theme) => ({
     padding: '19px',
   },
   list: {
-    height: '75vh', 
+    maxHeight: 720 ,
     overflow: 'auto',
   },
 }));

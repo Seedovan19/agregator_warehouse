@@ -1,6 +1,5 @@
 import React from 'react'
 import { Typography, Button, Card, CardMedia, CardContent, CardActions, Grid } from '@material-ui/core';
-import LocationOnIcon from '@material-ui/icons/LocationOn';
 
 import useStyles from './styles.js';
 import WarehouseVariant from './WarehouseVariant/WarehouseVariant.jsx';
@@ -15,20 +14,15 @@ const WarehouseDetails = ({ warehouse, selected, refProp }) => {
       <Grid container className={classes.card_container}>
         <Grid item md = {4} className={classes.picture_item} >
           <CardMedia
-            className ={ classes.card_picture }
+            className={ classes.card_picture }
             image={ warehouse.image ? warehouse.image : 'https://www.foodserviceandhospitality.com/wp-content/uploads/2016/09/Restaurant-Placeholder-001.jpg'}
             title={ warehouse.adress }
           />
         </Grid>
         <Grid item md = {8}>
-        <CardContent>
-            <Typography gutterBottom className = {classes.card_top_text}>{ warehouse.adress }</Typography>
-            <WarehouseVariant warehouse_variant = {warehouse.warehouse_variant} is_long_term = {warehouse.long_term_commitment}/>
-            { warehouse?.adress && (
-              <Typography gutterBottom variant="body2" color="textSecondary" className={classes.subtitle}>
-                <LocationOnIcon />{warehouse.adress}
-              </Typography>
-            )}
+          <CardContent>
+              <Typography gutterBottom className = {classes.card_top_text}>{ warehouse.adress }</Typography>
+              <WarehouseVariant warehouse_variant = {warehouse.warehouse_variant} is_long_term = {warehouse.long_term_commitment}/>
           </CardContent>
           <CardActions>
             <Button size="small" color="primary" onClick={() => window.open('/', '_blank')}>

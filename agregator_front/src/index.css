@@ -21,3 +21,8 @@ code {
   font-family: 'Montserrat-medium';
   src: local('Montserrat'), url(./fonts/Montserrat/static/Montserrat-Medium.ttf) format('truetype');
 }
+
+@font-face {
+  font-family: 'Lato-Regular';
+  src: local('Lato-Regular'), url(./fonts/Lato/Lato-Regular.ttf) format('truetype');
+}
