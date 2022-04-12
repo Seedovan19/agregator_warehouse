@@ -39,7 +39,7 @@ const App = () => {
     <Header />
 
     <Grid container>
-      <Grid item xs={12} md={4}>
+      <Grid item xs={12} md={5}>
         <Filter
             type = {type}
             setType = {setType}
@@ -55,7 +55,7 @@ const App = () => {
           setType = {setType}
         />
       </Grid>
-      <Grid item xs={12} md={8}>
+      <Grid item xs={12} md={7}>
         <WarehouseMap
           warehouses = {warehouses}
           setChildClicked = {setChildClicked}
