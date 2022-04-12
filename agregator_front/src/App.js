@@ -24,13 +24,13 @@ const App = () => {
   useEffect(() => {
     setIsLoading(true);
 
-    getWarehousesData(type, alco, transport)
+    getWarehousesData(type, palletQuantity, alco, transport)
       .then((data) => {
         setWarehouses(data)
         console.log(data)
         setIsLoading(false)
       })
-  },[type, alco, transport]);
+  },[type, palletQuantity, alco, transport]);
 
   return (
     <div>

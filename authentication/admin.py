@@ -29,10 +29,10 @@ class UserAdmin(BaseUserAdmin):
 
 
 class WarehouseAdmin(admin.ModelAdmin):
-    list_display = ('name', 'square', 'adress')
+    list_display = ('name', 'adress')
 
-    search_fields =  ('name', 'square', 'adress')
-    ordering = ('name', 'square', 'adress')
+    search_fields =  ('name', 'adress')
+    ordering = ('name', 'adress')
     filter_horizontal = ()
 
 

@@ -7,10 +7,12 @@ def upload_path(instance, filename):
     return '/'.join(['images', str(instance.id), filename]) # может быть instance.name
 
 class Storagecond(TrackingModel, models.Model):
-    floor_storage = models.IntegerField()
-    shelf_storage = models.IntegerField()
+    pallet_storage_capacity = models.IntegerField(default=0, verbose_name='Вместимость (паллет)')
+    pallet_storage_cost = models.IntegerField(default=0, verbose_name='Стоимость хранения паллет (с НДС)')
+    pallet_handling_cost = models.IntegerField(default=0, verbose_name='Стоимость приемки/отгрузки паллет (с НДС)')
     max_storage_weight = models.IntegerField()
     max_storage_height = models.IntegerField()
+
 
     class Meta:
         verbose_name = "Условия хранения" 
@@ -117,10 +119,7 @@ class Warehouse(TrackingModel, models.Model):
 
     name = models.CharField(max_length=100, blank=True, null=True)
     image = models.ImageField (blank=True, null=True, upload_to = upload_path)
-    square = models.IntegerField()
     adress = models.CharField(max_length=300)
-    shelf_storage_cost = models.IntegerField()
-    floor_storage_cost = models.IntegerField()
     description = models.CharField(max_length=500, blank=True, null=True)
     warehouse_class = models.CharField(max_length=100, choices=CLASS_VALUES, default='No value')
     warehouse_variant = models.CharField(max_length=100, choices=WAREHOUSE_VARIANT, default='No value')

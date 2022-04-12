@@ -1,6 +1,10 @@
 from rest_framework.generics import ListAPIView, ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.permissions import IsAuthenticated
 from django_filters.rest_framework import DjangoFilterBackend
+from django.db.models import F
+from django.db import models
+
+
 from .models import Warehouse 
 from .serializers import WarehouseSerializer
 
@@ -21,14 +25,15 @@ class WarehouseAPIView(ListCreateAPIView):
 # Выводит список складов всех пользователей
 class WarehouseListAPIView(ListAPIView):
 	serializer_class = WarehouseSerializer
+	
 	authentication_classes = []
 	filter_backends = [DjangoFilterBackend]
 
-	filterset_fields = ['id', 'name', 'adress', 'warehouse_class', 'features__alcohol', 'services__transport_services']
+	filterset_fields = ['id', 'name', 'adress', 'warehouse_class' , 'features__alcohol', 'services__transport_services']
 
 	def get_queryset(self):
 		return Warehouse.objects.all()
-
+		
 
 # Разными запросами изменяет, выдает, удаляет детали склада
 class WarehouseDetailAPIView(RetrieveUpdateDestroyAPIView):
