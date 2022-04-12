@@ -13,24 +13,35 @@ const App = () => {
   const [ warehouses, setWarehouses ] = useState([]);
   const [ childClicked, setChildClicked ] = useState(null);
 
-  const [ modalActive, setModalActive ] = useState(false);
+  // Загрузка
   const [ isLoading, setIsLoading ] = useState(false);
+
+  // Фильтры
   const [ type, setType ] = useState('');
   const [ palletQuantity, setPalletQuantity ] = useState('');
+
+  // Всплывающий фильтр
+  const [ modalActive, setModalActive ] = useState(false);
+  const [activeFilter, setActiveFilter] = useState([]);
+
+  // Галочки во всплывающем фильтре
   const [ alco, setAlco ] = useState(false);
   const [ transport, setTransportation ] = useState(false);
-  const [activeFilter, setActiveFilter] = React.useState([]);
+  const [ refrigerator, setRefrigerator ] = useState(false);
+  const [ freezer, setFreezer ] = useState(false);
+
+
 
   useEffect(() => {
     setIsLoading(true);
 
-    getWarehousesData(type, palletQuantity, alco, transport)
+    getWarehousesData(type, palletQuantity, freezer, alco, transport)
       .then((data) => {
         setWarehouses(data)
         console.log(data)
         setIsLoading(false)
       })
-  },[type, palletQuantity, alco, transport]);
+  },[type, palletQuantity, freezer, alco, transport]);
 
   return (
     <div>
@@ -66,12 +77,16 @@ const App = () => {
     <Modal
       modalActive = {modalActive}
       setModalActive = {setModalActive}
+      activeFilter = {activeFilter}
+      setActiveFilter = {setActiveFilter}
       alco = {alco}
       setAlco = {setAlco}
       transport = {transport}
       setTransportation = {setTransportation}
-      activeFilter = {activeFilter}
-      setActiveFilter = {setActiveFilter}
+      refrigerator = {refrigerator}
+      setRefrigerator = {setRefrigerator}
+      freezer = {freezer}
+      setFreezer = {setFreezer}
     />
     </>
     </div>

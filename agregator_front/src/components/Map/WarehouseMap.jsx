@@ -1,8 +1,7 @@
 import React from 'react';
 import { MapContainer as LeafletMap, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
-import { Paper, Typography, useMediaQuery } from '@material-ui/core';
-import Rating from '@material-ui/lab';
+import { useMediaQuery } from '@material-ui/core';
 import useStyles from './styles'
 import L from 'leaflet';
 
