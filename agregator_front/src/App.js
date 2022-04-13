@@ -22,7 +22,7 @@ const App = () => {
 
   // Всплывающий фильтр
   const [ modalActive, setModalActive ] = useState(false);
-  const [activeFilter, setActiveFilter] = useState([]);
+  const [ activeFilter, setActiveFilter] = useState([]);
 
   // Галочки во всплывающем фильтре
   const [ alco, setAlco ] = useState(false);
@@ -35,13 +35,13 @@ const App = () => {
   useEffect(() => {
     setIsLoading(true);
 
-    getWarehousesData(type, palletQuantity, freezer, alco, transport)
+    getWarehousesData(type, palletQuantity, freezer, refrigerator, alco, transport)
       .then((data) => {
         setWarehouses(data)
         console.log(data)
         setIsLoading(false)
       })
-  },[type, palletQuantity, freezer, alco, transport]);
+  },[type, palletQuantity, freezer, refrigerator, alco, transport]);
 
   return (
     <div>

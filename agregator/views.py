@@ -29,7 +29,7 @@ class WarehouseListAPIView(ListAPIView):
 	authentication_classes = []
 	filter_backends = [DjangoFilterBackend]
 
-	filterset_fields = ['id', 'name', 'adress', 'warehouse_class' , 'features__alcohol', 'features__freezer', 'services__transport_services']
+	filterset_fields = ['warehouse_class' , 'features__alcohol', 'features__freezer', 'features__refrigerator', 'services__transport_services']
 
 	def get_queryset(self):
 		return Warehouse.objects.all()

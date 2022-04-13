@@ -8,10 +8,11 @@ import useStyles from './styles'
 
 const Modal = (props) => {
     const classes = useStyles();
-    const { freezer, alcohol, transportation } = props.activeFilter;
+    const { freezer, refrigerator, alcohol, transportation } = props.activeFilter;
 
     const handleClickApplyFilters = () => {
         props.setFreezer(freezer);
+        props.setRefrigerator(refrigerator);
         props.setAlco(alcohol);
         props.setTransportation(transportation);
         props.setModalActive(false);
@@ -41,53 +42,70 @@ const Modal = (props) => {
             </DialogTitle>
             <DialogContent dividers>
             <Stack
-                direction="row"
+                direction="column"
                 divider={<Divider orientation="vertical" flexItem />}
-                alignItems="center"
                 spacing={3}
-                justifyContent="space-evenly"
             >
                 <Stack>
-                    <Typography>Условия хранения</Typography>
+                <Typography>Условия хранения</Typography>
+                <Stack 
+                    direction='row' 
+                >
                     <FormControlLabel
                         control={<Checkbox 
                             disableRipple
-                            icon={<Chip className={classes.default_chip} variant="outlined" label="Морозильная камера"/>} 
-                            checkedIcon={<Chip className={classes.checked_chip} variant="outlined" label="Морозильная камера"/>} 
-                            classes={{root:classes.root}}
+                            icon = {<Chip className={classes.default_chip} variant="outlined" label="Морозильная камера"/>} 
+                            checkedIcon = {<Chip className={classes.checked_chip} variant="outlined" label="Морозильная камера"/>} 
+                            classes = {{root:classes.root}}
                             checked = {freezer ? freezer : false}
                             onChange = {handleCheckChange}
                             name="freezer"
                         />}
                         key={props.freezer}
                     />
+                    <FormControlLabel
+                        control={<Checkbox 
+                            disableRipple
+                            icon = {<Chip className={classes.default_chip} variant="outlined" label="Холодильная камера"/>} 
+                            checkedIcon = {<Chip className={classes.checked_chip} variant="outlined" label="Холодильная камера"/>} 
+                            classes = {{root:classes.root}}
+                            checked = {refrigerator ? refrigerator : false}
+                            onChange = {handleCheckChange}
+                            name="refrigerator"
+                        />}
+                        key={props.refrigerator}
+                    />
 
+                </Stack>
                 </Stack>
                 <Stack>
                     <Typography>Какой товар (лицензии)</Typography>
+
                     <FormControlLabel
-                        control={
-                            <Checkbox
-                                onChange = {handleCheckChange}
-                                checked = {alcohol ? alcohol : false}
-                                name="alcohol"
-                            />
-                            }
-                        label="Хранение алкоголя"
+                        control={<Checkbox 
+                            disableRipple
+                            icon = {<Chip className={classes.default_chip} variant="outlined" label="Хранение алкоголя"/>} 
+                            checkedIcon = {<Chip className={classes.checked_chip} variant="outlined" label="Хранение алкоголя"/>} 
+                            classes = {{root:classes.root}}
+                            checked = {alcohol ? alcohol : false}
+                            onChange = {handleCheckChange}
+                            name="alcohol"
+                        />}
                         key={props.alco}
                     />
                 </Stack>
                 <Stack>
                     <Typography>Услуги</Typography>
                     <FormControlLabel
-                        control={
-                            <Checkbox
-                                onChange = {handleCheckChange}
-                                checked = {transportation ? transportation : false}
-                                name="transportation"
-                            />
-                            }
-                        label="Транспортные услуги"
+                        control={<Checkbox 
+                            disableRipple
+                            icon = {<Chip className={classes.default_chip} variant="outlined" label="Транспортные услуги"/>} 
+                            checkedIcon = {<Chip className={classes.checked_chip} variant="outlined" label="Транспортные услуги"/>} 
+                            classes = {{root:classes.root}}
+                            checked = {transportation ? transportation : false}
+                            onChange = {handleCheckChange}
+                            name="transportation"
+                        />}
                         key={props.transport}
                     />
                 </Stack>
