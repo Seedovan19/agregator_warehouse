@@ -6,13 +6,13 @@ const Header = () => {
   const classes = useStyles();
 
   return (
-    <AppBar position="static">
-      <Toolbar className={ classes.toolbar }>
+    <AppBar className = { classes.menu_rectangle } position = "static" elevation ={0}>
+      <Toolbar className={ classes.toolbar }  >
         <img className = { classes.logo } src={require('./logo.png')} onClick={() => window.open('/', '_blank')} ></img>
-        <Box mr={3}>
+        <div>
           <Button className={ classes.button_login} >Вход</Button>
-        </Box>
-        <Button className={ classes.button_sign_up} variant="contained">Регистрация</Button>
+          <Button className={ classes.button_sign_up} variant="contained">Регистрация</Button>
+        </div>
       </Toolbar>
     </AppBar>
   );

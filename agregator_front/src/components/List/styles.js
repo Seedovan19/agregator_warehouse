@@ -2,7 +2,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 export default makeStyles((theme) => ({
   loading: {
-    height: '600px', 
+    height: '100%', 
     display: 'flex', 
     justifyContent: 'center', 
     alignItems: 'center',
@@ -11,7 +11,7 @@ export default makeStyles((theme) => ({
     padding: '19px',
   },
   list: {
-    maxHeight: 590,
+    maxHeight: '525px',
     overflow: 'auto',
   },
 }));

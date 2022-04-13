@@ -4,11 +4,10 @@ export default makeStyles((theme) => ({
   formControl: {
     margin: theme.spacing(1), minWidth: 120, marginBottom: '20px'
   },
-  container: {
-    padding: '25px'
+  search_bar: {
+    
   },
-  marginBottom: {
-    marginBottom: '30px'
+  searchIcon: {
+    padding: theme.spacing(0, 2), height: '100%', position: 'absolute', pointerEvents: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center',
   },
-  
 }));

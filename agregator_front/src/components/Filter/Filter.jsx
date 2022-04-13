@@ -9,21 +9,25 @@ const Filter = ({ type, setType, palletQuantity, setPalletQuantity, setModalActi
     const classes = useStyles();
     
     return (
-      <div className={ classes.container }>
+      <div>
         <Autocomplete
-        disablePortal
-        options={regions}
-        sx={{ width: 300 }}
-        renderInput={(params) => (
-          <TextField
-            {...params}
-            label="Search input"
-            InputProps={{
-              ...params.InputProps,
-              type: 'search',
-            }}
-          />
-        )}
+          sx={{
+            width: '500px',
+            display: 'inline-block',
+            '& input': {
+              width: 200,
+              bgcolor: 'background.paper',
+              color: (theme) =>
+              theme.palette.getContrastText(theme.palette.background.paper),
+          },}}
+          id="custom-input-demo"
+          disablePortal
+          options={regions}
+          renderInput={(params) => (
+            <div ref={params.InputProps.ref}>
+              <input type="search" {...params.inputProps} />
+            </div>
+          )}
         />
        
           <FormControl className={ classes.formControl }>
