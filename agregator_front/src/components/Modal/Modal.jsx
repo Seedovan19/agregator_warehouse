@@ -85,7 +85,10 @@ const Modal = (props) => {
                 </Stack>
                 </Stack>
                 <Stack>
-                    <Typography>Какой товар (лицензии)</Typography>
+                <Typography>Какой товар (лицензии)</Typography>
+                <Stack
+                    direction='row' 
+                >
 
                     <FormControlLabel
                         control={<Checkbox 
@@ -136,8 +139,13 @@ const Modal = (props) => {
                         key={props.dangerous}
                     />
                 </Stack>
+                </Stack>
+
                 <Stack>
-                    <Typography>Услуги</Typography>
+                <Typography>Услуги</Typography>
+                <Stack
+                    direction='row' 
+                >
                     <FormControlLabel
                         control={<Checkbox 
                             disableRipple
@@ -198,6 +206,7 @@ const Modal = (props) => {
                         />}
                         key={props.customs}
                     />
+                </Stack>
                 </Stack>
             </Stack>
             </DialogContent>
