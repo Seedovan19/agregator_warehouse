@@ -7,7 +7,7 @@ import useStyles from './styles'
 
 const Modal = (props) => {
     const classes = useStyles();
-    const { freezer, refrigerator, alcohol, pharmaceuticals, food, dangerous, transportation } = props.activeFilter;
+    const { freezer, refrigerator, alcohol, pharmaceuticals, food, dangerous, palletization, boxPicking, transportation, crossdocking, customs } = props.activeFilter;
 
     const handleClickApplyFilters = () => {
         props.setFreezer(freezer);
@@ -16,7 +16,11 @@ const Modal = (props) => {
         props.setPharma(pharmaceuticals);
         props.setFood(food);
         props.setDangerous(dangerous);
+        props.setPalletization(palletization);
+        props.setBoxPicking(boxPicking);
         props.setTransportation(transportation);
+        props.setCrossdocking(crossdocking);
+        props.setCustoms(customs);
         props.setModalActive(false);
     };
 
@@ -137,6 +141,30 @@ const Modal = (props) => {
                     <FormControlLabel
                         control={<Checkbox 
                             disableRipple
+                            icon = {<Chip className={classes.default_chip} variant="outlined" label="Паллетизация грузов"/>} 
+                            checkedIcon = {<Chip className={classes.checked_chip} variant="outlined" label="Паллетизация грузов"/>} 
+                            classes = {{root:classes.root}}
+                            checked = {palletization ? palletization : false}
+                            onChange = {handleCheckChange}
+                            name="palletization"
+                        />}
+                        key={props.palletization}
+                    />
+                    <FormControlLabel
+                        control={<Checkbox 
+                            disableRipple
+                            icon = {<Chip className={classes.default_chip} variant="outlined" label="Отгрузки коробками"/>} 
+                            checkedIcon = {<Chip className={classes.checked_chip} variant="outlined" label="Отгрузки коробками"/>} 
+                            classes = {{root:classes.root}}
+                            checked = {boxPicking ? boxPicking : false}
+                            onChange = {handleCheckChange}
+                            name="boxPicking"
+                        />}
+                        key={props.boxPicking}
+                    />
+                    <FormControlLabel
+                        control={<Checkbox 
+                            disableRipple
                             icon = {<Chip className={classes.default_chip} variant="outlined" label="Транспортные услуги"/>} 
                             checkedIcon = {<Chip className={classes.checked_chip} variant="outlined" label="Транспортные услуги"/>} 
                             classes = {{root:classes.root}}
@@ -145,6 +173,30 @@ const Modal = (props) => {
                             name="transportation"
                         />}
                         key={props.transport}
+                    />
+                    <FormControlLabel
+                        control={<Checkbox 
+                            disableRipple
+                            icon = {<Chip className={classes.default_chip} variant="outlined" label="Кросс-докинг"/>} 
+                            checkedIcon = {<Chip className={classes.checked_chip} variant="outlined" label="Кросс-докинг"/>} 
+                            classes = {{root:classes.root}}
+                            checked = {crossdocking ? crossdocking : false}
+                            onChange = {handleCheckChange}
+                            name="crossdocking"
+                        />}
+                        key={props.crossdocking}
+                    />
+                    <FormControlLabel
+                        control={<Checkbox 
+                            disableRipple
+                            icon = {<Chip className={classes.default_chip} variant="outlined" label="Таможенные услуги"/>} 
+                            checkedIcon = {<Chip className={classes.checked_chip} variant="outlined" label="Таможенные услуги"/>} 
+                            classes = {{root:classes.root}}
+                            checked = {customs ? customs : false}
+                            onChange = {handleCheckChange}
+                            name="customs"
+                        />}
+                        key={props.customs}
                     />
                 </Stack>
             </Stack>

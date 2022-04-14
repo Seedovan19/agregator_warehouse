@@ -31,7 +31,11 @@ const App = () => {
   const [ pharma, setPharma ] = useState(false);
   const [ food, setFood ] = useState(false);
   const [ dangerous, setDangerous ] = useState(false);
+  const [ palletization, setPalletization ] = useState(false);
+  const [ boxPicking, setBoxPicking ] = useState(false);
   const [ transport, setTransportation ] = useState(false);
+  const [ crossdocking, setCrossdocking ] = useState(false);
+  const [ customs, setCustoms ] = useState(false);
 
 
 
@@ -39,13 +43,13 @@ const App = () => {
   useEffect(() => {
     setIsLoading(true);
 
-    getWarehousesData(type, palletQuantity, freezer, refrigerator, alco, pharma, food, dangerous, transport)
+    getWarehousesData(type, palletQuantity, freezer, refrigerator, alco, pharma, food, dangerous, palletization, boxPicking, transport, crossdocking, customs)
       .then((data) => {
         setWarehouses(data)
         console.log(data)
         setIsLoading(false)
       })
-  },[type, palletQuantity, freezer, refrigerator, alco, pharma, food, dangerous, transport]);
+  },[type, palletQuantity, freezer, refrigerator, alco, pharma, food, dangerous, palletization, boxPicking, transport, crossdocking, customs]);
 
   return (
     <div>
@@ -97,6 +101,14 @@ const App = () => {
       setDangerous = {setDangerous}
       transport = {transport}
       setTransportation = {setTransportation}
+      palletization = {palletization}
+      setPalletization = {setPalletization}
+      boxPicking = {boxPicking}
+      setBoxPicking = {setBoxPicking}
+      crossdocking = {crossdocking}
+      setCrossdocking = {setCrossdocking}
+      customs = {customs}
+      setCustoms = {setCustoms}
     />
     </>
     </div>
