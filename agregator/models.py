@@ -35,6 +35,7 @@ class Features(TrackingModel, models.Model):
     refrigerator_size = models.IntegerField(blank=True, null=True, default=0)
     alcohol = models.BooleanField()
     pharmacy = models.BooleanField()
+    food = models.BooleanField()
     dangerous = models.BooleanField()  
 
     class Meta:

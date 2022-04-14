@@ -2,18 +2,20 @@ import React from 'react'
 import { Dialog, DialogTitle, DialogContent, FormControlLabel, Checkbox, Button, Typography, Chip } from '@material-ui/core';
 import Stack from '@mui/material/Stack';
 import Divider from '@mui/material/Divider';
-import { styled } from '@mui/material/styles';
 import useStyles from './styles'
 
 
 const Modal = (props) => {
     const classes = useStyles();
-    const { freezer, refrigerator, alcohol, transportation } = props.activeFilter;
+    const { freezer, refrigerator, alcohol, pharmaceuticals, food, dangerous, transportation } = props.activeFilter;
 
     const handleClickApplyFilters = () => {
         props.setFreezer(freezer);
         props.setRefrigerator(refrigerator);
         props.setAlco(alcohol);
+        props.setPharma(pharmaceuticals);
+        props.setFood(food);
+        props.setDangerous(dangerous);
         props.setTransportation(transportation);
         props.setModalActive(false);
     };
@@ -92,6 +94,42 @@ const Modal = (props) => {
                             name="alcohol"
                         />}
                         key={props.alco}
+                    />
+                    <FormControlLabel
+                        control={<Checkbox 
+                            disableRipple
+                            icon = {<Chip className={classes.default_chip} variant="outlined" label="Хранение фармацевтической продукции"/>} 
+                            checkedIcon = {<Chip className={classes.checked_chip} variant="outlined" label="Хранение фармацевтической продукции"/>} 
+                            classes = {{root:classes.root}}
+                            checked = {pharmaceuticals ? pharmaceuticals : false}
+                            onChange = {handleCheckChange}
+                            name="pharmaceuticals"
+                        />}
+                        key={props.pharma}
+                    />
+                    <FormControlLabel
+                        control={<Checkbox 
+                            disableRipple
+                            icon = {<Chip className={classes.default_chip} variant="outlined" label="Хранение пищевой продукции"/>} 
+                            checkedIcon = {<Chip className={classes.checked_chip} variant="outlined" label="Хранение пищевой продукции"/>} 
+                            classes = {{root:classes.root}}
+                            checked = {food ? food : false}
+                            onChange = {handleCheckChange}
+                            name="food"
+                        />}
+                        key={props.food}
+                    />
+                    <FormControlLabel
+                        control={<Checkbox 
+                            disableRipple
+                            icon = {<Chip className={classes.default_chip} variant="outlined" label="Хранение опасных грузов"/>} 
+                            checkedIcon = {<Chip className={classes.checked_chip} variant="outlined" label="Хранение опасных грузов"/>} 
+                            classes = {{root:classes.root}}
+                            checked = {dangerous ? dangerous : false}
+                            onChange = {handleCheckChange}
+                            name="dangerous"
+                        />}
+                        key={props.dangerous}
                     />
                 </Stack>
                 <Stack>

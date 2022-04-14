@@ -25,23 +25,27 @@ const App = () => {
   const [ activeFilter, setActiveFilter] = useState([]);
 
   // Галочки во всплывающем фильтре
-  const [ alco, setAlco ] = useState(false);
-  const [ transport, setTransportation ] = useState(false);
   const [ refrigerator, setRefrigerator ] = useState(false);
   const [ freezer, setFreezer ] = useState(false);
+  const [ alco, setAlco ] = useState(false);
+  const [ pharma, setPharma ] = useState(false);
+  const [ food, setFood ] = useState(false);
+  const [ dangerous, setDangerous ] = useState(false);
+  const [ transport, setTransportation ] = useState(false);
+
 
 
 
   useEffect(() => {
     setIsLoading(true);
 
-    getWarehousesData(type, palletQuantity, freezer, refrigerator, alco, transport)
+    getWarehousesData(type, palletQuantity, freezer, refrigerator, alco, pharma, food, dangerous, transport)
       .then((data) => {
         setWarehouses(data)
         console.log(data)
         setIsLoading(false)
       })
-  },[type, palletQuantity, freezer, refrigerator, alco, transport]);
+  },[type, palletQuantity, freezer, refrigerator, alco, pharma, food, dangerous, transport]);
 
   return (
     <div>
@@ -79,14 +83,20 @@ const App = () => {
       setModalActive = {setModalActive}
       activeFilter = {activeFilter}
       setActiveFilter = {setActiveFilter}
-      alco = {alco}
-      setAlco = {setAlco}
-      transport = {transport}
-      setTransportation = {setTransportation}
       refrigerator = {refrigerator}
       setRefrigerator = {setRefrigerator}
       freezer = {freezer}
       setFreezer = {setFreezer}
+      alco = {alco}
+      setAlco = {setAlco}
+      pharma = {pharma}
+      setPharma = {setPharma}
+      food = {food} 
+      setFood = {setFood}
+      dangerous = {dangerous}
+      setDangerous = {setDangerous}
+      transport = {transport}
+      setTransportation = {setTransportation}
     />
     </>
     </div>
