@@ -21,7 +21,7 @@ const List = ({ warehouses, childClicked, isLoading }) => {
         </div>
       ) : (
         <>
-        <Grid container spacing={3} className={classes.list}>
+        <Grid container spacing={2} className={classes.list}>
           { warehouses.length === 0 ? (
             <Typography>
               К сожалению склады не найдены...

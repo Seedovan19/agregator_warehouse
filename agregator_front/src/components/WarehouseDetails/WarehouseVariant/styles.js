@@ -2,24 +2,32 @@ import { makeStyles } from '@material-ui/core/styles';
 
 export default makeStyles(() => ({
   label: {
-    fontFamily: 'Lato-Regular',
+    fontFamily: 'Montserrat-bold',
+    fontSize: '10px',
+    border: '0px',
+    height: '15px', 
+    // marginTop: '15px',
+    marginBottom: '15px',
+    marginRight: '10px',
   },
 
   from_company: {
-    backgroundColor: 'red',
+    color: '#FFB625',
+    backgroundColor: '#FFE5B2',
   },
 
   three_pl: {
-    backgroundColor: 'green',
+    color: '#0000EA',
+    backgroundColor: '#CCCCFB',
   },
 
   only_storage: {
-    backgroundColor: 'yellow',
-
+    color: '#00BC12',
+    backgroundColor: '#CCF2D0',
   },
 
   long_term_storage: {
-    backgroundColor: 'blue',
-
+    color: '#0093ED',
+    backgroundColor: '#CCE9FB',
   },
 }));

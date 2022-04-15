@@ -1,29 +1,35 @@
 import React from 'react'
-import { Typography, Card, CardMedia, CardContent, CardActions, Grid } from '@material-ui/core';
-import Stack from '@mui/material/Stack';
+import cx from 'clsx';
+import { Typography, Card, CardMedia, CardContent, Grid } from '@material-ui/core';
 import useStyles from './styles.js';
 import WarehouseVariant from './WarehouseVariant/WarehouseVariant.jsx';
+import { useOverShadowStyles } from '@mui-treasury/styles/shadow/over';
+import { Row, Column, Item } from '@mui-treasury/components/flex';
+
+
 
 
 const WarehouseDetails = ({ warehouse, selected, refProp }) => {
   if (selected) refProp?.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   const classes = useStyles();
+  const shadowStyles = useOverShadowStyles();
+
 
   return (
-    <Card elevation={6}>
-      <Grid container className={classes.card_container}>
-        <Grid item md = {4} className={classes.picture_item} >
+    <Row className={classes.card} >
+      <Grid container alignItems='center'>
+        <Grid item md = {3} className={classes.picture_item} >
           <CardMedia
             className={ classes.card_picture }
             image={ warehouse.image ? warehouse.image : 'https://www.foodserviceandhospitality.com/wp-content/uploads/2016/09/Restaurant-Placeholder-001.jpg'}
-            title={ warehouse.adress }
+
           />
         </Grid>
-        <Grid item md = {8}>
-          <CardContent>
-              <Typography gutterBottom className = {classes.card_top_text}>{ warehouse.adress }</Typography>
-              <WarehouseVariant warehouse_variant = {warehouse.warehouse_variant} is_long_term = {warehouse.long_term_commitment}/>
-              <Grid container>
+        <Grid item md = {9}>
+          <Column>
+              <Typography className = {classes.card_top_text}>{ warehouse.adress }</Typography>
+              <WarehouseVariant className = {classes.tag} warehouse_variant = {warehouse.warehouse_variant} is_long_term = {warehouse.long_term_commitment}/>
+              <Grid container spacing={3} alignItems='center'>
                 <Grid item md={4}>
                   <Typography className = {classes.cost_text}>Стоимость хранения палеты</Typography>
                 </Grid>
@@ -34,7 +40,7 @@ const WarehouseDetails = ({ warehouse, selected, refProp }) => {
                   <Typography className = {classes.cost_text}>Вместимость</Typography>
                 </Grid>
               </Grid>
-              <Grid container>
+              <Grid container spacing={3}>
                 <Grid item md={4}>
                   <Typography className = {classes.cost_text}>
                     от <span className = {classes.highlighted_cost_text}> 
@@ -61,12 +67,10 @@ const WarehouseDetails = ({ warehouse, selected, refProp }) => {
                 </Grid>
               </Grid>
                     
-          </CardContent>
-          <CardActions>
-          </CardActions>
+          </Column>
         </Grid>
       </Grid>
-    </Card>
+      </Row>
   );
 };
 

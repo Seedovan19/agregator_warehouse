@@ -157,11 +157,14 @@ const Filter = ({ type, setType, palletQuantity, setPalletQuantity, setModalActi
             input={<CustomInputBase />}
             IconComponent={iconComponent}
           >
-             <MenuItem value="<50">меньше 50</MenuItem>
-             <MenuItem value="50-250">50-250</MenuItem>
-             <MenuItem value="250-500">250-500</MenuItem>
-             <MenuItem value="500-1000">500-1000</MenuItem>
-             <MenuItem value="1000+">больше 1000</MenuItem>
+             <MenuItem value="" >
+                <em>Не задано</em>
+              </MenuItem>
+             <MenuItem value="50">меньше 50</MenuItem>
+             <MenuItem value="250">50-250</MenuItem>
+             <MenuItem value="500">250-500</MenuItem>
+             <MenuItem value="1000">500-1000</MenuItem>
+             <MenuItem value="500000">больше 1000</MenuItem>
            </Select>
           </FormControl>
           </Grid>
