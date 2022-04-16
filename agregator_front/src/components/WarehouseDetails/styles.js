@@ -33,6 +33,7 @@ export default makeStyles(({ breakpoints, spacing }) => ({
   },
 
   card: {
+    backgroundColor: '#ffffff',
     border: '2px solid',
     borderColor: '#E7EDF3',
     borderRadius: 16,

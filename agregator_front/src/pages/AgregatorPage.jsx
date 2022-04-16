@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { CssBaseline, Grid } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 import { getWarehousesData } from '../api'
-import WarehouseMap from '../components/Map/WarehouseMap';
 import Header from '../components/Header/Header';
+import WarehouseMap from '../components/Map/WarehouseMap';
 import List from '../components/List/List';
+import Feedback from '../components/Feedback/Feedback';
 import Filter from '../components/Filter/Filter';
-import Modal from '../components/Modal/Modal';
-
+import ModalFilter from '../components/ModalFilter/ModalFilter';
+import ModalFeedback from '../components/Feedback/ModalFeedback/ModalFeedback';
 
 
 const AgregatorPage = () => {
@@ -22,6 +23,7 @@ const AgregatorPage = () => {
 
     // Всплывающий фильтр
     const [ modalActive, setModalActive ] = useState(false);
+    const [ modalFeedbackActive, setModalFeedbackActive ] = useState(false);
     const [ activeFilter, setActiveFilter] = useState([]);
 
     // Галочки во всплывающем фильтре
@@ -52,8 +54,13 @@ const AgregatorPage = () => {
 
     return (
     <div>
+    <Header />
     <Grid container>
       <Grid item xs={12} md={5}>
+        <Feedback
+          modalFeedbackActive = {modalFeedbackActive}
+          setModalFeedbackActive = {setModalFeedbackActive}
+        />
         <Filter
             type = {type}
             setType = {setType}
@@ -77,7 +84,7 @@ const AgregatorPage = () => {
       </Grid>
       
     </Grid>
-    <Modal
+    <ModalFilter
       modalActive = {modalActive}
       setModalActive = {setModalActive}
       activeFilter = {activeFilter}
@@ -104,6 +111,10 @@ const AgregatorPage = () => {
       setCrossdocking = {setCrossdocking}
       customs = {customs}
       setCustoms = {setCustoms}
+    />
+    <ModalFeedback
+      modalFeedbackActive = {modalFeedbackActive}
+      setModalFeedbackActive = {setModalFeedbackActive}
     />
     </div>
     )

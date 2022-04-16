@@ -5,7 +5,7 @@ import Divider from '@mui/material/Divider';
 import useStyles from './styles'
 
 
-const Modal = (props) => {
+const ModalFilter = (props) => {
     const classes = useStyles();
     const { freezer, refrigerator, alcohol, pharmaceuticals, food, dangerous, palletization, boxPicking, transportation, crossdocking, customs } = props.activeFilter;
 
@@ -215,4 +215,4 @@ const Modal = (props) => {
     );
 };
 
-export default Modal;
+export default ModalFilter;
