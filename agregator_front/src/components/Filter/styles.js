@@ -2,26 +2,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import { deepPurple } from '@material-ui/core/colors';
 
 export default makeStyles((theme) => ({
-  formControl: {
-    minWidth: 120,
-  },
-  select: {
-    minWidth: 200,
-    background: 'white',
-    color: deepPurple[500],
-    fontWeight:200,
-    borderStyle:'none',
-    borderWidth: 2,
-    borderRadius: 12,
-    paddingLeft: 24,
-    paddingTop: 14,
-    paddingBottom: 15,
-    "&:focus":{
-      borderRadius: 12,
-      background: 'white',
-      borderColor: deepPurple[100]
-    },
-  },
   icon_search:{
     color: 'black',
     userSelect: 'none',

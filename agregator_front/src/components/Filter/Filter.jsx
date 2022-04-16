@@ -1,8 +1,11 @@
 import React from 'react';
-import { Grid, InputLabel, MenuItem, FormControl, Select, Button } from '@material-ui/core'
+import { Grid, Button } from '@material-ui/core'
 import TextField from "@mui/material/TextField";
 import Autocomplete from '@mui/material/Autocomplete';
-import InputBase from '@mui/material/InputBase';
+import InputLabel from '@mui/material/InputLabel';
+import Select from '@mui/material/Select';
+import FormControl from '@mui/material/FormControl';
+import MenuItem from '@mui/material/MenuItem';
 import useStyles from './styles';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import FilterListIcon from '@mui/icons-material/FilterList';
@@ -42,41 +45,8 @@ const StyledAutocomplete = styled(Autocomplete)({
   }
 });
 
-const CustomInputBase = styled(InputBase)(({ theme }) => ({
-  'label + &': {
-    marginTop: theme.spacing(0),
-  },
-  '& .MuiInputBase-input': {
-    borderRadius: '10px',
-    position: 'relative',
-    backgroundColor: theme.palette.background.paper,
-    border: '1px solid #ced4da',
-    fontSize: 16,
-
-    transition: theme.transitions.create(['border-color', 'box-shadow']),
-    // Use the system font instead of the default Roboto font.
-    fontFamily: [
-      '-apple-system',
-      'BlinkMacSystemFont',
-      '"Segoe UI"',
-      'Roboto',
-      '"Helvetica Neue"',
-      'Arial',
-      'sans-serif',
-      '"Apple Color Emoji"',
-      '"Segoe UI Emoji"',
-      '"Segoe UI Symbol"',
-    ].join(','),
-    '&:focus': {
-      borderRadius: 4,
-      borderColor: '#80bdff',
-      boxShadow: '0 0 0 0.2rem rgba(0,123,255,.25)',
-    },
-  },
-}));
-
 const Filter = ({ type, setType, palletQuantity, setPalletQuantity, setModalActive }) => {
-    const classes = useStyles();
+  const classes = useStyles();
 
   const iconComponent = (props) => {
     return (
@@ -125,18 +95,17 @@ const Filter = ({ type, setType, palletQuantity, setPalletQuantity, setModalActi
               />
           )}
         />
-        <Grid sx={{ flexGrow: 1 }} container spacing={2}>
+        <Grid container spacing={2}>
           <Grid item>
-          <FormControl className={ classes.formControl }>
-            <InputLabel>Класс</InputLabel>
-            <Select 
-              disableUnderline
-              classes={{ root: classes.select }}
-              MenuProps={menuProps}
-              IconComponent={iconComponent}
+          <FormControl sx={{ minWidth: 120 }} size="small">
+            <InputLabel className={ classes.filter_label}>Класс</InputLabel>
+            <Select
+              label="Количество паллет"
               value={type} 
+              IconComponent={iconComponent}
               onChange={(e) => setType(e.target.value)} 
-              input={<CustomInputBase />}>
+              MenuProps={menuProps}
+              >
               <MenuItem value="" >
                 <em>Не задано</em>
               </MenuItem>
@@ -149,13 +118,14 @@ const Filter = ({ type, setType, palletQuantity, setPalletQuantity, setModalActi
           </FormControl>
           </Grid>
           <Grid item>
-          <FormControl className={ classes.formControl }>
-           <InputLabel>Количество паллет</InputLabel>
-           <Select 
+          <FormControl sx={{ minWidth: 120 }} size="small">
+           <InputLabel className={ classes.filter_label}>Количество паллет</InputLabel>
+           <Select
+            label="Количество паллет"
             value={palletQuantity} 
-            onChange={(e) => setPalletQuantity(e.target.value)} 
-            input={<CustomInputBase />}
             IconComponent={iconComponent}
+            onChange={(e) => setPalletQuantity(e.target.value)} 
+            MenuProps={menuProps}
           >
              <MenuItem value="" >
                 <em>Не задано</em>
