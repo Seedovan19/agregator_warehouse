@@ -1,13 +1,12 @@
 import React from 'react'
 import { Grid, Typography, Paper } from '@mui/material'
+import {makeStyles} from '@material-ui/core'
 import Controls from '../../components/controls/Controls'
-import useStyles from './styles';
-import { makeStyles } from '@material-ui/core/styles';
 
 
 const useStyles = makeStyles(theme => ({
     feedback_text: {
-        fontSize: '12px',
+        fontSize: '122px',
     },
     phone_number: {
         fontSize: '12px',
@@ -27,7 +26,7 @@ export default function Feedback({setModalFeedbackActive}) {
                 
             </Grid>
             <Grid item>
-                <Typography className="feedback_text">Звоните по всем вопросам!</Typography>
+                <Typography className="classes.feedback_text">Звоните по всем вопросам!</Typography>
             </Grid>
             <Grid item>
                 <Typography className={classes.phone_number}> +7 (904) 613-94-60</Typography>

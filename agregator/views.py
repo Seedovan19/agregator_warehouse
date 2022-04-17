@@ -38,10 +38,14 @@ class WarehouseListAPIView(ListAPIView):
 # Разными запросами изменяет, выдает, удаляет детали склада
 class WarehouseDetailAPIView(RetrieveUpdateDestroyAPIView):
 	serializer_class = WarehouseSerializer
-	permission_classes = (IsAuthenticated,)
+	# permission_classes = (IsAuthenticated,)
+		
+	authentication_classes = []
+
 	lookup_field = 'id'
 
 	def get_queryset(self):
-		return Warehouse.objects.filter(owner=self.request.user)
+		# return Warehouse.objects.filter(owner=self.request.user)
+		return Warehouse.objects.all()
 
 

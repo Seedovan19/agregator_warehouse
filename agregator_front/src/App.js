@@ -2,6 +2,8 @@ import React from 'react';
 import { CssBaseline } from '@material-ui/core';
 import { Routes, Route } from 'react-router-dom'
 import { AgregatorPage } from './pages/AgregatorPage'
+import { WarehousePage } from './pages/WarehousePage/WarehousePage'
+
 
 const App = () => {
 
@@ -11,6 +13,7 @@ const App = () => {
     <CssBaseline />
     <Routes>
       <Route path='/' element={<AgregatorPage/>}/>
+      <Route path='/warehouse/:id' element={<WarehousePage/>}/>
     </Routes>
     </>
     </div>
