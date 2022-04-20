@@ -1,21 +1,28 @@
 import React from 'react'
-import cx from 'clsx';
-import { Typography, Card, CardMedia, CardContent, Grid } from '@material-ui/core';
+import { useNavigate } from "react-router-dom";
+import { Typography, CardMedia, Grid } from '@material-ui/core';
 import useStyles from './styles.js';
 import WarehouseVariant from './WarehouseVariant/WarehouseVariant.jsx';
 import { useOverShadowStyles } from '@mui-treasury/styles/shadow/over';
-import { Row, Column, Item } from '@mui-treasury/components/flex';
-
+import { Row, Column } from '@mui-treasury/components/flex';
 
 
 
 const WarehouseDetails = ({ warehouse, selected, refProp }) => {
   if (selected) refProp?.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   const classes = useStyles();
+  const navigate = useNavigate();
   const shadowStyles = useOverShadowStyles();
+
+  const handleCardClick = (event) => {
+    console.log(warehouse.id)
+    let path = `/warehouse/${warehouse.id}`; 
+    navigate(path);
+  }
 
 
   return (
+    <div onClick={handleCardClick}>
     <Row className={classes.card} >
       <Grid container alignItems='center'>
         <Grid item md = {3} className={classes.picture_item} >
@@ -71,6 +78,7 @@ const WarehouseDetails = ({ warehouse, selected, refProp }) => {
         </Grid>
       </Grid>
       </Row>
+      </div>
   );
 };
 

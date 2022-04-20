@@ -28,7 +28,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-AUTH_USER_MODEL = "authentication.User"
+AUTH_USER_MODEL = 'authentication.User'
 
 # Application definition
 
@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'analytics',
     'authentication',
     'django_filters',
     'corsheaders',

@@ -142,3 +142,16 @@ class Warehouse(TrackingModel, models.Model):
     class Meta:
         verbose_name = "Склад"
         verbose_name_plural = "Склад"
+
+
+class Application(models.Model):
+    warehouse = models.ForeignKey(Warehouse, on_delete=models.SET_NULL, null=True)
+    user = models.ForeignKey(User, blank=True, on_delete=models.SET_NULL, null=True)
+    name = models.CharField(max_length=100, blank=True, null=True)
+    company = models.CharField(max_length=100, blank=True, null=True)
+    email = models.CharField(max_length=100, blank=True, null=True)
+    phone = models.CharField(max_length=100, blank=True, null=True)
+    # тип товара можно добавить
+    # Необходимая площадь или количество паллет
+    # Когда потребуется склад
+    # Комментарий

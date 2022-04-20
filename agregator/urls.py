@@ -4,5 +4,5 @@ from agregator.views import WarehouseListAPIView, WarehouseAPIView, WarehouseDet
 urlpatterns = [
 	path('', WarehouseAPIView.as_view(), name="users-warehouses"),
 	path('warehouse-list', WarehouseListAPIView.as_view(), name="warehouses-list"),
-	path('<int:id>', WarehouseDetailAPIView.as_view(), name="warehouse-retrieve-update-delete"),
+	path('<int:id>', WarehouseDetailAPIView.as_view(), name="warehouse-detail"),
 ]

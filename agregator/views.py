@@ -1,9 +1,8 @@
-from rest_framework.generics import ListAPIView, ListCreateAPIView, RetrieveUpdateDestroyAPIView
+from rest_framework.generics import ListAPIView, ListCreateAPIView, RetrieveAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.permissions import IsAuthenticated
 from django_filters.rest_framework import DjangoFilterBackend
-from django.db.models import F
-from django.db import models
-
+# from analytics.mixins import ObjectViewMixin
+from analytics.signals import object_viewed_signal
 
 from .models import Warehouse 
 from .serializers import WarehouseSerializer
@@ -35,17 +34,31 @@ class WarehouseListAPIView(ListAPIView):
 		return Warehouse.objects.all()
 
 
-# Разными запросами изменяет, выдает, удаляет детали склада
-class WarehouseDetailAPIView(RetrieveUpdateDestroyAPIView):
+class WarehouseDetailAPIView(RetrieveAPIView):
 	serializer_class = WarehouseSerializer
-	# permission_classes = (IsAuthenticated,)
+	queryset = Warehouse.objects.all()
+	authentication_classes = []
+	
+	lookup_field = 'id'
+
+	def get(self, request, *args, **kwargs):
+		instance = self.get_object()
+
+		object_viewed_signal.send(instance.__class__, instance=instance, request=self.request)
+		return self.retrieve(request, *args, **kwargs)
+
+
+# Разными запросами изменяет, выдает, удаляет детали склада конкретного пользователя
+class WarehouseRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
+	serializer_class = WarehouseSerializer
+	permission_classes = (IsAuthenticated,)
 		
 	authentication_classes = []
 
 	lookup_field = 'id'
 
 	def get_queryset(self):
-		# return Warehouse.objects.filter(owner=self.request.user)
-		return Warehouse.objects.all()
+		return Warehouse.objects.filter(owner=self.request.user)
 
 
+# class ApplicationCreateView(CreateAPIView):
