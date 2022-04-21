@@ -34,7 +34,6 @@ class WarehouseListAPIView(ListAPIView):
 		return Warehouse.objects.all()
 
 
-
 class WarehouseDetailAPIView(RetrieveAPIView):
 	serializer_class = WarehouseSerializer
 	queryset = Warehouse.objects.all()
@@ -50,9 +49,11 @@ class WarehouseDetailAPIView(RetrieveAPIView):
 
 class WarehouseImagesRetrieveAPIView(ListAPIView):
 	serializer_class = ImagesSerializer
-	queryset = WarehouseImages.objects.all()
+
 	authentication_classes = []
-	lookup_field = 'warehouse__id'
+	filter_backends = [DjangoFilterBackend]
+
+	filterset_fields = ['warehouse__id']
 
 	def get_queryset(self):
 		return WarehouseImages.objects.all()

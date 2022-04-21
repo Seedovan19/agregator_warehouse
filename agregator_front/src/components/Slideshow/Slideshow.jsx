@@ -4,7 +4,7 @@ import './styles.css'
 
 
 
-const Slideshow = ({warehouse, warehouseImages}) => {
+const Slideshow = ({warehouseImages}) => {
     const [slideIndex, setSlideIndex] = useState(1)
 
     const nextSlide = () => {
@@ -30,14 +30,18 @@ const Slideshow = ({warehouse, warehouseImages}) => {
 
     console.log(warehouseImages)
     return (
+        <>
+        { warehouseImages.count === 0 ? (
+            <div>Привет</div>
+        ) : (
         <div className="container-slider">
-            {warehouseImages?.results?.map((image, i) => {
+            { warehouseImages?.results?.map((image, i) => {
                 return (
                     <div 
                     key = {image.id}
                     className={slideIndex === i + 1 ? "slide active-anim" : "slide" }
                     >
-                        <img src = {image.images}></img>
+                        <img alt = "" src = {image.images}></img>
                     </div>
                 )
             })}
@@ -53,6 +57,8 @@ const Slideshow = ({warehouse, warehouseImages}) => {
                 ))}
             </div>
         </div>
+        )}
+        </>
     )
 }
 

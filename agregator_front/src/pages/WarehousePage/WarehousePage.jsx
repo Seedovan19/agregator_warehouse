@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import Slideshow from '../../components/Slideshow/Slideshow'
 import Header from '../../components/Header/Header'
-import { Grid, CircularProgress } from '@material-ui/core';
+import { Grid, CircularProgress, Card } from '@material-ui/core';
 import useStyles from './styles'
+import { getWarehouseImagesData } from '../../api'
+
 
 
 const WarehousePage = () => {
@@ -16,25 +18,23 @@ const WarehousePage = () => {
     useEffect(() => {
         fetch(`http://127.0.0.1:8000/api/warehouses/warehouse-detail/${id}`)
         .then(res => res.json())
-        .then(function(data) {
-                setWarehouse(data)
-                if (data.image != null) {         
-                    fetch(`http://127.0.0.1:8000/api/warehouses/warehouse-detail/images/${id}`)
-                    .then(res => res.json())
-                    .then(data => setWarehouseImages(data))
-                };
-            })
-    }, [id]);
+        .then(data => setWarehouse(data))
 
+        getWarehouseImagesData(id)
+        .then(data => setWarehouseImages(data))
+        
+    }, [id]);
+    
     return (
     <div>
         <Header/>
-        <Grid container className={classes.page_content}>
-            <Grid item>
+        <div container className={classes.page_content}>
+            <div className={classes.slideshow_div}>
             {warehouse ? (
                 <>
-                <Slideshow warehouse = {warehouse} warehouseImages={warehouseImages}/>
+                <Slideshow warehouseImages={warehouseImages}/>
                 <h1>{warehouse.adress}</h1>
+
                 </>
             ) : (
                 <>
@@ -43,8 +43,11 @@ const WarehousePage = () => {
                 </div>
                 </>
             )}
-            </Grid>
-        </Grid>
+            </div>
+            <div className={classes.apply_card_div}>
+                <Card variant="outlined" className={classes.apply_card}/>
+            </div>
+        </div>
     </div>
   )
 }

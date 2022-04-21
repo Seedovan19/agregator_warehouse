@@ -25,3 +25,17 @@ export const getWarehousesData = async (type, palletQuantity, freezer, refrigera
         console.log(error)
     }
 };
+
+export const getWarehouseImagesData = async (id) => {
+    try {    
+        const { data } = await axios.get(`http://127.0.0.1:8000/api/warehouses/warehouse-detail/images/`, {
+            params: {
+                ...(id ? { warehouse__id: id } : {}),
+            },
+        });
+
+        return data;
+    } catch (error) {
+        console.log(error)
+    }
+}

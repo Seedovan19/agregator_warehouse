@@ -26,7 +26,10 @@ SECRET_KEY = 'django-insecure-8@2b^huvgj#=8s9o7vl(jk3^q0vir1e7ztx&2w@*aqbx$d6!t4
 
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'http://localhost:3000',
+    '127.0.0.1'
+]
 
 AUTH_USER_MODEL = 'authentication.User'
 
