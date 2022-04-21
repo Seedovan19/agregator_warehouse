@@ -3,7 +3,11 @@ from helpers.models import TrackingModel
 from authentication.models import User
 
 
+
 def upload_path(instance, filename):
+    return '/'.join(['images', str(instance.warehouse.id), filename]) # может быть instance.name
+
+def upload_path_for_main_img(instance, filename):
     return '/'.join(['images', str(instance.id), filename]) # может быть instance.name
 
 class Storagecond(TrackingModel, models.Model):
@@ -119,7 +123,7 @@ class Warehouse(TrackingModel, models.Model):
     )
 
     name = models.CharField(max_length=100, blank=True, null=True)
-    image = models.ImageField (blank=True, null=True, upload_to = upload_path)
+    image = models.FileField(blank=True, upload_to=upload_path_for_main_img)
     adress = models.CharField(max_length=300)
     description = models.CharField(max_length=500, blank=True, null=True)
     warehouse_class = models.CharField(max_length=100, choices=CLASS_VALUES, default='No value')
@@ -144,6 +148,15 @@ class Warehouse(TrackingModel, models.Model):
         verbose_name_plural = "Склад"
 
 
+class WarehouseImages(TrackingModel, models.Model):
+    warehouse = models.ForeignKey(Warehouse, default=None, on_delete=models.CASCADE)
+    images = models.FileField(null=True, upload_to = upload_path)
+ 
+    class Meta:
+        verbose_name = "Фото склада" 
+        verbose_name_plural = "Фото склада"
+
+
 class Application(models.Model):
     warehouse = models.ForeignKey(Warehouse, on_delete=models.SET_NULL, null=True)
     user = models.ForeignKey(User, blank=True, on_delete=models.SET_NULL, null=True)
@@ -155,3 +168,4 @@ class Application(models.Model):
     # Необходимая площадь или количество паллет
     # Когда потребуется склад
     # Комментарий
+

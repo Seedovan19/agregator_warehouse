@@ -4,8 +4,8 @@ from django_filters.rest_framework import DjangoFilterBackend
 # from analytics.mixins import ObjectViewMixin
 from analytics.signals import object_viewed_signal
 
-from .models import Warehouse 
-from .serializers import WarehouseSerializer
+from .models import Warehouse, WarehouseImages
+from .serializers import ImagesSerializer, WarehouseSerializer
 
 
 # Создает и выводит для конкретного пользователя его склады (запросами GET, POST)
@@ -34,18 +34,29 @@ class WarehouseListAPIView(ListAPIView):
 		return Warehouse.objects.all()
 
 
+
 class WarehouseDetailAPIView(RetrieveAPIView):
 	serializer_class = WarehouseSerializer
 	queryset = Warehouse.objects.all()
 	authentication_classes = []
-	
 	lookup_field = 'id'
 
 	def get(self, request, *args, **kwargs):
 		instance = self.get_object()
-
+		
 		object_viewed_signal.send(instance.__class__, instance=instance, request=self.request)
 		return self.retrieve(request, *args, **kwargs)
+
+
+class WarehouseImagesRetrieveAPIView(ListAPIView):
+	serializer_class = ImagesSerializer
+	queryset = WarehouseImages.objects.all()
+	authentication_classes = []
+	lookup_field = 'warehouse__id'
+
+	def get_queryset(self):
+		return WarehouseImages.objects.all()
+
 
 
 # Разными запросами изменяет, выдает, удаляет детали склада конкретного пользователя

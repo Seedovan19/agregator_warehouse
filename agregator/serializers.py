@@ -6,6 +6,7 @@ from .models import Security
 from .models import Services
 from .models import Workinghours
 from .models import Logistics
+from .models import WarehouseImages
 
 
 
@@ -47,8 +48,15 @@ class WarehouseSerializer(ModelSerializer):
     services = ServicesSerializer()
     working_hours = WorkinghoursSerializer()
     logistics = LogisticsSerializer()
-    
+
     class Meta:
         model = Warehouse
         fields = '__all__'
 
+
+
+class ImagesSerializer(ModelSerializer):
+    
+    class Meta:
+        model = WarehouseImages
+        fields = '__all__'

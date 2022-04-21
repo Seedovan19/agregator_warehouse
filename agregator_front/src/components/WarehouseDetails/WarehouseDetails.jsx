@@ -15,7 +15,6 @@ const WarehouseDetails = ({ warehouse, selected, refProp }) => {
   const shadowStyles = useOverShadowStyles();
 
   const handleCardClick = (event) => {
-    console.log(warehouse.id)
     let path = `/warehouse/${warehouse.id}`; 
     navigate(path);
   }
@@ -29,7 +28,6 @@ const WarehouseDetails = ({ warehouse, selected, refProp }) => {
           <CardMedia
             className={ classes.card_picture }
             image={ warehouse.image ? warehouse.image : 'https://www.foodserviceandhospitality.com/wp-content/uploads/2016/09/Restaurant-Placeholder-001.jpg'}
-
           />
         </Grid>
         <Grid item md = {9}>

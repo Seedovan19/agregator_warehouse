@@ -4,6 +4,7 @@ from authentication.models import User as MyUser
 
 
 from agregator.models import Warehouse
+from agregator.models import WarehouseImages
 from agregator.models import Storagecond
 from agregator.models import Features
 from agregator.models import Security
@@ -29,17 +30,30 @@ class UserAdmin(BaseUserAdmin):
     filter_horizontal = ()
 
 
+
+
+class WarehouseImageAdmin(admin.StackedInline):
+    model = WarehouseImages
+ 
+@admin.register(Warehouse)
 class WarehouseAdmin(admin.ModelAdmin):
+    inlines = [WarehouseImageAdmin]
+
     list_display = ('name', 'adress')
 
     search_fields =  ('name', 'adress')
     ordering = ('name', 'adress')
     filter_horizontal = ()
+ 
+    class Meta:
+       model = Warehouse
+ 
+@admin.register(WarehouseImages)
+class WarehouseImageAdmin(admin.ModelAdmin):
+    pass
 
 
 admin.site.register(MyUser, UserAdmin)
-
-admin.site.register(Warehouse, WarehouseAdmin)
 admin.site.register(Storagecond)
 admin.site.register(Features)
 admin.site.register(Security)
