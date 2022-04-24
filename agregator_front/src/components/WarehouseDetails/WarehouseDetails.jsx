@@ -33,7 +33,10 @@ const WarehouseDetails = ({ warehouse, selected, refProp }) => {
         <Grid item md = {9}>
           <Column>
               <Typography className = {classes.card_top_text}>{ warehouse.adress }</Typography>
-              <WarehouseVariant className = {classes.tag} warehouse_variant = {warehouse.warehouse_variant} is_long_term = {warehouse.long_term_commitment}/>
+              <WarehouseVariant 
+              warehouse_variant = {warehouse.warehouse_variant} 
+              is_long_term = {warehouse.long_term_commitment}
+              />
               <Grid container spacing={3} alignItems='center'>
                 <Grid item md={4}>
                   <Typography className = {classes.cost_text}>Стоимость хранения палеты</Typography>

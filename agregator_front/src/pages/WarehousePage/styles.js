@@ -7,27 +7,31 @@ export default makeStyles((theme) => ({
         margin: '0 auto',
         position: 'relative',
     },
-
     go_back_link : {
         width: '200px',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'flex-start',
         textAlign: 'center',
-        marginBottom: '10px',
-        
+        paddingTop: '15px',
+        paddingBottom: '15px',
+    },
+
+    arrow_back: {
+        position: 'relative',
+        top: 0,
+        height: '15px',
     },
 
     go_back_link_text: {
-        fontFamily: 'Lato-Regular',
-        fontSize: '17px',
-        color: 'black',
+        fontFamily: 'Montserrat-Bold',
+        fontSize: '15px',
+        color: '#222942',
         textDecoration: 'underline',
-        textDecorationColor: '#8046F1',
+        textDecorationColor: '#284AC2',
         textDecorationThickness: '2px',
         textUnderlinePosition: 'under',
         position: 'relative',
-
     },
 
     apply_card_div :{
@@ -35,11 +39,26 @@ export default makeStyles((theme) => ({
         position: 'sticky',
         top: '1.5rem',
         left: 0,
+    }, 
+
+    title: {
+        fontFamily: 'Montserrat-medium',
+        color: '#222942',
+        fontSize: '17px',
+        paddingBottom: '5px',
     },
 
-    apply_card: {
-        minWidth: '320px',
-        height: '200px',
-        marginLeft: '2rem',
-    }
+    warehouse_id:{
+        fontFamily: 'Lato-Light',
+        fontSize: '13px',
+        paddingBottom: '3px',
+        color: '#4B4B4B'
+    },
+
+    warehouse_variant: {
+        paddingTop: '7px',
+        paddingBottom: '11px',
+    },
+
+    
 }))

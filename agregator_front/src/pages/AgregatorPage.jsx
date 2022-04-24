@@ -8,9 +8,11 @@ import Feedback from '../components/Feedback/Feedback';
 import Filter from '../components/Filter/Filter';
 import ModalFilter from '../components/ModalFilter/ModalFilter';
 import ModalFeedback from '../components/Feedback/ModalFeedback/ModalFeedback';
+import useStyles from './styles'
 
 
 const AgregatorPage = () => {
+    const classes = useStyles();
     const [ warehouses, setWarehouses ] = useState([]);
     const [ childClicked, setChildClicked ] = useState(null);
 
@@ -55,7 +57,7 @@ const AgregatorPage = () => {
     return (
     <div>
     <Header />
-    <Grid container>
+    <Grid container className={classes.page_content}>
       <Grid item xs={12} md={5}>
         <Feedback
           modalFeedbackActive = {modalFeedbackActive}

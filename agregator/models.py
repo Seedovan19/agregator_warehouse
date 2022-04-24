@@ -37,10 +37,10 @@ class Features(TrackingModel, models.Model):
     freezer_size = models.IntegerField(blank=True, null=True, default=0)
     refrigerator = models.BooleanField() 
     refrigerator_size = models.IntegerField(blank=True, null=True, default=0)
-    alcohol = models.BooleanField()
-    pharmacy = models.BooleanField()
-    food = models.BooleanField()
-    dangerous = models.BooleanField()  
+    alcohol = models.BooleanField(default=False, null=False)
+    pharmacy = models.BooleanField(default=False, null=False)
+    food = models.BooleanField(default=False, null=False)
+    dangerous = models.BooleanField(default=False, null=False)  
 
     class Meta:
         verbose_name = "Температурные условия и лицензии" 

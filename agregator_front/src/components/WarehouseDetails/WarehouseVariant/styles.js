@@ -7,7 +7,6 @@ export default makeStyles(() => ({
     border: '0px',
     height: '15px', 
     // marginTop: '15px',
-    marginBottom: '15px',
     marginRight: '10px',
   },
 
