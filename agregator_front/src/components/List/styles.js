@@ -8,10 +8,10 @@ export default makeStyles((theme) => ({
     alignItems: 'center',
   },
   container: {
-    padding: '19px',
+    paddingRight: '19px',
   },
   list: {
-    maxHeight: '530px',
+    maxHeight: '510px',
     overflow: 'auto',
   },
 }));

@@ -57,7 +57,7 @@ const AgregatorPage = () => {
     return (
     <div>
     <Header />
-    <Grid container className={classes.page_content}>
+    <Grid container className={classes.page_content} justifyContent="center">
       <Grid item xs={12} md={5}>
         <Feedback
           modalFeedbackActive = {modalFeedbackActive}
@@ -78,7 +78,7 @@ const AgregatorPage = () => {
           setType = {setType}
         />
       </Grid>
-      <Grid item xs={12} md={7}>
+      <Grid item xs={0} md={7}>
         <WarehouseMap
           warehouses = {warehouses}
           setChildClicked = {setChildClicked}
