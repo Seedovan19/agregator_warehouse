@@ -5,7 +5,7 @@ export default makeStyles((theme) => ({
     marginTop: '35px',
     // marginBottom: '40px',
     backgroundColor: 'white',
-    boxShadow: '0px 1px 10px 2px #E6E6E6',
+    boxShadow: '0px 0px 12px #32274414,0px 0px 1px #32274452,0px 8px 16px -8px #32274405',
   },
 
   toolbar: {
