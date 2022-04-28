@@ -47,13 +47,12 @@ const WarehouseDetails = ({ warehouse, selected, refProp }) => {
         flexDirection: { xs: 'column', md: 'row' },
         alignItems: 'center',
         overflow: 'hidden',
-        boxShadow: 1,
-        border: '2px solid',
+        border: '1px solid',
         borderColor: '#E7EDF3',
         borderRadius: '7px',
         transition: '0.4s',
         '&:hover': {
-          borderColor: '#5B9FED',
+          boxShadow: '1px 10px 12px #32274414,0px 0px 1px #32274452,8px 8px 16px 8px #32274405',
         },
       }}
       >
@@ -64,7 +63,7 @@ const WarehouseDetails = ({ warehouse, selected, refProp }) => {
             width: theme.card.pic_width,
             maxHeight: { xs: 233, md: theme.card.card_height },
             maxWidth: { xs: 500, md: theme.card.pic_width },
-
+            
             m: 2,
             display: 'block',
             borderRadius: '7px',

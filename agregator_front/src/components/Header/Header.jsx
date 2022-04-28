@@ -17,6 +17,11 @@ const Header = () => {
     let path = `/recommendations`; 
     navigate(path);
   }
+
+  const handleLogoClick = (event) => {
+    let path = `/`; 
+    navigate(path);
+  }
   
   const handleLoginClick = (event) => {
     console.log('click')
@@ -26,7 +31,7 @@ const Header = () => {
     <>
     <AppBar className = { classes.menu_rectangle } position = "static">
       <Toolbar className={ classes.toolbar }  >
-        <img className = { classes.logo } src={require('./logo.png')} onClick={() => window.open('/', '_blank')} ></img>
+        <img className = { classes.logo } src={require('./logo.png')} onClick={handleLogoClick} ></img>
         <div>
           <Grid container>
             <Stack 

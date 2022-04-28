@@ -16,7 +16,8 @@ export default makeStyles((theme) => ({
   },
 
   logo: {
-    width: '200px'
+    width: '200px',
+    cursor: 'grab',
   },
 
   button_login: {
