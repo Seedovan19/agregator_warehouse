@@ -36,7 +36,6 @@ const WarehouseMap = ({ warehouses, setChildClicked }) => {
                             },
                           }}
                     />
-                    // TODO: изучить координаты, все ли я правильно расставил
                 )) }
                 <TileLayer
                     url="https://api.mapbox.com/styles/v1/seedovan/cl0cs50x7001s14taxgl4jj9t/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1Ijoic2VlZG92YW4iLCJhIjoiY2wwY3M5MDJtMDI4aTNjcDkyem9hdnI4YiJ9.G7t_vQ3A7RlXG6zMx__-mg"

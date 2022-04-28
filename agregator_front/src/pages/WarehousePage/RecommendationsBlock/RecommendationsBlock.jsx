@@ -1,11 +1,19 @@
 import React from 'react'
 import { Grid, Typography } from '@material-ui/core';
-import useStyles from './styles'
+import { useNavigate } from "react-router-dom";
 import { styled } from '@mui/system';
 
+
 const RecommendationsBlock = () => {
+    const navigate = useNavigate()
+
+    const handleRecoClick = (event) => {
+        let path = `/recommendations`; 
+        navigate(path);
+    }
+    
     return (
-        <div>Получи рекоммендации!</div>
+        <div onClick={handleRecoClick}>Получи рекомендации!</div>
     )
 }
 
