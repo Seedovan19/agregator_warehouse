@@ -13,7 +13,7 @@ import FilterListIcon from '@mui/icons-material/FilterList';
 import { styled } from '@mui/material/styles';
 
 
-const StyledAutocomplete = styled(Autocomplete)({
+const StyledAutocomplete = styled(Autocomplete)({  
   "& .MuiInputLabel-outlined:not(.MuiInputLabel-shrink)": {
     // Default transform is "translate(14px, 20px) scale(1)""
     // This lines up the label with the initial cursor position in the input
@@ -24,7 +24,7 @@ const StyledAutocomplete = styled(Autocomplete)({
     color: '#BFD1E4'
   },
   "& .MuiAutocomplete-inputRoot": {
-    color: "purple",
+    height: '55px',
     fontFamily: "Lato-Regular",
     fontSize: "15px",
 
