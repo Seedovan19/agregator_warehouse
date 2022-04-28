@@ -15,6 +15,7 @@ const AgregatorPage = () => {
     const classes = useStyles();
     const [ warehouses, setWarehouses ] = useState([]);
     const [ childClicked, setChildClicked ] = useState(null);
+    const [ resultsCount, setResultsCount ] = useState(0);
 
     // Загрузка
     const [ isLoading, setIsLoading ] = useState(false);
@@ -47,7 +48,8 @@ const AgregatorPage = () => {
     
         getWarehousesData(type, palletQuantity, freezer, refrigerator, alco, pharma, food, dangerous, palletization, boxPicking, transport, crossdocking, customs)
           .then((data) => {
-            setWarehouses(data)
+            setWarehouses(data.results)
+            setResultsCount(data.count)
             console.log(data)
             setIsLoading(false)
           })
@@ -69,6 +71,7 @@ const AgregatorPage = () => {
             palletQuantity = {palletQuantity}
             setPalletQuantity = {setPalletQuantity}
             setModalActive = {setModalActive}
+            resultsCount = {resultsCount}
         />
         <List 
           warehouses = {warehouses} 

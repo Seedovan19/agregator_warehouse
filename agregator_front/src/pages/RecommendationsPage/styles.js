@@ -4,7 +4,7 @@ export default makeStyles((theme) => ({
 
     recommendations_window: {
         justifyContent: 'center',
-        marginTop: '3rem',
+        marginTop: '1rem',
     },
 
     pallet_image: {

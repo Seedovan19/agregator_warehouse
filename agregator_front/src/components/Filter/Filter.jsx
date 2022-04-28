@@ -1,5 +1,6 @@
 import React from 'react';
 import Grid from "@mui/material/Grid";
+import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Autocomplete from '@mui/material/Autocomplete';
@@ -86,7 +87,7 @@ const StyledFormControl = styled(FormControl)({
 });
 
 
-const Filter = ({ type, setType, palletQuantity, setPalletQuantity, setModalActive }) => {
+const Filter = ({ resultsCount, type, setType, palletQuantity, setPalletQuantity, setModalActive }) => {
   const classes = useStyles();
 
   const iconComponent = (props) => {
@@ -136,6 +137,30 @@ const Filter = ({ type, setType, palletQuantity, setPalletQuantity, setModalActi
               />
           )}
         />
+        <Grid 
+          container
+          direction="row"
+          alignItems="flex-end"
+        >
+          <Typography
+            sx = {{
+              fontFamily: 'Lato-Regular',
+              fontSize: '15px',
+            }}
+          >
+            Найдено:
+          </Typography>
+          <Typography 
+            sx = {{
+              fontFamily: 'Lato-Bold',
+              fontSize: '19px',
+              paddingLeft: '5px',
+              lineHeight: '1.3'
+            }}
+          >
+            {resultsCount}
+          </Typography>
+        </Grid>
         <Grid container spacing={2}>
           <Grid item>
             <StyledButton

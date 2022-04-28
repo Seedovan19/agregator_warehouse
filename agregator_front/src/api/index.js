@@ -20,7 +20,7 @@ export const getWarehousesData = async (type, palletQuantity, freezer, refrigera
             },
         });
 
-        return data.results;
+        return data;
     } catch (error) {
         console.log(error)
     }
