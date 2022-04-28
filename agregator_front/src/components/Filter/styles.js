@@ -2,22 +2,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import { deepPurple } from '@material-ui/core/colors';
 
 export default makeStyles((theme) => ({
-  icon_search:{
-    color: 'black',
-    userSelect: 'none',
-    pointerEvents: 'none'
-  },
-  icon:{
-    color: 'black',
-    right: 12,
-    position: 'absolute',
-    userSelect: 'none',
-    pointerEvents: 'none'
-  },
-  paper: {
-    borderRadius: 12,
-    marginTop: 8
-  },
   list: {
     paddingTop:0,
     paddingBottom:0,
@@ -38,7 +22,4 @@ export default makeStyles((theme) => ({
       background: deepPurple[500]
     }
   },
-  filter_button: {
-    backgroundColor: '#ffffff'
-  }
 }));

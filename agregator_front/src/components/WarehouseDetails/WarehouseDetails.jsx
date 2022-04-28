@@ -64,7 +64,7 @@ const WarehouseDetails = ({ warehouse, selected, refProp }) => {
             maxHeight: { xs: 233, md: theme.card.card_height },
             maxWidth: { xs: 500, md: theme.card.pic_width },
             
-            m: 2,
+            m: 1,
             display: 'block',
             borderRadius: '7px',
           }}

@@ -2,7 +2,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 export default makeStyles(() => ({
   mapContainer: {
-    height: '100%', 
+    height: '79vh', 
     width: '100%',
     borderRadius: '10px'
   },

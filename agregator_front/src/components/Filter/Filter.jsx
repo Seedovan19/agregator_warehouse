@@ -1,5 +1,6 @@
 import React from 'react';
-import { Grid, Button } from '@material-ui/core'
+import Grid from "@mui/material/Grid";
+import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Autocomplete from '@mui/material/Autocomplete';
 import InputLabel from '@mui/material/InputLabel';
@@ -45,6 +46,46 @@ const StyledAutocomplete = styled(Autocomplete)({
   }
 });
 
+const StyledSelect = styled(Select)({
+  height: '38px',
+  "& .MuiOutlinedInput-notchedOutline": {
+
+    borderColor: "#E2E5EA",
+    borderRadius: "10px",
+  },
+  "& .MuiSvgIcon-root": {
+    color: "#000000",
+  },
+});
+
+const StyledButton = styled(Button)({
+  width: '155px',
+
+  fontFamily: 'Montserrat-medium',
+  textTransform: 'None',
+  height: '38px',
+  backgroundColor: '#ffffff',
+  borderWidth: '1px',
+  borderRadius: '10px',
+  borderColor: '#E2E5EA',
+
+  color: '#000000',
+});
+
+const StyledFormControl = styled(FormControl)({
+  width: '140px',
+  backgroundColor: '#ffffff',
+  borderRadius: "10px",
+
+  "& .MuiInputLabel-root": {
+    fontFamily: 'Montserrat-medium',
+    fontSize: '13px',
+    color: '#000000',
+    // lineHeight: '1.4em',
+  }
+});
+
+
 const Filter = ({ type, setType, palletQuantity, setPalletQuantity, setModalActive }) => {
   const classes = useStyles();
 
@@ -67,7 +108,7 @@ const Filter = ({ type, setType, palletQuantity, setPalletQuantity, setModalActi
       vertical: "top",
         horizontal: "left"
     },
-    getContentAnchorEl: null
+    getcontentanchorel: null
   };
     
     return (
@@ -97,14 +138,23 @@ const Filter = ({ type, setType, palletQuantity, setPalletQuantity, setModalActi
         />
         <Grid container spacing={2}>
           <Grid item>
-          <FormControl sx={{ minWidth: 120 }} size="small">
-            <InputLabel className={ classes.filter_label}>Класс</InputLabel>
-            <Select
-              label="Количество паллет"
-              value={type} 
-              IconComponent={iconComponent}
-              onChange={(e) => setType(e.target.value)} 
-              MenuProps={menuProps}
+            <StyledButton
+              variant = 'outlined'
+              startIcon={<FilterListIcon />}
+              onClick={() => setModalActive(true)}
+            >
+              Все фильтры
+            </StyledButton> 
+          </Grid>
+          <Grid item>
+          <StyledFormControl size="small">
+            <InputLabel>Класс склада</InputLabel>
+            <StyledSelect
+                label="Количество паллет"
+                value={type} 
+                IconComponent={iconComponent}
+                onChange={(e) => setType(e.target.value)} 
+                MenuProps={menuProps}
               >
               <MenuItem value="" >
                 <em>Не задано</em>
@@ -114,13 +164,13 @@ const Filter = ({ type, setType, palletQuantity, setPalletQuantity, setModalActi
               <MenuItem value="B">B</MenuItem>
               <MenuItem value="B+">B+</MenuItem>
               <MenuItem value="C">C</MenuItem>
-            </Select>
-          </FormControl>
+            </StyledSelect>
+          </StyledFormControl>
           </Grid>
           <Grid item>
-          <FormControl sx={{ minWidth: 120 }} size="small">
-           <InputLabel className={ classes.filter_label}>Количество паллет</InputLabel>
-           <Select
+          <StyledFormControl size="small">
+           <InputLabel>Число паллет</InputLabel>
+           <StyledSelect
             label="Количество паллет"
             value={palletQuantity} 
             IconComponent={iconComponent}
@@ -135,19 +185,10 @@ const Filter = ({ type, setType, palletQuantity, setPalletQuantity, setModalActi
              <MenuItem value="500">250-500</MenuItem>
              <MenuItem value="1000">500-1000</MenuItem>
              <MenuItem value="500000">больше 1000</MenuItem>
-           </Select>
-          </FormControl>
+           </StyledSelect>
+          </StyledFormControl>
           </Grid>
-          <Grid item>
-            <Button
-              className={classes.filter_button}
-              variant="outlined" 
-              startIcon={<FilterListIcon />}
-              onClick={() => setModalActive(true)}
-            >
-              Фильтры
-            </Button> 
-          </Grid>
+          
           
           {/* //TODO: нарисовать кнопку класс filter_button */}
           </Grid>
