@@ -78,7 +78,7 @@ const AgregatorPage = () => {
           setType = {setType}
         />
       </Grid>
-      <Grid item xs={0} md={7}>
+      <Grid item md={7}>
         <WarehouseMap
           warehouses = {warehouses}
           setChildClicked = {setChildClicked}
