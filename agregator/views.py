@@ -73,4 +73,5 @@ class WarehouseRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
 		return Warehouse.objects.filter(owner=self.request.user)
 
 
-# class ApplicationCreateView(CreateAPIView):
+def privet():
+	return type(Warehouse.objects.all())
