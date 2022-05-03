@@ -26,9 +26,10 @@ class Storagecond(TrackingModel, models.Model):
 class Features(TrackingModel, models.Model):
     COND_VALUES = (
         ('No value', 'Не задано'),
+        ('Regulated', 'Регулируемый температурный режим'),
         ('Heated', 'Отапливаемый'),
-        ('Non-heated', 'Неотапливаемый'),
         ('Warmed', 'Утепленный'),
+        ('Non-heated', 'Неотапливаемый'),
         ('Freezer-WH', 'Морозильный'),
         ('Cold-WH', 'Холодильный'),
     )
@@ -169,4 +170,7 @@ class Application(models.Model):
     # Необходимая площадь или количество паллет
     # Когда потребуется склад
     # Комментарий
+
+
+
 

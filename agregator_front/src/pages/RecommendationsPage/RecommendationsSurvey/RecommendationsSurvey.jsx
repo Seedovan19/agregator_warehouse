@@ -6,8 +6,11 @@ import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import FirstStep from '../Steps/FirstStep'
 import SecondStep from '../Steps/SecondStep'
+import ThirdStep from '../Steps/ThirdStep'
+import FourthStep from '../Steps/FourthStep'
 import { withStyles } from "@material-ui/core/styles";
 import { deepPurple } from '@material-ui/core/colors';
+
 
 
 const styles = theme => ({
@@ -114,16 +117,20 @@ class RecommendationsSurvey extends Component {
     this.setState({[input]: e.target.value});
   }
   
+  handleSubmit = () => {
+    // http://127.0.0.1:5000/recommendations/?user=USER_NAME
+  }
 
   render() {
+    const steps = 4;
     const { activeStep } = this.state;
     const {palletQuantity} = this.state;
     const values = { palletQuantity };
     const { classes } = this.props;
     switch(activeStep) {
-      case 0:
-        return (
-          <Card variant="outlined" className={classes.recommendations_card}>
+        case 0:
+          return (
+            <Card variant="outlined" className={classes.recommendations_card}>
               <Grid container justifyContent='center'>
                 <Grid item md = {2} className={classes.button}>
                   <Stack>
@@ -143,16 +150,15 @@ class RecommendationsSurvey extends Component {
                     <Typography className={classes.stepper_number}>{activeStep}/3</Typography>
                     <MobileStepper
                         variant="progress"
-                        steps={4}
+                        steps={steps}
                         position="static"
                         activeStep={activeStep}
                         sx={{ width: '400px', justifyContent:'center' }}
                     />
-                    <Typography className={classes.subtitle}>Выберите количество палет</Typography>
+                    <Typography className={classes.subtitle}>Укажите тип товара или условия хранения</Typography>
                     <FirstStep
-                      activeStep ={activeStep}
-                      values = {values}
-                      handleChange = {this.handleChange}
+                      handleBack={this.handleBack}
+                      handleNext={this.handleNext}
                     />
                   </Stack>
                 </Grid>
@@ -160,7 +166,7 @@ class RecommendationsSurvey extends Component {
                   <Stack>
                     <Button 
                       onClick={this.handleNext}
-                      disabled={activeStep === 3}
+                      disabled={activeStep === steps-1}
                       className={classes.button_text}
                     >
                       Вперед
@@ -170,7 +176,7 @@ class RecommendationsSurvey extends Component {
                 </Grid>
               </Grid>
             </Card>
-        )
+          )
         case 1:
           return (
             <Card variant="outlined" className={classes.recommendations_card}>
@@ -193,14 +199,13 @@ class RecommendationsSurvey extends Component {
                     <Typography className={classes.stepper_number}>{activeStep}/3</Typography>
                     <MobileStepper
                         variant="progress"
-                        steps={4}
+                        steps={steps}
                         position="static"
                         activeStep={activeStep}
                         sx={{ width: '400px', justifyContent:'center' }}
                     />
-                    <Typography className={classes.subtitle}>Выберите количество палет</Typography>
+                    <Typography className={classes.subtitle}>Выберите класс склада и желаемое местоположение</Typography>
                     <SecondStep
-                      activeStep ={activeStep}
                       handleBack={this.handleBack}
                       handleNext={this.handleNext}
                     />
@@ -210,7 +215,7 @@ class RecommendationsSurvey extends Component {
                   <Stack>
                     <Button 
                       onClick={this.handleNext}
-                      disabled={activeStep === 3}
+                      disabled={activeStep === steps-1}
                       className={classes.button_text}
                     >
                       Вперед
@@ -243,14 +248,15 @@ class RecommendationsSurvey extends Component {
                     <Typography className={classes.stepper_number}>{activeStep}/3</Typography>
                     <MobileStepper
                         variant="progress"
-                        steps={4}
+                        steps={steps}
                         position="static"
                         activeStep={activeStep}
                         sx={{ width: '400px', justifyContent:'center' }}
                     />
-                    <Typography className={classes.subtitle}>Выберите количество палет</Typography>
-                    <SecondStep
-                      activeStep ={activeStep}
+                    <Typography className={classes.subtitle}>Выберите необходимые услуги</Typography>
+                    <ThirdStep
+                      values = {values}
+                      handleChange = {this.handleChange}
                       handleBack={this.handleBack}
                       handleNext={this.handleNext}
                     />
@@ -260,7 +266,7 @@ class RecommendationsSurvey extends Component {
                   <Stack>
                     <Button 
                       onClick={this.handleNext}
-                      disabled={activeStep === 3}
+                      disabled={activeStep === steps-1}
                       className={classes.button_text}
                     >
                       Вперед
@@ -293,14 +299,13 @@ class RecommendationsSurvey extends Component {
                     <Typography className={classes.stepper_number}>{activeStep}/3</Typography>
                     <MobileStepper
                         variant="progress"
-                        steps={4}
+                        steps={steps}
                         position="static"
                         activeStep={activeStep}
                         sx={{ width: '400px', justifyContent:'center' }}
                     />
-                    <Typography className={classes.subtitle}>Выберите количество палет</Typography>
-                    <SecondStep
-                      activeStep ={activeStep}
+                    <Typography className={classes.subtitle}>Контактные данные</Typography>
+                    <FourthStep
                       handleBack={this.handleBack}
                       handleNext={this.handleNext}
                     />
@@ -310,7 +315,7 @@ class RecommendationsSurvey extends Component {
                   <Stack>
                     <Button 
                       onClick={this.handleNext}
-                      disabled={activeStep === 3}
+                      disabled={activeStep === steps-1}
                       className={classes.button_text}
                     >
                       Вперед

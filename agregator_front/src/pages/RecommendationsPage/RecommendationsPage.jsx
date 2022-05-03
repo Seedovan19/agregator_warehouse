@@ -6,7 +6,7 @@ import RecommendationsSurvey from './RecommendationsSurvey/RecommendationsSurvey
 import { useNavigate } from "react-router-dom";
 import useStyles from './styles'
 import { styled } from '@mui/material/styles';
-import pallet from './media/pallet_pic.png'
+// import pallet from './media/pallet_pic.png'
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 
 
@@ -76,7 +76,7 @@ const RecommendationsPage = () => {
                     <RecommendationsSurvey/>
                 </Grid>
             </Grid>
-            <img src={pallet} alt = "Pallete" className={classes.pallet_image}/>
+            {/* <img src={pallet} alt = "Pallete" className={classes.pallet_image}/> */}
         </div>
     )
 }

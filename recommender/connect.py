@@ -27,10 +27,6 @@ columns_bool = [
     'logistics.leveling_platform',
     'logistics.railways',
 ]
-columns_position = [
-    'wh_lon', 
-    'wh_lat', 
-]
 
 
 def get_warehouses(url, object_hook=None):
@@ -38,7 +34,10 @@ def get_warehouses(url, object_hook=None):
         return json.load(resource, object_hook=object_hook)
 
 
-# exp similarity
+def parse_survey_results():
+    i = 0
+
+
 def computePositionSimilarity(position1, position2):
     diff_lon = abs(position1.wh_lon - position2.wh_lon)
     diff_lat = abs(position1.wh_lat - position2.wh_lat)
@@ -48,25 +47,16 @@ def computePositionSimilarity(position1, position2):
     return sim
 
 
-#TODO: exp similarity + перевести классы в цифры
-def computeClassSimilarity (class1, class2):
-    diff = abs(class1.warehouse_class - class2.warehouse_class)
+def computeClassSimilarity(class1, class2):
+    diff = abs(class1["warehouse_class"] - class2["warehouse_class"])
     sim = math.exp(-diff / 5.0)
     return sim
 
 
-def computeGenreSimilarity(warehouse1, warehouse2, genres):
-    genres1 = genres[warehouse1]
-    genres2 = genres[warehouse2]
-    sumxx, sumxy, sumyy = 0, 0, 0
-    for i in range(len(genres1)):
-        x = genres1[i]
-        y = genres2[i]
-        sumxx += x * x
-        sumyy += y * y
-        sumxy += x * y
-    
-    return sumxy/math.sqrt(sumxx*sumyy)
+def computeConditionSimilarity(condition1, condition2):
+    diff = abs(condition1["features.condition"] - condition2["features.condition"])
+    sim = math.exp(-diff / 5.0)
+    return sim
 
 
 @app.route('/', methods=['GET'])
@@ -109,75 +99,66 @@ def get_recommendations():
     else:
         n_after_bool = round(n*0.5)
     
-    # сортируем по возрастанию эвклидовых расстояний
+    # сортируем по возрастанию эвклидовых расстояний, отсекаем значения и берем только индексы полученных значений
     k = similarities[similarities[:, 1].argsort()]
     k = k[:n_after_bool]
-
     bool_closest_indexes = k[:,0].tolist()
     
-    ser_survey = pd.Series(data = {"wh_lon": 59.992402, "wh_lat": 30.402915}, index = ['wh_lon', 'wh_lat'])
-    position_similarity = np.zeros(shape=(data["count"], 2))
+    exp_survey = pd.Series(data = {"wh_lon": 59.992402, "wh_lat": 30.402915, "features.condition": 2, "warehouse_class": 1}, index = ['wh_lon', 'wh_lat', 'features.condition', 'warehouse_class'])
+    exp_similarity = np.zeros(shape=(data["count"], 2))
 
-    df_warehouses_position = pd.DataFrame(dataset, columns=columns_position, index=dataset.id-1)
+    df_warehouses_class_cond_pos = pd.DataFrame(dataset, columns=["wh_lon", "wh_lat", "features.condition", "warehouse_class"], index=dataset.id-1)
+
     i = 0
-    for index, row in df_warehouses_position.iterrows():
+    for index, row in df_warehouses_class_cond_pos.iterrows():
         if index in bool_closest_indexes:
             # сравниваем местоположение самых похожих по всем остальным значениям объектов
-            position_similarity[i][0] = index
-            position_similarity[i][1] = computePositionSimilarity(row, ser_survey)
+            # TODO: проработать этот момент с регулируемой температурой
+            if row["features.condition"] == 'Regulated':
+                row["features.condition"] = 0 
+            if row["features.condition"] == 'Heated':
+                row["features.condition"] = 1
+            if row["features.condition"] == 'Warmed':
+                row["features.condition"] = 2
+            if row["features.condition"] == 'Non-heated':
+                row["features.condition"] = 3
+            if row["features.condition"] == 'Cold-WH':
+                row["features.condition"] = 4
+            if row["features.condition"] == 'Freezer-WH':
+                row["features.condition"] = 5
+            if row["features.condition"] == 'No value':
+                row["features.condition"] = 10
+            
+            if row["warehouse_class"] == 'A+':
+                row["warehouse_class"] = 1
+            elif row["warehouse_class"]== 'A':
+                row["warehouse_class"] = 2
+            elif row["warehouse_class"] == 'B':
+                row["warehouse_class"] = 3
+            elif row["warehouse_class"] == 'C':
+                row["warehouse_class"] = 4
+            elif row["warehouse_class"] == 'D':
+                row["warehouse_class"] = 5
+            else:
+                row["warehouse_class"] = 10
+
+            exp_similarity[i][0] = index
+            exp_similarity[i][1] = computeConditionSimilarity(row, exp_survey) * computeClassSimilarity(row, exp_survey) * computePositionSimilarity(row, exp_survey)
             i = i+1
-    
-    # отсекает 50% значений (от 5 элементов)
-    if len(bool_closest_indexes) <= 5:
-        n_after_pos = n_after_bool
-    elif (len(bool_closest_indexes) > 5 and len(bool_closest_indexes) <= 10):
-        n_after_pos = len(bool_closest_indexes)
-    else:
-        n_after_pos = round(n*0.5)
+
     
     # сортируем по убыванию
-    k_pos = position_similarity[(-position_similarity)[:, 1].argsort()]
-    k_pos = k_pos[:n_after_pos]
+    k_pos = exp_similarity[(-exp_similarity)[:, 1].argsort()]
+    k_pos = k_pos[:5]
+    top_recs_indexes = k_pos[:,0].tolist()
+    top_recs_sim = k_pos[:,1].tolist()
     
-    
-    exp_survey = pd.Series(data = {"warehouse_class": 1}, index = ['warehouse_class'])
-    class_similarity = np.zeros(shape=(data["count"], 2))
-    i = 0
-
-    df_warehouses_class = pd.DataFrame(dataset, columns=["warehouse_class"], index=dataset.id-1)
-    for index, _ in df_warehouses_position.iterrows():
-        if df_warehouses_class.loc[index].warehouse_class == 'A+':
-            df_warehouses_class.loc[index].warehouse_class = 1
-        elif df_warehouses_class.loc[index].warehouse_class == 'A':
-            df_warehouses_class.loc[index].warehouse_class = 2
-        elif df_warehouses_class.loc[index].warehouse_class == 'B':
-            df_warehouses_class.loc[index].warehouse_class = 3
-        elif df_warehouses_class.loc[index].warehouse_class == 'C':
-            df_warehouses_class.loc[index].warehouse_class = 4
-        elif df_warehouses_class.loc[index].warehouse_class == 'D':
-            df_warehouses_class.loc[index].warehouse_class = 5
-        else:
-            df_warehouses_class.loc[index].warehouse_class = 10
-        
-        class_similarity[i][0] = index
-        class_similarity[i][1] = computeClassSimilarity(df_warehouses_class.loc[index], exp_survey)
-        i+=1
-
-
-    # перевести в цифры и посчитать exp расстояния
-    df_warehouses_condition = pd.DataFrame(dataset, columns=["features.condition"], index=dataset.id-1)
-    for index, row in df_warehouses_condition.iterrows():
-        if row["features.condition"] == 'Heated':
-            row["features.condition"] = 1
-    
-
-    data_set = {'Page': 'Home', 'Message': f'Successfully got the request for {user_query}: {k_pos}', 'Timestamp': time.time()}
+    data_set = {'Indexes': f'{top_recs_indexes}', 'Message': f'Successfully got the request for {user_query}: {top_recs_sim}', 'Timestamp': time.time()}
     json_dump = json.dumps(data_set)
 
-    print(df_warehouses_condition)
+    print(k_pos)
     return json_dump
     
 
 if __name__ == ' __main__':
     app.run(port=7777)
-    
