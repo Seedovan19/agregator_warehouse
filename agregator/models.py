@@ -107,6 +107,7 @@ class Logistics(TrackingModel, models.Model):
 
 
 class Warehouse(TrackingModel, models.Model):
+    # TODO: исправить на A+, A, B, C, D
     CLASS_VALUES = (
         ('No value', 'Не задано'),
         ('A+', 'A+'),
