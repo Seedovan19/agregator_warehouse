@@ -1,5 +1,7 @@
 import React from 'react'
+import Stack from '@mui/material/Stack'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import Autocomplete from '@mui/material/Autocomplete';
 import Divider from '@mui/material/Divider';
@@ -9,14 +11,34 @@ import Select from '@mui/material/Select';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
+import Chip from '@mui/material/Chip';
 import useStyles from './styles';
 import { styled } from '@mui/material/styles';
 
 
+const StyledChip = styled(Chip)({
+  height: '32px',
+  borderColor: '#E2E5EA',
+
+  ".MuiChip-label": {
+    fontFamily: 'Lato-Regular',
+  },
+});
+
+const CheckedChip = styled(Chip)({
+  height: '32px',
+  borderColor: '#284AC2',
+
+  ".MuiChip-label": {
+    fontFamily: 'Lato-Regular',
+    color: '#284AC2',
+  },
+});
+
 const StyledSelect = styled(Select)({
   height: '38px',
+  width: '250px',
   "& .MuiOutlinedInput-notchedOutline": {
-
     borderColor: "#E2E5EA",
     borderRadius: "10px",
   },
@@ -26,7 +48,7 @@ const StyledSelect = styled(Select)({
 });
 
 const StyledFormControl = styled(FormControl)({
-  width: '140px',
+  width: '250px',
   backgroundColor: '#ffffff',
   borderRadius: "10px",
 
@@ -34,10 +56,19 @@ const StyledFormControl = styled(FormControl)({
     fontFamily: 'Montserrat-medium',
     fontSize: '13px',
     color: '#000000',
+    overflow: 'visible',
     // lineHeight: '1.4em',
-  }
+  },
 });
 
+const StyledFormControlChips = styled(FormControlLabel)({
+  paddingRight: '10px',
+  margin: '0px',
+
+  "& .MuiCheckbox-root": {
+    padding: '0px',
+  }
+});
 
 const StyledAutocomplete = styled(Autocomplete)({  
   "& .MuiInputLabel-outlined:not(.MuiInputLabel-shrink)": {
@@ -72,13 +103,14 @@ const StyledAutocomplete = styled(Autocomplete)({
   }
 });
 
-export default function FirstStep() {
+export default function FirstStep({ values, handleChange, handleCheckChange }) {
     const classes = useStyles();
     const iconComponent = (props) => {
         return (
           <ExpandMoreIcon className={props.className + " " + classes.icon}/>
         )
     };
+
 
     const menuProps = {
         classes: {
@@ -97,100 +129,151 @@ export default function FirstStep() {
       };
 
     return (
-        <div>
-            <StyledAutocomplete
-                popupIcon ={<ExpandMoreIcon className={classes.icon_search}/>}
-                options={regions}
-                style={{
-                    display: 'inline-block',
-                    width: 500,
-                    height: 55,
-                    backgroundColor: '#FFFFFF',
-                    borderRadius: "10px"
-                }}
-                renderInput={(params) => (
-                    <TextField
-                        {...params}
-                        label="Введите город или субъект..."
-                        variant="outlined"
-                        fullWidth
-                        InputProps={{
-                        ...params.InputProps,
-                        type: 'search',
-                        }}
-                    />
-                )}
+      <div>
+        <StyledAutocomplete
+          popupIcon ={<ExpandMoreIcon className={classes.icon_search}/>}
+          options={regions}
+          style={{
+              display: 'inline-block',
+              width: 500,
+              height: 55,
+              backgroundColor: '#FFFFFF',
+              borderRadius: "10px"
+          }}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              label="Введите товарную группу..."
+              variant="outlined"
+              fullWidth
+              InputProps={{
+              ...params.InputProps,
+              type: 'search',
+              }}
             />
-            <Divider sx = {{
-                marginBottom: '17px',
-                marginTop: '20px',
-                }} 
-            />
-
-            <StyledFormControl size="small">
-            <InputLabel>Режим хранения</InputLabel>
-            <StyledSelect
-                label="Количество паллет"
-                // value={type} 
-                IconComponent={iconComponent}
-                // onChange={(e) => setType(e.target.value)} 
-                MenuProps={menuProps}
-              >
-              <MenuItem value="" >
-                <em>Не задано</em>
-              </MenuItem>
-              <MenuItem value="Regulated">Регулируемый температурный режим</MenuItem>
-              <MenuItem value="Heated">Отапливаемый</MenuItem>
-              <MenuItem value="Warmed">Утепленный</MenuItem>
-              <MenuItem value="Non-heated">Неотапливаемый</MenuItem>
-              <MenuItem value="Freezer-WH">Морозильный</MenuItem>
-              <MenuItem value="Cold-WH">Холодильный</MenuItem>
-            </StyledSelect>
+          )}
+        />
+        <Divider sx = {{
+          marginBottom: '17px',
+          marginTop: '20px',
+          }} 
+        />
+        <Typography 
+        sx ={{
+          marginBottom: "15px",
+        }}>
+          Условия хранения:
+        </Typography>
+        <Stack>
+          <StyledFormControl size="small">
+          <InputLabel>Температурный режим</InputLabel>
+          <StyledSelect
+            label="Температурный режим"
+            value={values.condition} 
+            IconComponent={iconComponent}
+            onChange={handleChange('condition')} 
+            MenuProps={menuProps}
+          >
+            <MenuItem value="" >
+              <em>Не задано</em>
+            </MenuItem>
+            <MenuItem value="Regulated">Регулируемый температурный режим</MenuItem>
+            <MenuItem value="Heated">Отапливаемый</MenuItem>
+            <MenuItem value="Warmed">Утепленный</MenuItem>
+            <MenuItem value="Non-heated">Неотапливаемый</MenuItem>
+            <MenuItem value="Freezer-WH">Морозильный</MenuItem>
+            <MenuItem value="Cold-WH">Холодильный</MenuItem>
+          </StyledSelect>
           </StyledFormControl>
-
-            <FormControlLabel
-            label="Морозильная камера"
-            control={
-                <Checkbox
-                />
-            }
-            />
-            <FormControlLabel
-            label="Холодильная камера"
-            control={
-                <Checkbox
-                />
-            }
-            />
-            <FormControlLabel
-            label="Хранение алкоголя"
-            control={
-                <Checkbox
-                />
-            }
-            />
-            <FormControlLabel
-            label="Хранение фармацевтической продукции"
-            control={
-                <Checkbox
-                />
-            }
-            />
-            <FormControlLabel
-            label="Хранение пищевой продукции"
-            control={
-                <Checkbox
-                />
-            }
-            />
-            <FormControlLabel
-            label="Хранение опасных грузов"
-            control={
-                <Checkbox
-                />
-            }
-            />
-        </div>
+          <Stack 
+            direction="row" 
+            sx = {{
+              paddingTop: "10px",
+            }}
+          >
+          <StyledFormControlChips
+            control={<Checkbox 
+              disableRipple
+              icon = {<StyledChip variant="outlined" label="Морозильная камера"/>} 
+              checkedIcon = {<CheckedChip variant="outlined" label="Морозильная камера"/>} 
+              name="freezer"
+              checked = { values.freezer ? values.freezer : false }
+              onChange={ handleCheckChange('freezer') }
+            />}
+            key="Морозильная камера"
+          />
+          <StyledFormControlChips
+            control={<Checkbox 
+              disableRipple
+              icon = {<StyledChip variant="outlined" label="Холодильная камера"/>} 
+              checkedIcon = {<CheckedChip variant="outlined" label="Холодильная камера"/>} 
+              name="refrigerator"
+              checked = { values.refrigerator ? values.refrigerator : false }
+              onChange={ handleCheckChange('refrigerator') }
+            />}
+            key="Холодильная камера"
+          />
+          </Stack>
+        </Stack>
+        <Typography sx ={{
+          marginBottom: "15px",
+          paddingTop: "15px",
+        }}>
+          Лицезии на хранение:
+        </Typography>
+          <StyledFormControlChips
+            control={<Checkbox 
+              disableRipple
+              icon = {<StyledChip clickable variant="outlined" label="Алкогольная продукция"/>} 
+              checkedIcon = {<CheckedChip clickable variant="outlined" label="Алкогольная продукция"/>} 
+              name="alcohol"
+              checked = { values.alcohol ? values.alcohol : false }
+              onChange={ handleCheckChange('alcohol') }
+            />}
+            key="Алкогольная продукция"
+          />
+          <StyledFormControlChips
+            control={<Checkbox 
+              disableRipple
+              icon = {<StyledChip variant="outlined" label="Фармацевтическая продукция"/>} 
+              checkedIcon = {<CheckedChip variant="outlined" label="Фармацевтическая продукция"/>} 
+              name="pharmaceuticals"
+              checked = { values.pharmaceuticals ? values.pharmaceuticals : false }
+              onChange={ handleCheckChange('pharmaceuticals') }
+            />}
+            key="Фармацевтическая продукция"
+          />
+          <Stack
+            direction="row"
+            sx = {{
+              paddingTop: '10px',
+              marginBottom: '15px',
+            }}
+          >
+          <StyledFormControlChips
+            control={<Checkbox 
+              disableRipple
+              icon = {<StyledChip variant="outlined" label="Пищевая продукция"/>} 
+              checkedIcon = {<CheckedChip variant="outlined" label="Пищевая продукция"/>} 
+              name="food"
+              checked = { values.food ? values.food : false }
+              onChange={ handleCheckChange('food') }
+            />}
+            key="Пищевая продукция"
+          />
+          <StyledFormControlChips
+            control={<Checkbox 
+              disableRipple
+              icon = {<StyledChip variant="outlined" label="Опасные грузы"/>} 
+              checkedIcon = {<CheckedChip variant="outlined" label="Опасные грузы"/>} 
+              name="dangerous"
+              checked = { values.dangerous ? values.dangerous : false }
+              onChange={ handleCheckChange('dangerous') }
+            />}
+            key="Опасные грузы"
+          />
+          </Stack>
+      </div>
     )
 }
 

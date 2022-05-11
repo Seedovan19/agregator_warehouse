@@ -50,7 +50,6 @@ const AgregatorPage = () => {
           .then((data) => {
             setWarehouses(data.results)
             setResultsCount(data.count)
-            console.log(data)
             setIsLoading(false)
           })
     },[type, palletQuantity, freezer, refrigerator, alco, pharma, food, dangerous, palletization, boxPicking, transport, crossdocking, customs]);

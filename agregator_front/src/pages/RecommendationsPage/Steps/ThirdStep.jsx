@@ -2,6 +2,7 @@ import React from 'react'
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import { Typography } from '@material-ui/core';
+import Chip from '@mui/material/Chip';
 import InputLabel from '@mui/material/InputLabel';
 import Select from '@mui/material/Select';
 import FormControl from '@mui/material/FormControl';
@@ -11,8 +12,36 @@ import useStyles from './styles';
 import { styled } from '@mui/material/styles';
 
 
+const StyledChip = styled(Chip)({
+    height: '32px',
+    borderColor: '#E2E5EA',
+  
+    ".MuiChip-label": {
+      fontFamily: 'Lato-Regular',
+    },
+});
 
-export default function ThirdStep({ handleChange, values }) {
+const CheckedChip = styled(Chip)({
+height: '32px',
+borderColor: '#284AC2',
+
+".MuiChip-label": {
+    fontFamily: 'Lato-Regular',
+    color: '#284AC2',
+},
+});
+
+const StyledFormControlChips = styled(FormControlLabel)({
+    padding: '0px',
+    margin: '0px',
+  
+    "& .MuiCheckbox-root": {
+      padding: '0px',
+    }
+});
+
+
+export default function ThirdStep({ values, handleChange, handleCheckChange }) {
     const classes = useStyles();
     const iconComponent = (props) => {
         return (
@@ -38,12 +67,12 @@ export default function ThirdStep({ handleChange, values }) {
 
     return (
         <div>
-            <FormControl sx={{ minWidth: '20rem', paddingBottom: '5rem'}} size="small">
+            <FormControl sx={{ minWidth: '20rem'}} size="small">
             <InputLabel className={ classes.filter_label}>Количество палет</InputLabel>
             <Select
                 label="Количество паллет"
                 IconComponent={iconComponent}
-                defaultValue={values.palletQuantity}
+                value={ values.palletQuantity } 
                 onChange={handleChange('palletQuantity')} 
                 MenuProps={menuProps}
             >
@@ -58,40 +87,60 @@ export default function ThirdStep({ handleChange, values }) {
             </Select>
             </FormControl>
 
-            <FormControlLabel
-            label="Паллетизация грузов"
-            control={
-                <Checkbox
-                />
-            }
+            <StyledFormControlChips
+              control={<Checkbox 
+                disableRipple
+                icon = {<StyledChip variant="outlined" label="Паллетизация грузов"/>} 
+                checkedIcon = {<CheckedChip variant="outlined" label="Паллетизация грузов"/>} 
+                name="palletization"
+                checked = { values.palletization ? values.palletization : false }
+                onChange={ handleCheckChange('palletization') }
+              />}
+              key="Паллетизация грузов"
             />
-            <FormControlLabel
-            label="Отгрузки коробками"
-            control={
-                <Checkbox
-                />
-            }
+            <StyledFormControlChips
+              control={<Checkbox 
+                disableRipple
+                icon = {<StyledChip variant="outlined" label="Отгрузки коробками"/>} 
+                checkedIcon = {<CheckedChip variant="outlined" label="Отгрузки коробками"/>} 
+                name="box_pick"
+                checked = { values.box_pick ? values.box_pick : false }
+                onChange={ handleCheckChange('box_pick') }
+              />}
+              key="Отгрузки коробками"
             />
-            <FormControlLabel
-            label="Транспортные услуги"
-            control={
-                <Checkbox
-                />
-            }
+            <StyledFormControlChips
+              control={<Checkbox 
+                disableRipple
+                icon = {<StyledChip variant="outlined" label="Транспортные услуги"/>} 
+                checkedIcon = {<CheckedChip variant="outlined" label="Транспортные услуги"/>} 
+                name="transport_services"
+                checked = { values.transport_services ? values.transport_services : false }
+                onChange={ handleCheckChange('transport_services') }
+              />}
+              key="Транспортные услуги"
             />
-            <FormControlLabel
-            label="Кросс-докинг"
-            control={
-                <Checkbox
-                />
-            }
+            <StyledFormControlChips
+              control={<Checkbox 
+                disableRipple
+                icon = {<StyledChip variant="outlined" label="Кросс-докинг"/>} 
+                checkedIcon = {<CheckedChip variant="outlined" label="Кросс-докинг"/>} 
+                name="crossdock"
+                checked = { values.crossdock ? values.crossdock : false }
+                onChange={ handleCheckChange('crossdock') }
+              />}
+              key="Кросс-докинг"
             />
-            <FormControlLabel
-            label="Таможенные услуги"
-            control={
-                <Checkbox
-                />
-            }
+            <StyledFormControlChips
+              control={<Checkbox 
+                disableRipple
+                icon = {<StyledChip variant="outlined" label="Таможенные услуги"/>} 
+                checkedIcon = {<CheckedChip variant="outlined" label="Таможенные услуги"/>} 
+                name="custom"
+                checked = { values.custom ? values.custom : false }
+                onChange={ handleCheckChange('custom') }
+              />}
+              key="Таможенные услуги"
             />
         </div>
     )

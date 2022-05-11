@@ -12,7 +12,6 @@ import { withStyles } from "@material-ui/core/styles";
 import { deepPurple } from '@material-ui/core/colors';
 
 
-
 const styles = theme => ({
   recommendations_window: {
     justifyContent: 'center',
@@ -92,11 +91,34 @@ icon_search:{
   }
 })
 
+
 class RecommendationsSurvey extends Component {
 
   state = {
     activeStep: 0,
+    product_type: '',
+    condition: '', 
+    freezer: '', 
+    refrigerator: '', 
+    alcohol: '', 
+    pharmaceuticals: '', 
+    food: '', 
+    dangerous: '',
+    warehouse_class: '',
+    wh_latlon: [59.9386, 30.3141],
+    transport_services: '',
+    custom: '',
+    crossdock: '',
+    palletization: '',
+    box_pick: '',
+    leveling_platform: '',
+    railways: '',
     palletQuantity: '',
+    long_term_commitment: '',
+    fullName: '',
+    email: '',
+    mobile: '',
+    company: '',
   }
   
   handleNext = () => {
@@ -116,16 +138,23 @@ class RecommendationsSurvey extends Component {
   handleChange = input => e => {
     this.setState({[input]: e.target.value});
   }
-  
-  handleSubmit = () => {
-    // http://127.0.0.1:5000/recommendations/?user=USER_NAME
+
+  handleWhLatLonChange = e => {
+    this.setState({
+      'wh_latlon': [e.latlng.lat, e.latlng.lng]
+    });
   }
+
+  handleCheckChange = input => e => {
+    this.setState({[input]: e.target.checked})
+  };
+  
 
   render() {
     const steps = 4;
     const { activeStep } = this.state;
-    const {palletQuantity} = this.state;
-    const values = { palletQuantity };
+    const { product_type, condition, freezer, refrigerator, alcohol, pharmaceuticals, food, dangerous, warehouse_class, wh_latlon, transport_services, custom, crossdock, palletization, box_pick, leveling_platform, railways, palletQuantity, long_term_commitment, fullName, email, mobile, company } = this.state;
+    const values = { product_type, condition, freezer, refrigerator, alcohol, pharmaceuticals, food, dangerous, warehouse_class, wh_latlon, transport_services, custom, crossdock, palletization, box_pick, leveling_platform, railways, palletQuantity, long_term_commitment, fullName, email, mobile, company };
     const { classes } = this.props;
     switch(activeStep) {
         case 0:
@@ -157,6 +186,9 @@ class RecommendationsSurvey extends Component {
                     />
                     <Typography className={classes.subtitle}>Укажите тип товара или условия хранения</Typography>
                     <FirstStep
+                      values = {values}
+                      handleChange = {this.handleChange}
+                      handleCheckChange = {this.handleCheckChange}
                       handleBack={this.handleBack}
                       handleNext={this.handleNext}
                     />
@@ -206,6 +238,9 @@ class RecommendationsSurvey extends Component {
                     />
                     <Typography className={classes.subtitle}>Выберите класс склада и желаемое местоположение</Typography>
                     <SecondStep
+                      values = {values}
+                      handleChange = {this.handleChange}
+                      handleWhLatLonChange = {this.handleWhLatLonChange}
                       handleBack={this.handleBack}
                       handleNext={this.handleNext}
                     />
@@ -257,6 +292,7 @@ class RecommendationsSurvey extends Component {
                     <ThirdStep
                       values = {values}
                       handleChange = {this.handleChange}
+                      handleCheckChange = {this.handleCheckChange}
                       handleBack={this.handleBack}
                       handleNext={this.handleNext}
                     />
@@ -306,6 +342,8 @@ class RecommendationsSurvey extends Component {
                     />
                     <Typography className={classes.subtitle}>Контактные данные</Typography>
                     <FourthStep
+                      values = {values}
+                      handleChange = {this.handleChange}
                       handleBack={this.handleBack}
                       handleNext={this.handleNext}
                     />

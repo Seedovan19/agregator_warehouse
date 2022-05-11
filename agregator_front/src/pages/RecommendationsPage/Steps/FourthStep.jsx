@@ -3,27 +3,20 @@ import Grid from '@mui/material/Grid';
 import { useForm, Form } from '../../../components/UseForm/UseForm';
 import Controls from '../../../components/controls/Controls';
 import useStyles from './styles';
+import { getRecommendations } from '../../../api/recommendations'
 import { styled } from '@mui/material/styles';
 
 
-const initialFValues = {
-    fullName: '',
-    email: '',
-    mobile: '',
-    company: '',
-}
-
-export default function FourthStep() {
+export default function FourthStep({ values, handleChange }) {
     const classes = useStyles();
-    const { 
-        values,
-        setValues,
-        errors,
-        setErrors,
-        handleInputChange,
-        resetForm
-    } = useForm(initialFValues)
 
+    const handleSubmit = () => {
+        getRecommendations(values)
+        .then((data) => {
+            console.log(data)
+        })
+    }
+        
     return (
         <div>  
         <Form >
@@ -33,29 +26,21 @@ export default function FourthStep() {
                         name = 'fullName'
                         label = 'Введите имя'
                         value={values.fullName}
-                        onChange={handleInputChange}
-                        error={errors.fullName}
                 />
                 <Controls.Input
                         label = 'Введите email'
                         name = 'email'
                         value = {values.email}
-                        onChange = {handleInputChange}
-                        error={errors.fullName}
                 />
                 <Controls.Input
                         label = 'Введите номер телефона'
                         name = 'mobile'
                         value = {values.mobile}
-                        onChange = {handleInputChange}
-                        error={errors.fullName}
                 />
                 <Controls.Input
                         label = 'Введите компанию'
                         name = 'company'
                         value = {values.company}
-                        onChange = {handleInputChange}
-                        error={errors.fullName}
                 />
             <Grid item xs = {12}>
                 <Controls.Button
@@ -63,6 +48,7 @@ export default function FourthStep() {
                     color = 'primary'
                     size = 'large'
                     text = 'Опубликовать'
+                    onClick = {handleSubmit}
                 />
             </Grid>
             </Grid>

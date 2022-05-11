@@ -6,8 +6,12 @@ import scipy
 import scipy.spatial
 import math
 from urllib.request import urlopen
+from flask_cors import CORS, cross_origin
+
 
 app = Flask(__name__)
+cors = CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
 
 
 api_url = 'http://127.0.0.1:8000/api/warehouses/warehouse-list'
@@ -60,16 +64,140 @@ def computeConditionSimilarity(condition1, condition2):
 
 
 @app.route('/', methods=['GET'])
-def home_page():
-    data_set = {'Page': 'Home', 'Message': 'Success home page', 'Timestamp': time.time()}
-    json_dump = json.dumps(data_set)
-
-    return json_dump
-
-
-@app.route('/recommendations/', methods=['GET'])
+@cross_origin()
 def get_recommendations():
     user_query = str(request.args.get('user')) #/recommendations/?user=USER_NAME
+
+
+    # boolean values
+    long_term_commitment_query = str(request.args.get('long_term_commitment')) 
+    if (long_term_commitment_query == 'false'):
+        long_term_commitment_query = False
+    elif (long_term_commitment_query == 'true'):
+        long_term_commitment_query = True
+    
+    freezer_query = str(request.args.get('freezer')) 
+    if (freezer_query == 'false'):
+        freezer_query = False
+    elif (freezer_query == 'true'):
+        freezer_query = True
+
+    refrigerator_query = str(request.args.get('refrigerator')) 
+    if (refrigerator_query == 'false'):
+        refrigerator_query = False
+    elif (refrigerator_query == 'true'):
+        refrigerator_query = True
+
+    alcohol_query = str(request.args.get('alcohol')) 
+    if (alcohol_query == 'false'):
+        alcohol_query = False
+    elif (alcohol_query == 'true'):
+        alcohol_query = True
+        
+    pharmaceuticals_query = str(request.args.get('pharmaceuticals')) 
+    if (pharmaceuticals_query == 'false'):
+        pharmaceuticals_query = False
+    elif (pharmaceuticals_query == 'true'):
+        pharmaceuticals_query = True
+        
+    food_query = str(request.args.get('food')) 
+    if (food_query == 'false'):
+        food_query = False
+    elif (food_query == 'true'):
+        food_query = True
+
+    dangerous_query = str(request.args.get('dangerous')) 
+    if (dangerous_query == 'false'):
+        dangerous_query = False
+    elif (dangerous_query == 'true'):
+        dangerous_query = True
+
+    transport_services_query = str(request.args.get('transport_services')) 
+    if (transport_services_query == 'false'):
+        transport_services_query = False
+    elif (transport_services_query == 'true'):
+        transport_services_query = True
+
+    custom_query = str(request.args.get('custom')) 
+    if (custom_query == 'false'):
+        custom_query = False
+    elif (custom_query == 'true'):
+        custom_query = True
+
+    crossdock_query = str(request.args.get('crossdock')) 
+    if (crossdock_query == 'false'):
+        crossdock_query = False
+    elif (crossdock_query == 'true'):
+        crossdock_query = True
+
+    palletization_query = str(request.args.get('palletization')) 
+    if (palletization_query == 'false'):
+        palletization_query = False
+    elif (palletization_query == 'true'):
+        palletization_query = True
+
+    box_pick_query = str(request.args.get('box_pick')) 
+    if (box_pick_query == 'false'):
+        box_pick_query = False
+    elif (box_pick_query == 'true'):
+        box_pick_query = True
+
+    leveling_platform_query = str(request.args.get('leveling_platform')) 
+    if (leveling_platform_query == 'false'):
+        leveling_platform_query = False
+    elif (leveling_platform_query == 'true'):
+        leveling_platform_query = True
+        
+    railways_query = str(request.args.get('railways')) 
+    if (railways_query == 'false'):
+        railways_query = False
+    elif (railways_query == 'true'):
+        railways_query = True
+
+    
+    # Температурный режим
+    condition_query = str(request.args.get('condition')) 
+    if condition_query == 'Regulated':
+        condition_query = 0 
+    elif condition_query == 'Heated':
+        condition_query = 1
+    elif condition_query == 'Warmed':
+        condition_query = 2
+    elif condition_query == 'Non-heated':
+        condition_query = 3
+    elif condition_query == 'Cold-WH':
+        condition_query = 4
+    elif condition_query == 'Freezer-WH':
+        condition_query = 5
+    elif condition_query == 'No value':
+        condition_query = 10
+    
+    # Класс склада
+    warehouse_class_query = str(request.args.get('warehouse_class')) 
+    if warehouse_class_query == 'A+':
+        warehouse_class_query = 1
+    elif warehouse_class_query == 'A':
+        warehouse_class_query = 2
+    elif warehouse_class_query == 'B':
+        warehouse_class_query = 3
+    elif warehouse_class_query == 'C':
+        warehouse_class_query = 4
+    elif warehouse_class_query == 'D':
+        warehouse_class_query = 5
+    else:
+        warehouse_class_query = 10
+
+    # Координаты
+    wh_lat_query = str(request.args.get('wh_lat')) 
+    wh_lat_query = float(wh_lat_query)
+
+    wh_lon_query = str(request.args.get('wh_lon')) 
+    wh_lon_query = float(wh_lon_query)
+
+
+    product_type_query = str(request.args.get('product_type')) 
+    palletQuantity_query = str(request.args.get('palletQuantity')) 
+
 
     # Получаю данные всех складов
     data = get_warehouses(api_url)
@@ -77,10 +205,8 @@ def get_recommendations():
     n = data["count"]
     df_warehouses_bool = pd.DataFrame(dataset, columns=columns_bool, index=dataset.id-1)
 
-    # Создаю искусственые данные из опросника
-    # TODO: сделать получение и расшифровку данных опросника
-    df_survey = pd.DataFrame([[True, True, True, True, True, True, True, True, True, True, True, True, True, True]], columns=columns_bool, index=["survey"])
-    
+    df_survey = pd.DataFrame([[long_term_commitment_query, freezer_query, refrigerator_query, alcohol_query, pharmaceuticals_query, food_query, dangerous_query, transport_services_query, custom_query, crossdock_query, palletization_query, box_pick_query, leveling_platform_query, railways_query]], columns=columns_bool, index=["survey"])
+
     similarities = np.zeros(shape=(data["count"], 2))
 
 
@@ -104,7 +230,8 @@ def get_recommendations():
     k = k[:n_after_bool]
     bool_closest_indexes = k[:,0].tolist()
     
-    exp_survey = pd.Series(data = {"wh_lon": 59.992402, "wh_lat": 30.402915, "features.condition": 2, "warehouse_class": 1}, index = ['wh_lon', 'wh_lat', 'features.condition', 'warehouse_class'])
+
+    exp_survey = pd.Series(data = {"wh_lon": wh_lon_query, "wh_lat": wh_lat_query, "features.condition": condition_query, "warehouse_class": warehouse_class_query}, index = ['wh_lon', 'wh_lat', 'features.condition', 'warehouse_class'])
     exp_similarity = np.zeros(shape=(data["count"], 2))
 
     df_warehouses_class_cond_pos = pd.DataFrame(dataset, columns=["wh_lon", "wh_lat", "features.condition", "warehouse_class"], index=dataset.id-1)
@@ -153,10 +280,9 @@ def get_recommendations():
     top_recs_indexes = k_pos[:,0].tolist()
     top_recs_sim = k_pos[:,1].tolist()
     
-    data_set = {'Indexes': f'{top_recs_indexes}', 'Message': f'Successfully got the request for {user_query}: {top_recs_sim}', 'Timestamp': time.time()}
+    data_set = {'Indexes': f'{top_recs_indexes}', 'Top_recs': f'{top_recs_sim}', 'Timestamp': time.time()}
     json_dump = json.dumps(data_set)
 
-    print(k_pos)
     return json_dump
     
 

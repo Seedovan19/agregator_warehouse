@@ -36,7 +36,7 @@ const StyledFormControl = styled(FormControl)({
 
 
 
-export default function SecondStep() {
+export default function SecondStep({ values, handleChange, handleWhLatLonChange }) {
     const classes = useStyles();
 
     const iconComponent = (props) => {
@@ -67,10 +67,10 @@ export default function SecondStep() {
               <InputLabel>Класс склада</InputLabel>
               <StyledSelect
                   label="Количество паллет"
-                //   value={type} 
-                  IconComponent={iconComponent}
-                //   onChange={(e) => setType(e.target.value)} 
-                  MenuProps={menuProps}
+                  value={ values.warehouse_class } 
+                  IconComponent={ iconComponent }
+                  onChange={ handleChange('warehouse_class') } 
+                  MenuProps={ menuProps }
                 >
                 <MenuItem value="" >
                   <em>Не задано</em>
@@ -82,7 +82,11 @@ export default function SecondStep() {
                 <MenuItem value="C">C</MenuItem>
               </StyledSelect>
             </StyledFormControl>
-            <RecommendationsMap/>
+            <RecommendationsMap
+              values = {values}
+              handleChange={ handleChange }
+              handleWhLatLonChange = { handleWhLatLonChange }
+            />
         </div>
     )
 }
