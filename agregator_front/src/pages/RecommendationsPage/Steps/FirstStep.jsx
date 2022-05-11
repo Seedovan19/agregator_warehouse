@@ -62,7 +62,7 @@ const StyledFormControl = styled(FormControl)({
 });
 
 const StyledFormControlChips = styled(FormControlLabel)({
-  paddingRight: '10px',
+  paddingRight: '1rem',
   margin: '0px',
 
   "& .MuiCheckbox-root": {

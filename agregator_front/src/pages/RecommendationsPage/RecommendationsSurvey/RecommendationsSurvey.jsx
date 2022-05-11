@@ -19,35 +19,34 @@ const styles = theme => ({
 },
 
 recommendations_card: {
-    boxShadow: '0px 0px 12px #32274414,0px 0px 1px #32274452,0px 8px 16px -8px #32274405',
-    borderWidth: 0,
+  boxShadow: '0px 0px 12px #32274414,0px 0px 1px #32274452,0px 8px 16px -8px #32274405',
+  borderWidth: 0,
 },
 
 title: {
-    fontFamily: 'Montserrat-medium',
-    fontSize: '19px',
-    paddingTop: '2rem',
-    paddingBottom: '1rem',
+  fontFamily: 'Montserrat-medium',
+  fontSize: '19px',
+  paddingTop: '2rem',
+  paddingBottom: '1rem',
 },
 
 stepper_number:{
-    fontFamily: 'Lato-Light',
+  fontFamily: 'Lato-Light',
 },
 
 subtitle: {
-    fontFamily: 'Montserrat-medium',
-    paddingTop: '3rem',
-    paddingBottom: '1rem',
-    fontSize: '17px',
+  fontFamily: 'Montserrat-medium',
+  paddingTop: '1rem',
+  paddingBottom: '1rem',
+  fontSize: '17px',
+  textAlign: 'center',
 },
 
 button: {
-    // position: 'relative', 
-    // top: 280,
-    '& .MuiButton-root': {
-      fontFamily: 'Lato-Bold',
-      textTransform: 'none'
-    }
+  '& .MuiButton-root': {
+    fontFamily: 'Lato-Bold',
+    textTransform: 'none'
+  }
 },
 
 icon_search:{

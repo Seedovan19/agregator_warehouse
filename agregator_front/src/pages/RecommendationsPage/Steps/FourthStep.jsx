@@ -1,14 +1,12 @@
 import React from 'react'
-import Grid from '@mui/material/Grid';
-import { useForm, Form } from '../../../components/UseForm/UseForm';
+import Box from '@mui/material/Box';
+import { Form } from '../../../components/UseForm/UseForm';
 import Controls from '../../../components/controls/Controls';
-import useStyles from './styles';
 import { getRecommendations } from '../../../api/recommendations'
 import { styled } from '@mui/material/styles';
 
 
 export default function FourthStep({ values, handleChange }) {
-    const classes = useStyles();
 
     const handleSubmit = () => {
         getRecommendations(values)
@@ -16,12 +14,16 @@ export default function FourthStep({ values, handleChange }) {
             console.log(data)
         })
     }
-        
     return (
         <div>  
+        <Box sx = {{
+            width: '30rem',
+            margin: "0 auto",
+            marginBottom: "15px",
+
+        }}>
         <Form >
-            <Grid container>
-            <Grid item xs = {12}>
+            
                 <Controls.Input
                         name = 'fullName'
                         label = 'Введите имя'
@@ -42,7 +44,7 @@ export default function FourthStep({ values, handleChange }) {
                         name = 'company'
                         value = {values.company}
                 />
-            <Grid item xs = {12}>
+
                 <Controls.Button
                     variant = 'contained'
                     color = 'primary'
@@ -50,10 +52,8 @@ export default function FourthStep({ values, handleChange }) {
                     text = 'Опубликовать'
                     onClick = {handleSubmit}
                 />
-            </Grid>
-            </Grid>
-            </Grid>
         </Form>
+        </Box>
         </div>
     )
 }

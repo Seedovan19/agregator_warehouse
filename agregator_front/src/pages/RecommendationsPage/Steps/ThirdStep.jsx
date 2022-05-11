@@ -1,7 +1,8 @@
 import React from 'react'
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import { Typography } from '@material-ui/core';
+import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
 import Chip from '@mui/material/Chip';
 import InputLabel from '@mui/material/InputLabel';
 import Select from '@mui/material/Select';
@@ -32,9 +33,8 @@ borderColor: '#284AC2',
 });
 
 const StyledFormControlChips = styled(FormControlLabel)({
-    padding: '0px',
+    paddingRight: '10px',
     margin: '0px',
-  
     "& .MuiCheckbox-root": {
       padding: '0px',
     }
@@ -67,25 +67,31 @@ export default function ThirdStep({ values, handleChange, handleCheckChange }) {
 
     return (
         <div>
-            <FormControl sx={{ minWidth: '20rem'}} size="small">
-            <InputLabel className={ classes.filter_label}>Количество палет</InputLabel>
-            <Select
-                label="Количество паллет"
-                IconComponent={iconComponent}
-                value={ values.palletQuantity } 
-                onChange={handleChange('palletQuantity')} 
-                MenuProps={menuProps}
-            >
-            <MenuItem value={''} >
-            <em>Не задано</em>
-            </MenuItem>
-            <MenuItem value={"50"}>меньше 50</MenuItem>
-            <MenuItem value={"250"}>50-250</MenuItem>
-            <MenuItem value={"500"}>250-500</MenuItem>
-            <MenuItem value={"1000"}>500-1000</MenuItem>
-            <MenuItem value={"50000"}>больше 1000</MenuItem>
-            </Select>
-            </FormControl>
+            <Box sx = {{
+                width: '20rem',
+                margin: "0 auto",
+                marginBottom: "1rem"
+            }}>
+                <FormControl sx={{ width: '100%'}} size="small">
+                <InputLabel className={ classes.filter_label}>Количество палет</InputLabel>
+                <Select
+                    label="Количество паллет"
+                    IconComponent={iconComponent}
+                    value={ values.palletQuantity } 
+                    onChange={handleChange('palletQuantity')} 
+                    MenuProps={menuProps}
+                >
+                <MenuItem value={''} >
+                <em>Не задано</em>
+                </MenuItem>
+                <MenuItem value={"50"}>меньше 50</MenuItem>
+                <MenuItem value={"250"}>50-250</MenuItem>
+                <MenuItem value={"500"}>250-500</MenuItem>
+                <MenuItem value={"1000"}>500-1000</MenuItem>
+                <MenuItem value={"50000"}>больше 1000</MenuItem>
+                </Select>
+                </FormControl>
+            </Box>
 
             <StyledFormControlChips
               control={<Checkbox 
@@ -109,6 +115,13 @@ export default function ThirdStep({ values, handleChange, handleCheckChange }) {
               />}
               key="Отгрузки коробками"
             />
+            <Stack
+            direction="row"
+            sx = {{
+              paddingTop: '10px',
+              marginBottom: '15px',
+            }}
+            >
             <StyledFormControlChips
               control={<Checkbox 
                 disableRipple
@@ -142,6 +155,7 @@ export default function ThirdStep({ values, handleChange, handleCheckChange }) {
               />}
               key="Таможенные услуги"
             />
+            </Stack>
         </div>
     )
 }
