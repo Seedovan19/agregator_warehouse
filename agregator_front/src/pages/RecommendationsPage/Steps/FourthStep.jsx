@@ -20,31 +20,33 @@ export default function FourthStep({ values, handleChange }) {
             width: '30rem',
             margin: "0 auto",
             marginBottom: "15px",
-
+            textAlign: "center",
         }}>
         <Form >
             
                 <Controls.Input
-                        name = 'fullName'
-                        label = 'Введите имя'
-                        value={values.fullName}
+                    name = 'fullName'
+                    label = 'Введите имя'
+                    value={values.fullName}
                 />
                 <Controls.Input
-                        label = 'Введите email'
-                        name = 'email'
-                        value = {values.email}
+                    label = 'Введите email'
+                    name = 'email'
+                    value = {values.email}
                 />
                 <Controls.Input
-                        label = 'Введите номер телефона'
-                        name = 'mobile'
-                        value = {values.mobile}
+                    label = 'Введите номер телефона'
+                    name = 'mobile'
+                    value = {values.mobile}
                 />
                 <Controls.Input
-                        label = 'Введите компанию'
-                        name = 'company'
-                        value = {values.company}
+                    label = 'Введите компанию'
+                    name = 'company'
+                    value = {values.company}
                 />
-
+                <Box sx = {{
+                    marginTop: "1rem",
+                }}>
                 <Controls.Button
                     variant = 'contained'
                     color = 'primary'
@@ -52,6 +54,7 @@ export default function FourthStep({ values, handleChange }) {
                     text = 'Опубликовать'
                     onClick = {handleSubmit}
                 />
+                </Box>
         </Form>
         </Box>
         </div>

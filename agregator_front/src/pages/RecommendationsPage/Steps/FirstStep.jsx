@@ -103,7 +103,7 @@ const StyledAutocomplete = styled(Autocomplete)({
   }
 });
 
-export default function FirstStep({ values, handleChange, handleCheckChange }) {
+export default function FirstStep({ values, handleChange, handleSelectChange, handleUnselectChange, handleCheckChange }) {
     const classes = useStyles();
     const iconComponent = (props) => {
         return (
@@ -171,7 +171,7 @@ export default function FirstStep({ values, handleChange, handleCheckChange }) {
             label="Температурный режим"
             value={values.condition} 
             IconComponent={iconComponent}
-            onChange={handleChange('condition')} 
+            onChange={handleChange('condition')}
             MenuProps={menuProps}
           >
             <MenuItem value="" >
@@ -191,28 +191,17 @@ export default function FirstStep({ values, handleChange, handleCheckChange }) {
               paddingTop: "10px",
             }}
           >
-          <StyledFormControlChips
-            control={<Checkbox 
-              disableRipple
-              icon = {<StyledChip variant="outlined" label="Морозильная камера"/>} 
-              checkedIcon = {<CheckedChip variant="outlined" label="Морозильная камера"/>} 
-              name="freezer"
-              checked = { values.freezer ? values.freezer : false }
-              onChange={ handleCheckChange('freezer') }
-            />}
-            key="Морозильная камера"
-          />
-          <StyledFormControlChips
-            control={<Checkbox 
-              disableRipple
-              icon = {<StyledChip variant="outlined" label="Холодильная камера"/>} 
-              checkedIcon = {<CheckedChip variant="outlined" label="Холодильная камера"/>} 
-              name="refrigerator"
-              checked = { values.refrigerator ? values.refrigerator : false }
-              onChange={ handleCheckChange('refrigerator') }
-            />}
-            key="Холодильная камера"
-          />
+          {values.freezer ? (
+            <CheckedChip onClick={() => handleUnselectChange('freezer') }  variant="outlined" label="Морозильная камера"/>
+          ) : (
+            <StyledChip onClick={() => handleSelectChange('freezer') } variant="outlined" label="Морозильная камера"/>
+          )}
+
+          {values.refrigerator ? (
+            <CheckedChip onClick={() => handleUnselectChange('refrigerator') }  variant="outlined" label="Холодильная камера"/>
+          ) : (
+            <StyledChip onClick={() => handleSelectChange('refrigerator') } variant="outlined" label="Холодильная камера"/>
+          )}
           </Stack>
         </Stack>
         <Typography sx ={{
@@ -221,28 +210,17 @@ export default function FirstStep({ values, handleChange, handleCheckChange }) {
         }}>
           Лицезии на хранение:
         </Typography>
-          <StyledFormControlChips
-            control={<Checkbox 
-              disableRipple
-              icon = {<StyledChip clickable variant="outlined" label="Алкогольная продукция"/>} 
-              checkedIcon = {<CheckedChip clickable variant="outlined" label="Алкогольная продукция"/>} 
-              name="alcohol"
-              checked = { values.alcohol ? values.alcohol : false }
-              onChange={ handleCheckChange('alcohol') }
-            />}
-            key="Алкогольная продукция"
-          />
-          <StyledFormControlChips
-            control={<Checkbox 
-              disableRipple
-              icon = {<StyledChip variant="outlined" label="Фармацевтическая продукция"/>} 
-              checkedIcon = {<CheckedChip variant="outlined" label="Фармацевтическая продукция"/>} 
-              name="pharmaceuticals"
-              checked = { values.pharmaceuticals ? values.pharmaceuticals : false }
-              onChange={ handleCheckChange('pharmaceuticals') }
-            />}
-            key="Фармацевтическая продукция"
-          />
+          {values.alcohol ? (
+            <CheckedChip onClick={() => handleUnselectChange('alcohol') }  variant="outlined" label="Алкогольная продукция"/>
+          ) : (
+            <StyledChip onClick={() => handleSelectChange('alcohol') } variant="outlined" label="Алкогольная продукция"/>
+          )}
+          {values.pharmaceuticals ? (
+            <CheckedChip onClick={() => handleUnselectChange('pharmaceuticals') }  variant="outlined" label="Фармацевтическая продукция"/>
+          ) : (
+            <StyledChip onClick={() => handleSelectChange('pharmaceuticals') } variant="outlined" label="Фармацевтическая продукция"/>
+          )}
+          
           <Stack
             direction="row"
             sx = {{
@@ -250,28 +228,16 @@ export default function FirstStep({ values, handleChange, handleCheckChange }) {
               marginBottom: '15px',
             }}
           >
-          <StyledFormControlChips
-            control={<Checkbox 
-              disableRipple
-              icon = {<StyledChip variant="outlined" label="Пищевая продукция"/>} 
-              checkedIcon = {<CheckedChip variant="outlined" label="Пищевая продукция"/>} 
-              name="food"
-              checked = { values.food ? values.food : false }
-              onChange={ handleCheckChange('food') }
-            />}
-            key="Пищевая продукция"
-          />
-          <StyledFormControlChips
-            control={<Checkbox 
-              disableRipple
-              icon = {<StyledChip variant="outlined" label="Опасные грузы"/>} 
-              checkedIcon = {<CheckedChip variant="outlined" label="Опасные грузы"/>} 
-              name="dangerous"
-              checked = { values.dangerous ? values.dangerous : false }
-              onChange={ handleCheckChange('dangerous') }
-            />}
-            key="Опасные грузы"
-          />
+          {values.food ? (
+            <CheckedChip onClick={() => handleUnselectChange('food') }  variant="outlined" label="Пищевая продукция"/>
+          ) : (
+            <StyledChip onClick={() => handleSelectChange('food') } variant="outlined" label="Пищевая продукция"/>
+          )}
+          {values.dangerous ? (
+            <CheckedChip onClick={() => handleUnselectChange('dangerous') }  variant="outlined" label="Опасные груз"/>
+          ) : (
+            <StyledChip onClick={() => handleSelectChange('dangerous') } variant="outlined" label="Опасные груз"/>
+          )}
           </Stack>
       </div>
     )

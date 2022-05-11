@@ -97,23 +97,23 @@ class RecommendationsSurvey extends Component {
     activeStep: 0,
     product_type: '',
     condition: '', 
-    freezer: '', 
-    refrigerator: '', 
-    alcohol: '', 
-    pharmaceuticals: '', 
-    food: '', 
-    dangerous: '',
+    freezer: false, 
+    refrigerator: false, 
+    alcohol: false, 
+    pharmaceuticals: false, 
+    food: false, 
+    dangerous: false,
     warehouse_class: '',
     wh_latlon: [59.9386, 30.3141],
-    transport_services: '',
-    custom: '',
-    crossdock: '',
-    palletization: '',
-    box_pick: '',
-    leveling_platform: '',
-    railways: '',
+    transport_services: false,
+    custom: false,
+    crossdock: false,
+    palletization: false,
+    box_pick: false,
+    leveling_platform: false,
+    railways: false,
     palletQuantity: '',
-    long_term_commitment: '',
+    long_term_commitment: false,
     fullName: '',
     email: '',
     mobile: '',
@@ -146,6 +146,14 @@ class RecommendationsSurvey extends Component {
 
   handleCheckChange = input => e => {
     this.setState({[input]: e.target.checked})
+  };
+
+  handleSelectChange = input => {
+    this.setState({[input]: true})
+  };
+
+  handleUnselectChange = input => {
+    this.setState({[input]: false})
   };
   
 
@@ -185,9 +193,11 @@ class RecommendationsSurvey extends Component {
                     />
                     <Typography className={classes.subtitle}>Укажите тип товара или условия хранения</Typography>
                     <FirstStep
+                      handleSelectChange = {this.handleSelectChange}
+                      handleUnselectChange = {this.handleUnselectChange}
                       values = {values}
-                      handleChange = {this.handleChange}
                       handleCheckChange = {this.handleCheckChange}
+                      handleChange = {this.handleChange}
                       handleBack={this.handleBack}
                       handleNext={this.handleNext}
                     />
