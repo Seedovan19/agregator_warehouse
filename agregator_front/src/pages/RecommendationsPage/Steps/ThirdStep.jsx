@@ -41,7 +41,7 @@ const StyledFormControlChips = styled(FormControlLabel)({
 });
 
 
-export default function ThirdStep({ values, handleChange, handleCheckChange }) {
+export default function ThirdStep({ values, handleChange, handleSelectChange, handleUnselectChange }) {
     const classes = useStyles();
     const iconComponent = (props) => {
         return (
@@ -93,28 +93,16 @@ export default function ThirdStep({ values, handleChange, handleCheckChange }) {
                 </FormControl>
             </Box>
 
-            <StyledFormControlChips
-              control={<Checkbox 
-                disableRipple
-                icon = {<StyledChip variant="outlined" label="Паллетизация грузов"/>} 
-                checkedIcon = {<CheckedChip variant="outlined" label="Паллетизация грузов"/>} 
-                name="palletization"
-                checked = { values.palletization ? values.palletization : false }
-                onChange={ handleCheckChange('palletization') }
-              />}
-              key="Паллетизация грузов"
-            />
-            <StyledFormControlChips
-              control={<Checkbox 
-                disableRipple
-                icon = {<StyledChip variant="outlined" label="Отгрузки коробками"/>} 
-                checkedIcon = {<CheckedChip variant="outlined" label="Отгрузки коробками"/>} 
-                name="box_pick"
-                checked = { values.box_pick ? values.box_pick : false }
-                onChange={ handleCheckChange('box_pick') }
-              />}
-              key="Отгрузки коробками"
-            />
+            {values.palletization ? (
+              <CheckedChip onClick={() => handleUnselectChange('palletization') }  variant="outlined" label="Паллетизация грузов"/>
+            ) : (
+              <StyledChip onClick={() => handleSelectChange('palletization') } variant="outlined" label="Паллетизация грузов"/>
+            )}
+            {values.box_pick ? (
+              <CheckedChip onClick={() => handleUnselectChange('box_pick') }  variant="outlined" label="Отгрузки коробками"/>
+            ) : (
+              <StyledChip onClick={() => handleSelectChange('box_pick') } variant="outlined" label="Отгрузки коробками"/>
+            )}
             <Stack
             direction="row"
             sx = {{
@@ -122,39 +110,21 @@ export default function ThirdStep({ values, handleChange, handleCheckChange }) {
               marginBottom: '15px',
             }}
             >
-            <StyledFormControlChips
-              control={<Checkbox 
-                disableRipple
-                icon = {<StyledChip variant="outlined" label="Транспортные услуги"/>} 
-                checkedIcon = {<CheckedChip variant="outlined" label="Транспортные услуги"/>} 
-                name="transport_services"
-                checked = { values.transport_services ? values.transport_services : false }
-                onChange={ handleCheckChange('transport_services') }
-              />}
-              key="Транспортные услуги"
-            />
-            <StyledFormControlChips
-              control={<Checkbox 
-                disableRipple
-                icon = {<StyledChip variant="outlined" label="Кросс-докинг"/>} 
-                checkedIcon = {<CheckedChip variant="outlined" label="Кросс-докинг"/>} 
-                name="crossdock"
-                checked = { values.crossdock ? values.crossdock : false }
-                onChange={ handleCheckChange('crossdock') }
-              />}
-              key="Кросс-докинг"
-            />
-            <StyledFormControlChips
-              control={<Checkbox 
-                disableRipple
-                icon = {<StyledChip variant="outlined" label="Таможенные услуги"/>} 
-                checkedIcon = {<CheckedChip variant="outlined" label="Таможенные услуги"/>} 
-                name="custom"
-                checked = { values.custom ? values.custom : false }
-                onChange={ handleCheckChange('custom') }
-              />}
-              key="Таможенные услуги"
-            />
+            {values.transport_services ? (
+              <CheckedChip onClick={() => handleUnselectChange('transport_services') }  variant="outlined" label="Транспортные услуги"/>
+            ) : (
+              <StyledChip onClick={() => handleSelectChange('transport_services') } variant="outlined" label="Транспортные услуги"/>
+            )}
+            {values.crossdock ? (
+              <CheckedChip onClick={() => handleUnselectChange('crossdock') }  variant="outlined" label="Кросс-докинг"/>
+            ) : (
+              <StyledChip onClick={() => handleSelectChange('crossdock') } variant="outlined" label="Кросс-докинг"/>
+            )}
+            {values.custom ? (
+              <CheckedChip onClick={() => handleUnselectChange('custom') }  variant="outlined" label="Таможенные услуги"/>
+            ) : (
+              <StyledChip onClick={() => handleSelectChange('custom') } variant="outlined" label="Таможенные услуги"/>
+            )}
             </Stack>
         </div>
     )

@@ -196,7 +196,6 @@ class RecommendationsSurvey extends Component {
                       handleSelectChange = {this.handleSelectChange}
                       handleUnselectChange = {this.handleUnselectChange}
                       values = {values}
-                      handleCheckChange = {this.handleCheckChange}
                       handleChange = {this.handleChange}
                       handleBack={this.handleBack}
                       handleNext={this.handleNext}
@@ -301,7 +300,8 @@ class RecommendationsSurvey extends Component {
                     <ThirdStep
                       values = {values}
                       handleChange = {this.handleChange}
-                      handleCheckChange = {this.handleCheckChange}
+                      handleSelectChange = {this.handleSelectChange}
+                      handleUnselectChange = {this.handleUnselectChange}
                       handleBack={this.handleBack}
                       handleNext={this.handleNext}
                     />

@@ -103,7 +103,7 @@ const StyledAutocomplete = styled(Autocomplete)({
   }
 });
 
-export default function FirstStep({ values, handleChange, handleSelectChange, handleUnselectChange, handleCheckChange }) {
+export default function FirstStep({ values, handleChange, handleSelectChange, handleUnselectChange }) {
     const classes = useStyles();
     const iconComponent = (props) => {
         return (
