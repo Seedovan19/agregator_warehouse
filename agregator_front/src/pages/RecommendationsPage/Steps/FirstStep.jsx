@@ -5,8 +5,6 @@ import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import Autocomplete from '@mui/material/Autocomplete';
 import Divider from '@mui/material/Divider';
-import Checkbox from '@mui/material/Checkbox';
-import FormControlLabel from '@mui/material/FormControlLabel';
 import Select from '@mui/material/Select';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
@@ -61,14 +59,6 @@ const StyledFormControl = styled(FormControl)({
   },
 });
 
-const StyledFormControlChips = styled(FormControlLabel)({
-  paddingRight: '1rem',
-  margin: '0px',
-
-  "& .MuiCheckbox-root": {
-    padding: '0px',
-  }
-});
 
 const StyledAutocomplete = styled(Autocomplete)({  
   "& .MuiInputLabel-outlined:not(.MuiInputLabel-shrink)": {

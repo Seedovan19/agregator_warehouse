@@ -1,6 +1,4 @@
 import React from 'react'
-import Checkbox from '@mui/material/Checkbox';
-import FormControlLabel from '@mui/material/FormControlLabel';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Chip from '@mui/material/Chip';
@@ -30,14 +28,6 @@ borderColor: '#284AC2',
     fontFamily: 'Lato-Regular',
     color: '#284AC2',
 },
-});
-
-const StyledFormControlChips = styled(FormControlLabel)({
-    paddingRight: '10px',
-    margin: '0px',
-    "& .MuiCheckbox-root": {
-      padding: '0px',
-    }
 });
 
 
