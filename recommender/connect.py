@@ -278,6 +278,9 @@ def get_recommendations():
     k_pos = exp_similarity[(-exp_similarity)[:, 1].argsort()]
     k_pos = k_pos[:5]
     top_recs_indexes = k_pos[:,0].tolist()
+    top_recs_indexes = [x+1 for x in top_recs_indexes]
+
+
     top_recs_sim = k_pos[:,1].tolist()
     
     data_set = {'Indexes': f'{top_recs_indexes}', 'Top_recs': f'{top_recs_sim}', 'Timestamp': time.time()}

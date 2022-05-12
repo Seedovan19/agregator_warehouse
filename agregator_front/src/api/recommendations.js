@@ -6,7 +6,7 @@ export const getRecommendations = async (values) => {
         const { data } = await axios.get(`http://127.0.0.1:5000/`, {
             params: {
                 ...(values.product_type ? { product_type: values.product_type } : {}),
-                ...(values.condition ? { condition: values.condition } : {}),
+                ...(values.condition ? { condition: values.condition } : { condition: 'No value' }),
                 ...(values.freezer ? { freezer: values.freezer } : { freezer: false }),
                 ...(values.refrigerator ? { refrigerator: values.refrigerator } : { refrigerator: false }),
                 ...(values.alcohol ? { alcohol: values.alcohol } : { alcohol: false }),
@@ -32,3 +32,15 @@ export const getRecommendations = async (values) => {
         console.log(error)
     }
 };
+
+
+export const RetrieveTopNRecs = async (element_id) => {
+
+    try {    
+        const warehouse_data = await axios.get(`http://127.0.0.1:8000/api/warehouses/warehouse-list?id=${element_id}`)
+        return warehouse_data.data;
+    } catch (error) {
+        console.log(error)
+    }
+};
+

@@ -1,7 +1,8 @@
 from rest_framework.generics import ListAPIView, ListCreateAPIView, RetrieveAPIView, RetrieveUpdateDestroyAPIView
+from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from django_filters.rest_framework import DjangoFilterBackend
-# from analytics.mixins import ObjectViewMixin
+
 from analytics.signals import object_viewed_signal
 
 from .models import Warehouse, WarehouseImages
@@ -20,7 +21,6 @@ class WarehouseAPIView(ListCreateAPIView):
 		return Warehouse.objects.filter(owner=self.request.user)
 
 
-
 # Выводит список складов всех пользователей
 class WarehouseListAPIView(ListAPIView):
 	serializer_class = WarehouseSerializer
@@ -28,12 +28,13 @@ class WarehouseListAPIView(ListAPIView):
 	authentication_classes = []
 	filter_backends = [DjangoFilterBackend]
 
-	filterset_fields = ['warehouse_class', 'storage_conditions__pallet_storage_capacity', 'features__alcohol', 'features__freezer', 'features__refrigerator', 'features__pharmacy', 'features__food', 'features__dangerous', 'services__palletization', 'services__box_pick', 'services__transport_services', 'services__custom', 'services__crossdock']
+	filterset_fields = ['id', 'warehouse_class', 'storage_conditions__pallet_storage_capacity', 'features__alcohol', 'features__freezer', 'features__refrigerator', 'features__pharmacy', 'features__food', 'features__dangerous', 'services__palletization', 'services__box_pick', 'services__transport_services', 'services__custom', 'services__crossdock']
 
 	def get_queryset(self):
 		return Warehouse.objects.all()
 
 
+# API для карточек складов (запоминает посещение карточки)
 class WarehouseDetailAPIView(RetrieveAPIView):
 	serializer_class = WarehouseSerializer
 	queryset = Warehouse.objects.all()
@@ -59,7 +60,6 @@ class WarehouseImagesRetrieveAPIView(ListAPIView):
 		return WarehouseImages.objects.all()
 
 
-
 # Разными запросами изменяет, выдает, удаляет детали склада конкретного пользователя
 class WarehouseRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
 	serializer_class = WarehouseSerializer
@@ -75,3 +75,21 @@ class WarehouseRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
 
 def privet():
 	return type(Warehouse.objects.all())
+
+
+class RecommendationsTopNRetrieve(ListAPIView):
+	serializer_class = WarehouseSerializer
+	authentication_classes = []
+
+	def get_queryset(self):
+		query_params = self.request.quer
+		print(query_params)
+		indexes = query_params.get('indexes', None)
+		indexesParams = []
+		if indexes is not None:
+			for index in indexes.split(','):
+				indexesParams.append(int(index))
+		
+		queryset_list = Warehouse.objects.all()
+		queryset_list = queryset_list.filter(id__in=indexesParams)
+		return queryset_list

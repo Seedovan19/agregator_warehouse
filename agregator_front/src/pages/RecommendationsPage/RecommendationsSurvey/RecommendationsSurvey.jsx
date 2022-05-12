@@ -1,22 +1,21 @@
 import React, { Component, useState } from 'react'
-import { Grid, Card, Typography, Button } from '@material-ui/core';
+import { Card, Typography, Button } from '@material-ui/core';
+import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
 import MobileStepper from '@mui/material/MobileStepper';
+import CircularProgress from '@mui/material/CircularProgress';
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import FirstStep from '../Steps/FirstStep'
 import SecondStep from '../Steps/SecondStep'
 import ThirdStep from '../Steps/ThirdStep'
 import FourthStep from '../Steps/FourthStep'
+import Results from '../Steps/Results'
 import { withStyles } from "@material-ui/core/styles";
 import { deepPurple } from '@material-ui/core/colors';
 
 
 const styles = theme => ({
-  recommendations_window: {
-    justifyContent: 'center',
-    marginTop: '3rem',
-},
 
 recommendations_card: {
   boxShadow: '0px 0px 12px #32274414,0px 0px 1px #32274452,0px 8px 16px -8px #32274405',
@@ -95,6 +94,7 @@ class RecommendationsSurvey extends Component {
 
   state = {
     activeStep: 0,
+    isLoading: true,
     product_type: '',
     condition: '', 
     freezer: false, 
@@ -118,13 +118,18 @@ class RecommendationsSurvey extends Component {
     email: '',
     mobile: '',
     company: '',
+    firstWH: null,
+    secondWH: null,
+    thirdWH: null,
+    fourthWH: null,
+    fifthWH: null,
   }
   
   handleNext = () => {
-      const { activeStep } = this.state;
-      this.setState({
-        activeStep: activeStep + 1
-      });
+    const { activeStep } = this.state;
+    this.setState({
+      activeStep: activeStep + 1
+    });
   };
   
   handleBack = () => {
@@ -144,10 +149,6 @@ class RecommendationsSurvey extends Component {
     });
   }
 
-  handleCheckChange = input => e => {
-    this.setState({[input]: e.target.checked})
-  };
-
   handleSelectChange = input => {
     this.setState({[input]: true})
   };
@@ -156,13 +157,24 @@ class RecommendationsSurvey extends Component {
     this.setState({[input]: false})
   };
   
+  handleIsLoading = (e) => {
+    this.setState({'isLoading': !e})
+  }
+
+  handleWH = (input, e) => {
+    this.setState({[input]: e})
+  }
 
   render() {
     const steps = 4;
+    const submitSignal = 0;
     const { activeStep } = this.state;
+    const { isLoading } = this.state
+    const { firstWH, secondWH, thirdWH, fourthWH, fifthWH } = this.state
     const { product_type, condition, freezer, refrigerator, alcohol, pharmaceuticals, food, dangerous, warehouse_class, wh_latlon, transport_services, custom, crossdock, palletization, box_pick, leveling_platform, railways, palletQuantity, long_term_commitment, fullName, email, mobile, company } = this.state;
     const values = { product_type, condition, freezer, refrigerator, alcohol, pharmaceuticals, food, dangerous, warehouse_class, wh_latlon, transport_services, custom, crossdock, palletization, box_pick, leveling_platform, railways, palletQuantity, long_term_commitment, fullName, email, mobile, company };
     const { classes } = this.props;
+
     switch(activeStep) {
         case 0:
           return (
@@ -351,10 +363,15 @@ class RecommendationsSurvey extends Component {
                     />
                     <Typography className={classes.subtitle}>Контактные данные</Typography>
                     <FourthStep
+                    
+                      handleWH = {this.handleWH}
+                      handleIsLoading = {this.handleIsLoading}
+                      isLoading = {isLoading}
+                      activeStep = {activeStep}
                       values = {values}
                       handleChange = {this.handleChange}
-                      handleBack={this.handleBack}
                       handleNext={this.handleNext}
+                      submitSignal = {submitSignal}
                     />
                   </Stack>
                 </Grid>
@@ -372,6 +389,34 @@ class RecommendationsSurvey extends Component {
                 </Grid>
               </Grid>
             </Card>
+          )
+        case 4:
+          return (
+            <div>
+            { isLoading ? (
+              <Grid container sx = {{
+                marginTop: '3rem',
+              }}
+              justifyContent= 'center'
+              >
+              <div justifyContent = "center">
+                <CircularProgress size="5rem"/>
+              </div>
+              </Grid>
+            ) : (
+              <Results
+                firstWH = {firstWH}
+                secondWH = {secondWH}
+                thirdWH = {thirdWH}
+                fourthWH = {fourthWH}
+                fifthWH = {fifthWH}
+                handleBack = {this.handleBack}
+              >
+
+              </Results>
+            )
+            }
+            </div>
           )
     }
   }
