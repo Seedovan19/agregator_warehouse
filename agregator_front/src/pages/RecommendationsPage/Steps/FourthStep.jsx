@@ -8,7 +8,7 @@ import { styled } from '@mui/material/styles';
 
 export default function FourthStep({ values, handleChange, handleWH, handleNext, isLoading, handleIsLoading, activeStep, submitSignal }) {
     // сейчас происходит так: как только я захожу на этот шаг, у меня уже отправляется запрос на сервак за рекомендациями
-    // когда я возвращаюсь на этот шаг, запрос отправляется снова (это не очень), но могу изменить любые данные и изменятся рекомендации
+    // когда я возвращаюсь на этот шаг, запрос отправляется снова (это не очень, лишний запрос), но могу изменить любые данные и изменятся рекомендации
     useEffect(() => {
         getRecommendations(values)
         .then((data) => {
