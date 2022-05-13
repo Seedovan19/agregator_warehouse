@@ -51,6 +51,7 @@ const WarehouseDetails = ({ warehouse, selected, refProp }) => {
         borderColor: '#E7EDF3',
         borderRadius: '7px',
         transition: '0.4s',
+        backgroundColor: '#ffffff',
         '&:hover': {
           boxShadow: '1px 10px 12px #32274414,0px 0px 1px #32274452,8px 8px 16px 8px #32274405',
         },
@@ -75,7 +76,6 @@ const WarehouseDetails = ({ warehouse, selected, refProp }) => {
           sx={{
             display: 'flex',
             flexDirection: 'column',
-            // justifyContent: 'space-evenly',
             alignItems: { xs: 'center', md: 'flex-start' },
             height: theme.card.card_height,
             width: { md: '100%', xs: '100%' },
