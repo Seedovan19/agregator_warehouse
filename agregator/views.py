@@ -1,12 +1,12 @@
 from rest_framework.generics import ListAPIView, ListCreateAPIView, RetrieveAPIView, RetrieveUpdateDestroyAPIView
-from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.response import Response
 
 from analytics.signals import object_viewed_signal
 
-from .models import Warehouse, WarehouseImages
-from .serializers import ImagesSerializer, WarehouseSerializer
+from .models import SurveyResults, Warehouse, WarehouseImages
+from .serializers import ImagesSerializer, WarehouseSerializer, SurveyResultsSerializer
 
 
 # Создает и выводит для конкретного пользователя его склады (запросами GET, POST)
@@ -75,6 +75,18 @@ class WarehouseRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
 
 def privet():
 	return type(Warehouse.objects.all())
+
+
+# Создает запись об опросе
+class SurveyResultsCreate(ListCreateAPIView): 
+	serializer_class = SurveyResultsSerializer
+	authentication_classes = []
+
+	def perform_create(self, serializer):
+		return serializer.save()
+
+	def get_queryset(self):
+		return SurveyResults.objects.all()
 
 
 class RecommendationsTopNRetrieve(ListAPIView):

@@ -7,6 +7,7 @@ from .models import Services
 from .models import Workinghours
 from .models import Logistics
 from .models import WarehouseImages
+from .models import SurveyResults
 
 
 
@@ -54,9 +55,14 @@ class WarehouseSerializer(ModelSerializer):
         fields = '__all__'
 
 
-
 class ImagesSerializer(ModelSerializer):
     
     class Meta:
         model = WarehouseImages
+        fields = '__all__'
+
+
+class SurveyResultsSerializer(ModelSerializer):
+    class Meta:
+        model = SurveyResults
         fields = '__all__'

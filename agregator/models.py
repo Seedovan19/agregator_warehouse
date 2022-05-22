@@ -191,7 +191,7 @@ class SurveyResults(models.Model):
         ('C', 'C'),
     )
     
-    product_type = models.CharField(max_length=100)
+    product_type = models.CharField(max_length=100, blank=True, null=True)
     condition = models.CharField(max_length=32, choices=COND_VALUES, default='No value')
     freezer = models.BooleanField()
     refrigerator = models.BooleanField() 
@@ -212,7 +212,7 @@ class SurveyResults(models.Model):
     company = models.CharField(max_length=100, blank=True, null=True)
     email = models.CharField(max_length=100, blank=True, null=True)
     phone = models.CharField(max_length=100, blank=True, null=True)
-    user = models.ForeignKey(to=User, on_delete=models.CASCADE)
+    user = models.ForeignKey(to=User, on_delete=models.CASCADE, blank=True, null=True)
 
     class Meta:
         verbose_name = "Результаты опроса" 

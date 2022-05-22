@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react'
 import Box from '@mui/material/Box';
 import { Form } from '../../../components/UseForm/UseForm';
 import Controls from '../../../components/controls/Controls';
-import { getRecommendations, RetrieveTopNRecs } from '../../../api/recommendations'
+import { postSurveyResults, getRecommendations, RetrieveTopNRecs } from '../../../api/recommendations'
 import { styled } from '@mui/material/styles';
 
 
@@ -10,6 +10,7 @@ export default function FourthStep({ values, handleChange, handleWH, handleNext,
     // сейчас происходит так: как только я захожу на этот шаг, у меня уже отправляется запрос на сервак за рекомендациями
     // когда я возвращаюсь на этот шаг, запрос отправляется снова (это не очень, лишний запрос), но могу изменить любые данные и изменятся рекомендации
     useEffect(() => {
+        
         getRecommendations(values)
         .then((data) => {
             var data_object = JSON.parse(data['Indexes'])
@@ -76,6 +77,10 @@ export default function FourthStep({ values, handleChange, handleWH, handleNext,
                     size = 'large'
                     text = 'Опубликовать'
                     onClick = {() => {
+                        postSurveyResults(values)
+                        .then((data) => {
+                            console.log(data)
+                        })
                         handleNext();
                         submitSignal = 1;
                         submitSignal = 0;
