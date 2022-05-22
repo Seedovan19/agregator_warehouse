@@ -210,7 +210,7 @@ def get_recommendations():
     similarities = np.zeros(shape=(data["count"], 2))
 
 
-    # Записываю эвклидовое расстояние между каждым объектом и опросником
+    # Записываю эвклидово расстояние между каждым объектом и опросником
     for index, _ in df_warehouses_bool.iterrows():
         row = pd.DataFrame(df_warehouses_bool, columns=columns_bool, index=[index])
         euclidean = scipy.spatial.distance.cdist(row, df_survey, metric='euclidean')

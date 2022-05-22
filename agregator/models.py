@@ -11,9 +11,9 @@ def upload_path_for_main_img(instance, filename):
     return '/'.join(['images', str(instance.id), filename]) # может быть instance.name
 
 class Storagecond(TrackingModel, models.Model):
-    pallet_storage_capacity = models.IntegerField(default=0, verbose_name='Вместимость (паллет)')
-    pallet_storage_cost = models.IntegerField(default=0, verbose_name='Стоимость хранения паллет (с НДС)')
-    pallet_handling_cost = models.IntegerField(default=0, verbose_name='Стоимость приемки/отгрузки паллет (с НДС)')
+    pallet_storage_capacity = models.IntegerField(default=0, verbose_name='Вместимость (палет)')
+    pallet_storage_cost = models.IntegerField(default=0, verbose_name='Стоимость хранения палет (с НДС)')
+    pallet_handling_cost = models.IntegerField(default=0, verbose_name='Стоимость приемки/отгрузки палет (с НДС)')
     max_storage_weight = models.IntegerField()
     max_storage_height = models.IntegerField()
 
@@ -86,7 +86,7 @@ class Services(TrackingModel, models.Model):
 class Workinghours(TrackingModel, models.Model):
     timefrom = models.IntegerField(blank=True, null=True)
     timeto   = models.IntegerField(blank=True, null=True)
-    teekday  = models.IntegerField(blank=True, null=True)
+    weekday  = models.IntegerField(blank=True, null=True)
 
     class Meta:
         verbose_name = "График работы" 
@@ -167,10 +167,55 @@ class Application(models.Model):
     email = models.CharField(max_length=100, blank=True, null=True)
     phone = models.CharField(max_length=100, blank=True, null=True)
     # тип товара можно добавить
-    # Необходимая площадь или количество паллет
+    # Необходимая площадь или количество палет
     # Когда потребуется склад
     # Комментарий
 
+
+class SurveyResults(models.Model):
+    COND_VALUES = (
+        ('No value', 'Не задано'),
+        ('Regulated', 'Регулируемый температурный режим'),
+        ('Heated', 'Отапливаемый'),
+        ('Warmed', 'Утепленный'),
+        ('Non-heated', 'Неотапливаемый'),
+        ('Freezer-WH', 'Морозильный'),
+        ('Cold-WH', 'Холодильный'),
+    )
+    CLASS_VALUES = (
+        ('No value', 'Не задано'),
+        ('A+', 'A+'),
+        ('A', 'A'),
+        ('B', 'B'),
+        ('B+', 'B+'),
+        ('C', 'C'),
+    )
+    
+    product_type = models.CharField(max_length=100)
+    condition = models.CharField(max_length=32, choices=COND_VALUES, default='No value')
+    freezer = models.BooleanField()
+    refrigerator = models.BooleanField() 
+    alcohol = models.BooleanField(default=False, null=False)
+    pharmacy = models.BooleanField(default=False, null=False)
+    food = models.BooleanField(default=False, null=False)
+    dangerous = models.BooleanField(default=False, null=False)  
+    warehouse_class = models.CharField(max_length=100, choices=CLASS_VALUES, default='No value')
+    wh_lon = models.FloatField(blank=True, null=True)
+    wh_lat = models.FloatField(blank=True, null=True)
+    pallet_storage_capacity = models.IntegerField(default=0, verbose_name='Количество палет')
+    transport_services = models.BooleanField()
+    box_pick = models.BooleanField()
+    custom = models.BooleanField()
+    crossdock = models.BooleanField()
+    palletization = models.BooleanField()
+    name = models.CharField(max_length=100, blank=True, null=True)
+    company = models.CharField(max_length=100, blank=True, null=True)
+    email = models.CharField(max_length=100, blank=True, null=True)
+    phone = models.CharField(max_length=100, blank=True, null=True)
+
+    class Meta:
+        verbose_name = "Результаты опроса" 
+        verbose_name_plural = "Результаты опроса"
 
 
 
