@@ -212,6 +212,7 @@ class SurveyResults(models.Model):
     company = models.CharField(max_length=100, blank=True, null=True)
     email = models.CharField(max_length=100, blank=True, null=True)
     phone = models.CharField(max_length=100, blank=True, null=True)
+    user = models.ForeignKey(to=User, on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = "Результаты опроса" 
