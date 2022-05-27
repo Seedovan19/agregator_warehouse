@@ -7,5 +7,5 @@ urlpatterns = [
 	path('warehouse-detail/<int:id>', WarehouseDetailAPIView.as_view(), name="warehouse-detail"),
 	# path('recommendations-retrieve', RecommendationsTopNRetrieve.as_view(), name="recommendations"),
 	path('warehouse-detail/images/', WarehouseImagesRetrieveAPIView.as_view(), name="warehouse-detail-photos"),
-	path('survey-results-append', SurveyResultsCreate.as_view(), name="survey-results-save"),
+	path('survey-results-append', SurveyResultsCreate.as_view(), name="survey-resultssave"),
 ]
