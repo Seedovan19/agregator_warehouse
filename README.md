@@ -22,12 +22,6 @@ pip install virtualenv
 Продолжаем в директории проекта:
 ```
 pip install -r requirements.txt
-
-```
-
-<br>
-
-```
 python manage.py runserver
 ```
 <br>
