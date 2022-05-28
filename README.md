@@ -21,3 +21,6 @@ python manage.py runserver
 ```
 <br>
 <h3>Поднимаем Фронт</h3>
+
+<br>
+<h3>Поднимаем компоненту с Python кодом</h3>
