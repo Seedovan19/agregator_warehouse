@@ -2,8 +2,6 @@ from django.db import models
 from helpers.models import TrackingModel
 from authentication.models import User
 
-
-
 def upload_path(instance, filename):
     return '/'.join(['images', str(instance.warehouse.id), filename]) # может быть instance.name
 

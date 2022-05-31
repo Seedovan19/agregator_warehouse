@@ -66,7 +66,7 @@ def computeConditionSimilarity(condition1, condition2):
 @app.route('/', methods=['GET'])
 @cross_origin()
 def get_recommendations():
-    user_query = str(request.args.get('user')) #/recommendations/?user=USER_NAME
+    user_query = str(request.args.get('user')) #/recommendations/?lat=USER_NAME
 
 
     # boolean values

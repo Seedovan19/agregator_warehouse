@@ -64,6 +64,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'agregator_back.urls'
 
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -85,14 +86,20 @@ TEMPLATES = [
 WSGI_APPLICATION = 'agregator_back.wsgi.application'
 
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME' : 'agregator',
+#         'USER' : os.environ.get('DB_USER'),
+#         'PASSWORD' : os.environ.get('DB_PASS'),
+#         'HOST' : os.environ.get('DB_HOST'),
+#         'PORT' : os.environ.get('DB_PORT'),
+#     }
+# }
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME' : 'agregator',
-        'USER' : os.environ.get('DB_USER'),
-        'PASSWORD' : os.environ.get('DB_PASS'),
-        'HOST' : os.environ.get('DB_HOST'),
-        'PORT' : os.environ.get('DB_PORT'),
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': '/Users/danielseidov/Agregator-back/agregator_back/db.sqlite3',
     }
 }
 
