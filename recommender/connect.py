@@ -292,7 +292,7 @@ def get_recommendations():
 if __name__ == ' __main__':
     app.run(port=7777)
 
-@app.route('/isochrone', methods=['GET'])
+@app.route('/isochrone', methods=['GET', 'POST'])
 @cross_origin()
 def get_isochrone():
     vehicle_query = str(request.args.get('vehicle')) #/isochrone/?vehicle=truck

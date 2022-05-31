@@ -1,15 +1,12 @@
 import axios from "axios";
 
 
-export const getIsochrone = async (values) => {
-    const article = { 
-        ...(values.vehicle ? { vehicle: values.vehicle } : {}),
-    };
-    try { 
-        const { data } = await axios.post(`http://127.0.0.1:5000/isohrone`, article);
-        return data;
+export const getIsochrone = async (vehicle) => {
+
+    try {    
+        const coordinates = await axios.get(`http://127.0.0.1:5000/isochrone?vehicle=${vehicle}`)
+        return coordinates.data;
     } catch (error) {
         console.log(error)
     }
 };
-// 1) Выбор средства передвижения (велосипед, пешеход, грузовик) 
