@@ -292,9 +292,10 @@ def get_recommendations():
 if __name__ == ' __main__':
     app.run(port=7777)
 
-@app.route('/isohrone', methods=['GET'])
+@app.route('/isochrone', methods=['GET'])
 @cross_origin()
-def get_isohrone():
-    a = [1,2,3]
+def get_isochrone():
+    vehicle_query = str(request.args.get('vehicle')) #/isochrone/?vehicle=truck
+    a = f'{vehicle_query}'
     json_dump = json.dumps(a)
     return json_dump

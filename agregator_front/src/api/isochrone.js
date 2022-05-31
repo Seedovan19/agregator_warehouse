@@ -6,7 +6,7 @@ export const getIsochrone = async (values) => {
         ...(values.vehicle ? { vehicle: values.vehicle } : {}),
     };
     try { 
-        const { data } = await axios.post(`http://127.0.0.1:5000/isochrone`, article);
+        const { data } = await axios.post(`http://127.0.0.1:5000/isohrone`, article);
         return data;
     } catch (error) {
         console.log(error)
