@@ -184,8 +184,8 @@ class SurveyResults(models.Model):
         ('No value', 'Не задано'),
         ('A+', 'A+'),
         ('A', 'A'),
-        ('B', 'B'),
         ('B+', 'B+'),
+        ('B', 'B'),
         ('C', 'C'),
     )
     
