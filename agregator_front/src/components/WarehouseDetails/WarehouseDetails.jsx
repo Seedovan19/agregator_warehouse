@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React  from 'react'
 import { useNavigate } from "react-router-dom";
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
@@ -32,12 +32,12 @@ const WarehouseDetails = ({ warehouse, selected, refProp }) => {
   if (selected) refProp?.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   const navigate = useNavigate();
   const shadowStyles = useOverShadowStyles();
+  
 
   const handleCardClick = (event) => {
     let path = `/warehouse/${warehouse.id}`; 
     navigate(path);
   }
-
 
   return (
     <div onClick={handleCardClick}>

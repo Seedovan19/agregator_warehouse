@@ -1,6 +1,12 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
+import { getIsochrone } from '../../../api/isochrone'
 import { Grid, Typography, Divider } from '@material-ui/core';
 import Stack from '@mui/material/Stack';
+import Select from '@mui/material/Select';
+import FormControl from '@mui/material/FormControl';
+import MenuItem from '@mui/material/MenuItem';
+import InputLabel from '@mui/material/InputLabel';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import List from '@mui/material/List';
 import ListItem from "@mui/material/ListItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
@@ -12,6 +18,32 @@ import {RecommendationsBlock} from '../RecommendationsBlock/RecommendationsBlock
 import useStyles from './styles'
 import { styled } from '@mui/system';
 
+
+
+const StyledSelect = styled(Select)({
+  height: '38px',
+  "& .MuiOutlinedInput-notchedOutline": {
+
+    borderColor: "#E2E5EA",
+    borderRadius: "10px",
+  },
+  "& .MuiSvgIcon-root": {
+    color: "#000000",
+  },
+});
+
+const StyledFormControl = styled(FormControl)({
+  width: '140px',
+  backgroundColor: '#ffffff',
+  borderRadius: "10px",
+
+  "& .MuiInputLabel-root": {
+    fontFamily: 'Montserrat-medium',
+    fontSize: '13px',
+    color: '#000000',
+    // lineHeight: '1.4em',
+  }
+});
 
 
 const StyledList = styled(List)({
@@ -40,7 +72,37 @@ const StyledList = styled(List)({
 
 const WarehouseInfo = ({warehouse}) => {
     const classes = useStyles();
-    console.log(warehouse)
+    const [ vehicle, setVehicle ] = useState('');
+    
+    useEffect(() => {
+        getIsochrone(vehicle)
+        .then((data) => {
+            console.log(data)
+        })
+    },[vehicle]);
+
+    const iconComponent = (props) => {
+    return (
+        <ExpandMoreIcon className={props.className + " " + classes.icon}/>
+    )};
+    
+    // moves the menu below the select input
+    const menuProps = {
+    classes: {
+        paper: classes.paper,
+        list: classes.list
+    },
+    anchorOrigin: {
+        vertical: "bottom",
+        horizontal: "left"
+    },
+    transformOrigin: {
+        vertical: "top",
+        horizontal: "left"
+    },
+    getcontentanchorel: null
+    };
+
     return (
         <div>
             <div className={classes.divider}>
@@ -192,6 +254,23 @@ const WarehouseInfo = ({warehouse}) => {
                 <Grid item md={12}>
                 <Stack>
                     <Typography className={classes.section_title}>Расположение склада</Typography>
+                    <StyledFormControl size="small">
+                    <InputLabel>Транспорт</InputLabel>
+                        <StyledSelect
+                            label="Выберите транспорт"
+                            value={vehicle} 
+                            IconComponent={iconComponent}
+                            onChange={(e) => setVehicle(e.target.value)} 
+                            MenuProps={menuProps}
+                        >
+                        <MenuItem value="" >
+                            <em>Не задано</em>
+                        </MenuItem>
+                        <MenuItem value="truck">Грузовик</MenuItem>
+                        <MenuItem value="bicycle">Велосипед</MenuItem>
+                        <MenuItem value="pedestrian">Пешеход</MenuItem>
+                        </StyledSelect>
+                    </StyledFormControl>
                     <SingleWarehouseMap warehouse = {warehouse}/>
                 </Stack>
                 </Grid>

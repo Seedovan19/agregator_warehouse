@@ -91,8 +91,6 @@ const WarehousePage = () => {
                 </>
             )}
 
-            
-
             </div>
         </Grid>
         <Grid item md ={3} sm={12}>
