@@ -22,12 +22,12 @@ const SingleWarehouseMap = ({ warehouse }) => {
         <div className={classes.mapContainer}>
             <LeafletMap 
                 style={{height: "100%", width: "100%"}} 
-                center={[Number(warehouse.wh_lon),Number(warehouse.wh_lat)]} 
+                center={[Number(warehouse.wh_latitude), Number(warehouse.wh_longitude)]} 
                 zoom={13}
             >
                 <Marker
                     icon={defaultIcon}
-                    position={[Number(warehouse.wh_lon),Number(warehouse.wh_lat)]}
+                    position={[Number(warehouse.wh_latitude),Number(warehouse.wh_longitude)]}
                 />
                 <TileLayer
                     url="https://api.mapbox.com/styles/v1/seedovan/cl0cs50x7001s14taxgl4jj9t/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1Ijoic2VlZG92YW4iLCJhIjoiY2wwY3M5MDJtMDI4aTNjcDkyem9hdnI4YiJ9.G7t_vQ3A7RlXG6zMx__-mg"

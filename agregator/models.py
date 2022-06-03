@@ -9,12 +9,20 @@ def upload_path_for_main_img(instance, filename):
     return '/'.join(['images', str(instance.id), filename]) # может быть instance.name
 
 class Storagecond(TrackingModel, models.Model):
-    pallet_storage_capacity = models.IntegerField(default=0, verbose_name='Вместимость (палет)')
+    PALLET_QUANTITY = (
+        (0, 'Не задано'),
+        (1, 'Меньше 50'),
+        (2, '50-250'),
+        (3, '250-500'),
+        (4, '500-1000'),
+        (5, 'больше 1000'),
+    )
+
+    pallet_storage_capacity = models.IntegerField(choices=PALLET_QUANTITY, default=0, verbose_name='Вместимость (палет)')
     pallet_storage_cost = models.IntegerField(default=0, verbose_name='Стоимость хранения палет (с НДС)')
     pallet_handling_cost = models.IntegerField(default=0, verbose_name='Стоимость приемки/отгрузки палет (с НДС)')
-    max_storage_weight = models.IntegerField()
-    max_storage_height = models.IntegerField()
-
+    max_storage_weight = models.IntegerField(default=1200)
+    max_storage_height = models.FloatField(default=1.7)
 
     class Meta:
         verbose_name = "Условия хранения" 
@@ -82,9 +90,22 @@ class Services(TrackingModel, models.Model):
 
 
 class Workinghours(TrackingModel, models.Model):
-    timefrom = models.IntegerField(blank=True, null=True)
-    timeto   = models.IntegerField(blank=True, null=True)
-    weekday  = models.IntegerField(blank=True, null=True)
+    WEEKDAYS = (
+        (1, 'Monday'),
+        (2, 'Tuesday'),
+        (3, 'Wednesday'),
+        (4, 'Thursday'),
+        (5, 'Friday'),
+        (6, 'Saturday'),
+        (7, 'Sunday'),
+    )
+
+    time_from = models.IntegerField(verbose_name="Время начала работы (09:00 = 900)", blank=True, null=True)
+    time_to = models.IntegerField(verbose_name="Время окончания работы (если 24 часа, то значение поля - 2400)", blank=True, null=True)
+    weekday  = models.IntegerField(verbose_name="До какого дня недели", blank=True, null=True, choices=WEEKDAYS, default=5)
+    break_flag = models.BooleanField(verbose_name="Наличие перерыва", default=False)
+    break_from = models.IntegerField(verbose_name="Время начала перерыва", blank=True, null=True, default=0)
+    break_to = models.IntegerField(verbose_name="Время окончания перерыва", blank=True, null=True, default=0)
 
     class Meta:
         verbose_name = "График работы" 
@@ -96,7 +117,7 @@ class Logistics(TrackingModel, models.Model):
     railways = models.BooleanField(verbose_name="Ж/д пути")
     parking = models.BooleanField(verbose_name="Возможность оставить грузовой транспорт на парковке")
     parking_security = models.BooleanField(verbose_name="Охраняемая парковка")
-    parking_cost = models.BooleanField(verbose_name="Стоимость парковки")
+    parking_cost = models.IntegerField(verbose_name="Стоимость парковки", blank=True, null=True, default=0)
     comment = models.CharField(max_length=100, blank=True, null=True, verbose_name="Комментарий")
     
     class Meta:
@@ -130,8 +151,8 @@ class Warehouse(TrackingModel, models.Model):
     warehouse_variant = models.CharField(max_length=100, choices=WAREHOUSE_VARIANT, default='No value')
     long_term_commitment = models.BooleanField(default=False)
     integrated = models.BooleanField()
-    wh_lon = models.FloatField(blank=True, null=True)
-    wh_lat = models.FloatField(blank=True, null=True)
+    wh_latitude = models.FloatField(blank=True, null=True)
+    wh_longitude = models.FloatField(blank=True, null=True)
     time_create = models.DateTimeField(auto_now_add=True)
     time_update = models.DateTimeField(auto_now=True)
     comment = models.CharField(max_length=100, blank=True, null=True)

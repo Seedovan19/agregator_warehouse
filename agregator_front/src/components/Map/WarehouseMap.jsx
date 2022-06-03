@@ -29,7 +29,7 @@ const WarehouseMap = ({ warehouses, setChildClicked }) => {
                     <Marker
                         icon={defaultIcon}
                         key={i}
-                        position={[Number(warehouse.wh_lon),Number(warehouse.wh_lat)]}
+                        position={[Number(warehouse.wh_latitude), Number(warehouse.wh_longitude)]}
                         eventHandlers={{
                             click: (child) => {
                                 setChildClicked(child.latlng)

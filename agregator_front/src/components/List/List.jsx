@@ -6,7 +6,6 @@ import useStyles from './styles'
 const List = ({ warehouses, childClicked, isLoading }) => {
   const classes = useStyles();
 
-
   const [ elRefs, setElRefs ]= useState([]);
 
   useEffect(() => {
