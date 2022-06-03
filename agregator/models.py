@@ -23,6 +23,7 @@ class Storagecond(TrackingModel, models.Model):
     pallet_handling_cost = models.IntegerField(default=0, verbose_name='Стоимость приемки/отгрузки палет (с НДС)')
     max_storage_weight = models.IntegerField(default=1200)
     max_storage_height = models.FloatField(default=1.7)
+    bulky_cargo_storage = models.BooleanField(default=False, verbose_name='Возможность хранения крупногабаритного груза') #TODO: в нейронке отразить
 
     class Meta:
         verbose_name = "Условия хранения" 
@@ -100,8 +101,8 @@ class Workinghours(TrackingModel, models.Model):
         (7, 'Sunday'),
     )
 
-    time_from = models.IntegerField(verbose_name="Время начала работы (09:00 = 900)", blank=True, null=True)
-    time_to = models.IntegerField(verbose_name="Время окончания работы (если 24 часа, то значение поля - 2400)", blank=True, null=True)
+    time_from = models.IntegerField(verbose_name="Время начала работы (09:00 = 900)", blank=True, null=True, default=0)
+    time_to = models.IntegerField(verbose_name="Время окончания работы (если 24 часа, то значение поля - 2400)", blank=True, null=True, default=0)
     weekday  = models.IntegerField(verbose_name="До какого дня недели", blank=True, null=True, choices=WEEKDAYS, default=5)
     break_flag = models.BooleanField(verbose_name="Наличие перерыва", default=False)
     break_from = models.IntegerField(verbose_name="Время начала перерыва", blank=True, null=True, default=0)
@@ -146,13 +147,16 @@ class Warehouse(TrackingModel, models.Model):
     name = models.CharField(max_length=100, blank=True, null=True)
     image = models.FileField(blank=True, upload_to=upload_path_for_main_img)
     adress = models.CharField(max_length=300)
-    description = models.CharField(max_length=500, blank=True, null=True)
+    description = models.CharField(max_length=1000, blank=True, null=True)
     warehouse_class = models.CharField(max_length=100, choices=CLASS_VALUES, default='No value')
     warehouse_variant = models.CharField(max_length=100, choices=WAREHOUSE_VARIANT, default='No value')
     long_term_commitment = models.BooleanField(default=False)
+    office_premises = models.BooleanField(default=False, blank=True, null=True, verbose_name="Наличие офисных помещений")
+    office_premises_square = models.IntegerField(blank=True, null=True, default=0, verbose_name="Площадь административно-бытовой зоны (м2)")
+    domestic_premises = models.BooleanField(default=False, blank=True, null=True, verbose_name="Наличие бытовых помещений")
     integrated = models.BooleanField()
-    wh_latitude = models.FloatField(blank=True, null=True)
-    wh_longitude = models.FloatField(blank=True, null=True)
+    wh_latitude = models.FloatField(blank=False, null=False, default=0, verbose_name="Широта")
+    wh_longitude = models.FloatField(blank=False, null=False, default=0, verbose_name="Долгота")
     time_create = models.DateTimeField(auto_now_add=True)
     time_update = models.DateTimeField(auto_now=True)
     comment = models.CharField(max_length=100, blank=True, null=True)

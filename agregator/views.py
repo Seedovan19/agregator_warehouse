@@ -22,6 +22,7 @@ class WarehouseAPIView(ListCreateAPIView):
 
 # Выводит список складов всех пользователей
 class WarehouseListAPIView(ListAPIView):
+	pagination_class = None
 	serializer_class = WarehouseSerializer
 	
 	authentication_classes = []

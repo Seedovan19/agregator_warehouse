@@ -48,8 +48,8 @@ const AgregatorPage = () => {
     
         getWarehousesData(type, palletQuantity, freezer, refrigerator, alco, pharma, food, dangerous, palletization, boxPicking, transport, crossdocking, customs)
           .then((data) => {
-            setWarehouses(data.results)
-            setResultsCount(data.count)
+            setWarehouses(data)
+            setResultsCount(data.length)
             setIsLoading(false)
           })
     },[type, palletQuantity, freezer, refrigerator, alco, pharma, food, dangerous, palletization, boxPicking, transport, crossdocking, customs]);

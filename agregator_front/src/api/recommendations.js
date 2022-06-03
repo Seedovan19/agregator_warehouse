@@ -69,7 +69,7 @@ export const RetrieveTopNRecs = async (element_id) => {
 
     try {    
         const warehouse_data = await axios.get(`http://127.0.0.1:8000/api/warehouses/warehouse-list?id=${element_id}`)
-        return warehouse_data.data;
+        return warehouse_data;
     } catch (error) {
         console.log(error)
     }

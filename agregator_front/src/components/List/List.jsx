@@ -5,7 +5,6 @@ import useStyles from './styles'
 
 const List = ({ warehouses, childClicked, isLoading }) => {
   const classes = useStyles();
-
   const [ elRefs, setElRefs ]= useState([]);
 
   useEffect(() => {
@@ -28,7 +27,7 @@ const List = ({ warehouses, childClicked, isLoading }) => {
           ) : (warehouses?.map((warehouse, i) => (
             <Grid ref={elRefs[i]} item key={i} xs={12}>
               <WarehouseDetails 
-                selected={childClicked?.lng === warehouse?.wh_lat && childClicked?.lat === warehouse?.wh_lon} //TODO: WAT? исправить где-то местами все перепутал
+                selected={childClicked?.lng === warehouse?.wh_longitude && childClicked?.lat === warehouse?.wh_latitude} //TODO: WAT? исправить где-то местами все перепутал
                 refProp={elRefs[i]}
                 warehouse={warehouse}
               />
