@@ -4,7 +4,8 @@ export default makeStyles(() => ({
   mapContainer: {
     height: '79vh', 
     width: '100%',
-    borderRadius: '10px'
+    borderRadius: '10px',
+    paddingRight: '10px',
   },
 
   markerContainer: {

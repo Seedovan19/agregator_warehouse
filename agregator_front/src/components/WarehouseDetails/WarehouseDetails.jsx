@@ -6,7 +6,6 @@ import Typography from '@mui/material/Typography';
 import WarehouseVariant from './WarehouseVariant/WarehouseVariant.jsx';
 import { useOverShadowStyles } from '@mui-treasury/styles/shadow/over';
 import { createTheme, ThemeProvider, styled } from '@mui/material/styles';
-import useStyles from './styles.js';
 
 const theme = createTheme({
   card: {
@@ -31,7 +30,6 @@ const HighlightedCostText = styled('span')({
 const WarehouseDetails = ({ warehouse, selected, refProp }) => {
   if (selected) refProp?.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   const navigate = useNavigate();
-  const shadowStyles = useOverShadowStyles();
   
 
   const handleCardClick = (event) => {
@@ -84,7 +82,8 @@ const WarehouseDetails = ({ warehouse, selected, refProp }) => {
         >
           <MontTypography sx = {{
             marginBottom: theme.card.margin_inside,
-            alignItems: 'top'
+            alignItems: 'top',
+            fontSize: '15px'
           }}>
             { warehouse.adress }
           </MontTypography>

@@ -22,7 +22,7 @@ const StyledAutocomplete = styled(Autocomplete)({
     transform: "translate(16px, 18px) scale(1);",
     fontFamily: "Lato-Regular",
     fontSize: "15px",
-    color: '#BFD1E4'
+    color: '#BFD1E4',
   },
   "& .MuiAutocomplete-inputRoot": {
     height: '55px',
@@ -61,7 +61,6 @@ const StyledSelect = styled(Select)({
 
 const StyledButton = styled(Button)({
   width: '155px',
-
   fontFamily: 'Montserrat-medium',
   textTransform: 'None',
   height: '38px',
@@ -69,7 +68,6 @@ const StyledButton = styled(Button)({
   borderWidth: '1px',
   borderRadius: '10px',
   borderColor: '#E2E5EA',
-
   color: '#000000',
 });
 
@@ -122,7 +120,8 @@ const Filter = ({ resultsCount, type, setType, palletQuantity, setPalletQuantity
             width: 500,
             height: 55,
             backgroundColor: '#FFFFFF',
-            borderRadius: "10px"
+            borderRadius: "10px",
+            marginTop: "10px",
           }}
           renderInput={(params) => (
             <TextField
@@ -141,6 +140,9 @@ const Filter = ({ resultsCount, type, setType, palletQuantity, setPalletQuantity
           container
           direction="row"
           alignItems="flex-end"
+          sx = {{
+            paddingTop: "10px",
+          }}
         >
           <Typography
             sx = {{
@@ -161,7 +163,13 @@ const Filter = ({ resultsCount, type, setType, palletQuantity, setPalletQuantity
             {resultsCount}
           </Typography>
         </Grid>
-        <Grid container spacing={2}>
+        <Grid 
+          container 
+          spacing={2}
+          sx = {{
+            paddingTop: '10px',
+          }}
+        >
           <Grid item>
             <StyledButton
               variant = 'outlined'

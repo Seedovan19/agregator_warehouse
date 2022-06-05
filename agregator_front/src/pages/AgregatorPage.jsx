@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Grid } from '@material-ui/core';
+import Grid from '@mui/material/Grid';
 import { getWarehousesData } from '../api'
 import Header from '../components/Header/Header';
 import WarehouseMap from '../components/Map/WarehouseMap';
@@ -8,11 +8,10 @@ import Feedback from '../components/Feedback/Feedback';
 import Filter from '../components/Filter/Filter';
 import ModalFilter from '../components/ModalFilter/ModalFilter';
 import ModalFeedback from '../components/Feedback/ModalFeedback/ModalFeedback';
-import useStyles from './styles'
 
 
 const AgregatorPage = () => {
-    const classes = useStyles();
+
     const [ warehouses, setWarehouses ] = useState([]);
     const [ childClicked, setChildClicked ] = useState(null);
     const [ resultsCount, setResultsCount ] = useState(0);
@@ -58,8 +57,20 @@ const AgregatorPage = () => {
     return (
     <div>
     <Header />
-    <Grid container className={classes.page_content} justifyContent="center">
-      <Grid item xs={12} md={5}>
+    <Grid 
+      container 
+      justifyContent="center"
+      sx = {{
+        marginTop: '3rem',
+      }}
+      >
+      <Grid 
+        item 
+        xs={12} md={5} 
+        sx = {{
+          paddingLeft: '1rem',
+        }}
+        >
         <Feedback
           modalFeedbackActive = {modalFeedbackActive}
           setModalFeedbackActive = {setModalFeedbackActive}
