@@ -7,6 +7,7 @@ export default makeStyles(() => ({
     borderRadius: '10px',
     paddingRight: '10px',
     position:'fixed',
+    zIndex: 100,
   },
 
   markerContainer: {

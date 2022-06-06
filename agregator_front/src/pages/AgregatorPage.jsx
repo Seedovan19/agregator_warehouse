@@ -72,7 +72,7 @@ const AgregatorPage = () => {
           paddingLeft: '1rem',
         }}
         >
-        <Box sx = {{position:'fixed', zIndex: 0, backgroundColor:'#fafafa', width: '100%'}}>
+        <Box sx = {{position:'fixed', zIndex: 10, backgroundColor:'#fafafa', width: '100%'}}>
         <Feedback
           modalFeedbackActive = {modalFeedbackActive}
           setModalFeedbackActive = {setModalFeedbackActive}
