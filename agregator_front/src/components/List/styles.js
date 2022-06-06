@@ -11,7 +11,10 @@ export default makeStyles((theme) => ({
     paddingRight: '19px',
   },
   list: {
-    maxHeight: '30rem',
+    // maxHeight: '66vh',
     overflow: 'auto',
+    zIndex: 0,
+    position: 'relative',
+    top: 190,
   },
 }));

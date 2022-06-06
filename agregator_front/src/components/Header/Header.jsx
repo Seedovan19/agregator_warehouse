@@ -1,14 +1,22 @@
 import React from 'react'
-import { AppBar, Toolbar, Grid, Typography, Button } from '@material-ui/core'
+import Typography from '@mui/material/Typography'
+import Grid from '@mui/material/Grid'
+import Toolbar from '@mui/material/Toolbar'
+import AppBar from '@mui/material/AppBar'
 import Stack from '@mui/material/Stack';
 import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import { useNavigate } from "react-router-dom";
 import useStyles from './styles'
+import { styled } from '@mui/material/styles';
 
+const LatoTypography = styled(Typography)({
+  color: "black",
+  fontFamily: "Lato-Regular",
+  fontSize: "12px",
+});
 
-
-const Header = () => {
+const Header = ({height}) => {
   const classes = useStyles();
   const navigate = useNavigate();
 
@@ -29,8 +37,23 @@ const Header = () => {
 
   return (
     <>
-    <AppBar className = { classes.menu_rectangle } position = "static">
-      <Toolbar className={ classes.toolbar }  >
+    <AppBar 
+      position = "sticky"
+      sx = {{
+        boxShadow: '0',
+        backgroundColor: 'white',
+        boxShadow: '0 0px 0px 1px #ECEDED',
+        zIndex: 10,
+        marginBottom: '15px'
+      }}
+    >
+      <Toolbar sx = {{
+        height: height + 'px',
+        display: 'flex',
+        backgroundColor: 'white',
+        justifyContent: "space-between",
+        
+      }}  >
         <img className = { classes.logo } src={require('./logo.png')} onClick={handleLogoClick} ></img>
         <div>
           <Grid container>
@@ -42,12 +65,12 @@ const Header = () => {
               }}
             >
               <AutoFixHighIcon 
-                className = { classes.button_recomendations}
                 sx = {{
-                  fontSize: '30px',
+                  color: 'black',
+                  fontSize: '25px',
                 }}
               />
-              <Typography className = { classes.recomendations_text}>Мои рекомендации</Typography>
+              <LatoTypography >Мои рекомендации</LatoTypography>
             </Stack>
 
             <Stack
@@ -61,18 +84,70 @@ const Header = () => {
               }}
             >
               <AccountCircleOutlinedIcon 
-                className = { classes.button_login}
                 sx = {{
-                  fontSize: '30px',
+                  color: 'black',
+                  fontSize: '25px',
                 }}
               />
-              <Typography className = { classes.login_text} >Вход</Typography>
+              <LatoTypography>Вход</LatoTypography>
             </Stack>
           </Grid>
-          {/* <Button className={ classes.button_sign_up } variant="contained">Регистрация</Button> */}
         </div>
       </Toolbar>
     </AppBar>
+    <AppBar 
+      position = "fixed"
+      sx = {{
+        boxShadow: '0',
+        zIndex: 1,
+      }}
+    >
+      <Toolbar sx = {{
+        height: '85px',
+        display: 'flex',
+        backgroundColor: '#fafafa',
+      }}  >
+        <img className = { classes.logo } src={require('./logo.png')} onClick={handleLogoClick} ></img>
+        <div>
+          <Grid container>
+            <Stack 
+              alignItems='center' 
+              onClick={handleRecommendationsClick}
+              sx = {{
+                cursor: 'grab',
+              }}
+            >
+              <AutoFixHighIcon 
+                sx = {{
+                  color: 'black',
+                  fontSize: '25px',
+                }}
+              />
+              <LatoTypography >Мои рекомендации</LatoTypography>
+            </Stack>
+
+            <Stack
+
+              onClick={handleLoginClick}
+              sx = {{
+                alignItems: 'center',
+                paddingLeft: '2rem',
+                paddingRight: '1rem',
+                cursor: 'grab',
+              }}
+            >
+              <AccountCircleOutlinedIcon 
+                sx = {{
+                  color: 'black',
+                  fontSize: '25px',
+                }}
+              />
+              <LatoTypography>Вход</LatoTypography>
+            </Stack>
+          </Grid>
+        </div>
+      </Toolbar>
+ </AppBar>
     </>
   );
 }

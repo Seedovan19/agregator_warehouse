@@ -22,4 +22,8 @@ export default makeStyles((theme) => ({
       background: deepPurple[500]
     }
   },
+  // filter_container: {
+  //   position: 'fixed',
+  // }
+  
 }));

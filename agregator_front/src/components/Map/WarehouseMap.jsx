@@ -27,7 +27,7 @@ const WarehouseMap = ({ warehouses, setChildClicked }) => {
     return  (
         <div className={classes.mapContainer}>
             <LeafletMap 
-                style={{height: "100%", width: "100%", borderRadius: "10px", zIndex: 0}} 
+                style={{height: "100%", width: "57vw", borderRadius: "10px", zIndex: 100}} 
                 center={[59.9386, 30.3141]} 
                 zoom={13}
             >

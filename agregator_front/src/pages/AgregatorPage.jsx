@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
 import { getWarehousesData } from '../api'
 import Header from '../components/Header/Header';
 import WarehouseMap from '../components/Map/WarehouseMap';
@@ -41,6 +42,7 @@ const AgregatorPage = () => {
     const [ crossdocking, setCrossdocking ] = useState(false);
     const [ customs, setCustoms ] = useState(false);
 
+    const menuHeight = 70;
 
     useEffect(() => {
         setIsLoading(true);
@@ -56,14 +58,13 @@ const AgregatorPage = () => {
 
     return (
     <div>
-    <Header />
+    <Header 
+      height = {menuHeight}
+    />
     <Grid 
       container 
       justifyContent="center"
-      sx = {{
-        marginTop: '3rem',
-      }}
-      >
+    >
       <Grid 
         item 
         xs={12} md={5} 
@@ -71,6 +72,7 @@ const AgregatorPage = () => {
           paddingLeft: '1rem',
         }}
         >
+        <Box sx = {{position:'fixed', zIndex: 0, backgroundColor:'#fafafa', width: '100%'}}>
         <Feedback
           modalFeedbackActive = {modalFeedbackActive}
           setModalFeedbackActive = {setModalFeedbackActive}
@@ -83,6 +85,8 @@ const AgregatorPage = () => {
             setModalActive = {setModalActive}
             resultsCount = {resultsCount}
         />
+        </Box>
+        
         <List 
           warehouses = {warehouses} 
           childClicked = {childClicked}
@@ -91,6 +95,7 @@ const AgregatorPage = () => {
           setType = {setType}
         />
       </Grid>
+      
       <Grid item md={7}>
         <WarehouseMap
           warehouses = {warehouses}
@@ -99,6 +104,7 @@ const AgregatorPage = () => {
       </Grid>
       
     </Grid>
+    
     <ModalFilter
       modalActive = {modalActive}
       setModalActive = {setModalActive}

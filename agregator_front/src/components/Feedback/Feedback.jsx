@@ -26,13 +26,12 @@ const StyledButton = styled(Button)({
 
 export default function Feedback({setModalFeedbackActive}) {
 
-
     return (
         <div>
         <Grid container spacing={1}>
         <Grid item>
         <StyledBox component="div">
-            <Grid container spacing={1} margin="auto">
+            <Grid container margin="auto">
             <Grid item>
                 
             </Grid>

@@ -111,7 +111,7 @@ const Filter = ({ resultsCount, type, setType, palletQuantity, setPalletQuantity
   };
     
     return (
-      <div>
+      <div className = {classes.filter_container}>
         <StyledAutocomplete
           popupIcon ={<ExpandMoreIcon className={classes.icon_search}/>}
           options={regions}
