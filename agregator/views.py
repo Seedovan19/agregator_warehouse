@@ -88,6 +88,15 @@ class SurveyResultsCreate(ListCreateAPIView):
 	def get_queryset(self):
 		return SurveyResults.objects.all()
 
+# Выводит список всех запросов
+class SurveyResultsListAPIView(ListAPIView):
+	pagination_class = None
+	serializer_class = SurveyResultsSerializer
+	
+	authentication_classes = []
+
+	def get_queryset(self):
+		return SurveyResults.objects.all()
 
 class RecommendationsTopNRetrieve(ListAPIView):
 	serializer_class = WarehouseSerializer

@@ -201,6 +201,10 @@ class Application(models.Model):
     # Необходимая площадь или количество палет
     # Когда потребуется склад
     # Комментарий
+    class Meta:
+        verbose_name = "Заявки складу" 
+        verbose_name_plural = "Заявки складу"
+
 
 
 class SurveyResults(models.Model):
@@ -246,8 +250,8 @@ class SurveyResults(models.Model):
     user = models.ForeignKey(to=User, on_delete=models.CASCADE, blank=True, null=True)
 
     class Meta:
-        verbose_name = "Результаты опроса" 
-        verbose_name_plural = "Результаты опроса"
+        verbose_name = "Запросы" 
+        verbose_name_plural = "Запросы"
 
 
 

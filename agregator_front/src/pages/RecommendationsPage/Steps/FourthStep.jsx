@@ -13,28 +13,32 @@ export default function FourthStep({ values, handleChange, handleWH, handleNext,
         
         getRecommendations(values)
         .then((data) => {
+            console.log(data)
             var data_object = JSON.parse(data['Indexes'])
             RetrieveTopNRecs(data_object[0])
-            .then((firstWH) => {
-                handleWH('firstWH', firstWH)
+            .then((res) => {
+                console.log(res)
             })
-            RetrieveTopNRecs(data_object[1])
-            .then((secondWH) => {
-                handleWH('secondWH', secondWH)
-            })
-            RetrieveTopNRecs(data_object[2])
-            .then((thirdWH) => {
-                handleWH('thirdWH', thirdWH)
-            })
-            RetrieveTopNRecs(data_object[3])
-            .then((fourthWH) => {
-                handleWH('fourthWH', fourthWH)
-            })
-            RetrieveTopNRecs(data_object[4])
-            .then((fifthWH) => {
-                handleWH('fifthWH', fifthWH)
-                handleIsLoading(isLoading)
-            })
+            // .then((firstWH) => {
+            //     handleWH('firstWH', firstWH)
+            // })
+            // RetrieveTopNRecs(data_object[1])
+            // .then((secondWH) => {
+            //     handleWH('secondWH', secondWH)
+            // })
+            // RetrieveTopNRecs(data_object[2])
+            // .then((thirdWH) => {
+            //     handleWH('thirdWH', thirdWH)
+            // })
+            // RetrieveTopNRecs(data_object[3])
+            // .then((fourthWH) => {
+            //     handleWH('fourthWH', fourthWH)
+            // })
+            // RetrieveTopNRecs(data_object[4])
+            // .then((fifthWH) => {
+            //     handleWH('fifthWH', fifthWH)
+            //     handleIsLoading(isLoading)
+            // })
         })
     }, [submitSignal]);
 

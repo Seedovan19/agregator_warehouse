@@ -57,10 +57,10 @@ def parse_survey_results():
 
 
 def computePositionSimilarity(position1, position2):
-    diff_lon = abs(position1.wh_lon - position2.wh_lon)
-    diff_lat = abs(position1.wh_lat - position2.wh_lat)
-    sim_lon = math.exp(-diff_lon / 1.0)
+    diff_lat = abs(position1["wh_latitude"] - position2["wh_latitude"])
+    diff_lon = abs(position1["wh_longitude"] - position2["wh_longitude"])
     sim_lat = math.exp(-diff_lat / 1.0)
+    sim_lon = math.exp(-diff_lon / 1.0)
     sim = sim_lon * sim_lat
     return sim
 
@@ -189,64 +189,56 @@ def get_recommendations():
         similarities[index][1] = jaccard_similarity[0][0]
 
     similarities = similarities[~np.all(similarities == 0, axis=1)] #удаляем строки, где только нули
-
-    # сортируем по возрастанию эвклидовых расстояний и берем только индексы полученных значений
-    k = similarities[similarities[:, 1].argsort()]
-    # bool_closest_indexes = k[:,0].tolist()
-    print(k)
     
-    exp_survey = pd.Series(data = {"wh_lon": wh_lon_query, "wh_lat": wh_lat_query, "features.condition": condition_query, "warehouse_class": warehouse_class_query}, index = ['wh_lon', 'wh_lat', 'features.condition', 'warehouse_class'])
+    exp_survey = pd.Series(data = {"wh_latitude": wh_lat_query, "wh_longitude": wh_lon_query, "features.condition": condition_query, "warehouse_class": warehouse_class_query}, index = ['wh_latitude', 'wh_longitude', 'features.condition', 'warehouse_class'])
     exp_similarity = np.zeros(shape=(n, 2))
 
-    df_warehouses_class_cond_pos = pd.DataFrame(dataset, columns=["wh_lon", "wh_lat", "features.condition", "warehouse_class"], index=dataset.id)
+    df_warehouses_class_cond_pos = pd.DataFrame(dataset, columns=["wh_latitude", "wh_longitude", "features.condition", "warehouse_class"], index=dataset.id)
     df_warehouses_class_cond_pos = df_warehouses_class_cond_pos.dropna()
 
-    i = 0
     for index, row in df_warehouses_class_cond_pos.iterrows():
         # сравниваем местоположение самых похожих по всем остальным значениям объектов
-        # TODO: проработать этот момент с регулируемой температурой
-        if condition_query == 'Freezer-WH':
-            condition_query = 0
-        elif condition_query == 'Cold-WH':
-            condition_query = 1
-        elif condition_query == 'Regulated':
-            condition_query = 2 
-        elif condition_query == 'Heated':
-            condition_query = 3
-        elif condition_query == 'Warmed':
-            condition_query = 4
-        elif condition_query == 'Non-heated':
-            condition_query = 5
-        elif condition_query == 'No value':
-            condition_query = 10
+        if row["features.condition"] == 'Freezer-WH':
+            row["features.condition"] = 0
+        elif row["features.condition"] == 'Cold-WH':
+            row["features.condition"] = 1
+        elif row["features.condition"] == 'Regulated':
+            row["features.condition"] = 2 
+        elif row["features.condition"]== 'Heated':
+            row["features.condition"] = 3
+        elif row["features.condition"] == 'Warmed':
+            row["features.condition"] = 4
+        elif row["features.condition"] == 'Non-heated':
+            row["features.condition"] = 5
+        elif row["features.condition"] == 'No value':
+            row["features.condition"] = 10
             
-        if warehouse_class_query == 'A+':
-            warehouse_class_query = 1
-        elif warehouse_class_query == 'A':
-            warehouse_class_query = 2
-        elif warehouse_class_query == 'B+':
-            warehouse_class_query = 3
-        elif warehouse_class_query == 'B':
-            warehouse_class_query = 4
-        elif warehouse_class_query == 'C':
-            warehouse_class_query = 5
+        if row["warehouse_class"] == 'A+':
+            row["warehouse_class"] = 1
+        elif row["warehouse_class"] == 'A':
+            row["warehouse_class"] = 2
+        elif row["warehouse_class"] == 'B+':
+            row["warehouse_class"] = 3
+        elif row["warehouse_class"] == 'B':
+            row["warehouse_class"] = 4
+        elif row["warehouse_class"] == 'C':
+            row["warehouse_class"] = 5
         else:
-            warehouse_class_query = 10
+            row["warehouse_class"] = 10
 
-        exp_similarity[i][0] = index
-        exp_similarity[i][1] = computeConditionSimilarity(row, exp_survey) * computeClassSimilarity(row, exp_survey) * computePositionSimilarity(row, exp_survey)
-        i = i+1
+        exp_similarity[index][0] = index
+        exp_similarity[index][1] = computeConditionSimilarity(row, exp_survey) * computeClassSimilarity(row, exp_survey) * computePositionSimilarity(row, exp_survey)
     
+    exp_similarity = exp_similarity[~np.all(exp_similarity == 0, axis=1)] #удаляем строки, где только нули
     # сортируем по убыванию
     k_pos = exp_similarity[(-exp_similarity)[:, 1].argsort()]
-    # top_recs_indexes = k_pos[:,0].tolist()
-    # top_recs_indexes = [x+1 for x in top_recs_indexes]
 
+    top_recs_indexes = k_pos[:,0].tolist()
     top_recs_sim = k_pos[:,1].tolist()
-    
+
     data_set = {'Indexes': f'{top_recs_indexes}', 'Top_recs': f'{top_recs_sim}', 'Timestamp': time.time()}
     json_dump = json.dumps(data_set)
-
+    
     return json_dump
     
 

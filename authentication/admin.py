@@ -12,6 +12,8 @@ from agregator.models import Services
 from agregator.models import Workinghours
 from agregator.models import Logistics
 from agregator.models import Application
+from agregator.models import SurveyResults
+
 
 # Register your models here.
 
@@ -28,7 +30,6 @@ class UserAdmin(BaseUserAdmin):
     ordering = ('username','email')
 
     filter_horizontal = ()
-
 
 
 
@@ -61,3 +62,4 @@ admin.site.register(Services)
 admin.site.register(Workinghours)
 admin.site.register(Logistics)
 admin.site.register(Application)
+admin.site.register(SurveyResults)
