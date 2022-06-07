@@ -39,9 +39,9 @@ class WarehouseImageAdmin(admin.StackedInline):
 class WarehouseAdmin(admin.ModelAdmin):
     inlines = [WarehouseImageAdmin]
 
-    list_display = ('name', 'adress')
+    list_display = ('name', 'adress', 'id')
 
-    search_fields =  ('name', 'adress')
+    search_fields =  ('name', 'adress', 'id')
     ordering = ('name', 'adress')
     filter_horizontal = ()
  

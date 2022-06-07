@@ -4,9 +4,11 @@ import numpy as np
 import pandas as pd
 import scipy
 import scipy.spatial
+from sklearn.metrics.pairwise import pairwise_distances
 import math
 from urllib.request import urlopen
 from flask_cors import CORS, cross_origin
+
 
 
 app = Flask(__name__)
@@ -16,7 +18,16 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 
 api_url = 'http://127.0.0.1:8000/api/warehouses/warehouse-list'
 columns_bool = [
-    'long_term_commitment',  #TODO: возможно, долгосрочное хранение надо считать по-другому
+    # 'security.security_post',
+    # 'security.all_day_security',
+    # 'security.video_control',
+    # 'security.magnetic_access_locks',
+    # 'security.generator',
+    # 'security.alarm_system',
+    # 'security.fire_system_type',
+    #'office_premises', #TODO: этого нет в опроснике
+    #'domestic_premises', 
+    'long_term_commitment', 
     'features.freezer', 
     'features.refrigerator', 
     'features.alcohol', 
@@ -30,6 +41,9 @@ columns_bool = [
     'services.box_pick',
     'logistics.leveling_platform',
     'logistics.railways',
+    # 'logistics.parking',
+    # 'logistics.parking_security',
+    # 'integrated',
 ]
 
 
@@ -66,108 +80,67 @@ def computeConditionSimilarity(condition1, condition2):
 @app.route('/', methods=['GET'])
 @cross_origin()
 def get_recommendations():
-    user_query = str(request.args.get('user')) #/recommendations/?lat=USER_NAME
-
-
-    # boolean values
-    long_term_commitment_query = str(request.args.get('long_term_commitment')) 
-    if (long_term_commitment_query == 'false'):
-        long_term_commitment_query = False
-    elif (long_term_commitment_query == 'true'):
-        long_term_commitment_query = True
     
+    # boolean values
+    # office_premises_query = str(request.args.get('office_premises')) TODO: Добавить
+    # office_premises_query = False if office_premises_query == 'false' else True
+
+    long_term_commitment_query = str(request.args.get('long_term_commitment')) 
+    long_term_commitment_query = False if long_term_commitment_query == 'false' else True
+
     freezer_query = str(request.args.get('freezer')) 
-    if (freezer_query == 'false'):
-        freezer_query = False
-    elif (freezer_query == 'true'):
-        freezer_query = True
+    freezer_query = False if freezer_query == 'false' else True
 
     refrigerator_query = str(request.args.get('refrigerator')) 
-    if (refrigerator_query == 'false'):
-        refrigerator_query = False
-    elif (refrigerator_query == 'true'):
-        refrigerator_query = True
+    refrigerator_query = False if refrigerator_query == 'false' else True
 
     alcohol_query = str(request.args.get('alcohol')) 
-    if (alcohol_query == 'false'):
-        alcohol_query = False
-    elif (alcohol_query == 'true'):
-        alcohol_query = True
+    alcohol_query = False if alcohol_query == 'false' else True
         
     pharmaceuticals_query = str(request.args.get('pharmaceuticals')) 
-    if (pharmaceuticals_query == 'false'):
-        pharmaceuticals_query = False
-    elif (pharmaceuticals_query == 'true'):
-        pharmaceuticals_query = True
+    pharmaceuticals_query = False if pharmaceuticals_query == 'false' else True
         
     food_query = str(request.args.get('food')) 
-    if (food_query == 'false'):
-        food_query = False
-    elif (food_query == 'true'):
-        food_query = True
-
+    food_query = False if food_query == 'false' else True
+    
     dangerous_query = str(request.args.get('dangerous')) 
-    if (dangerous_query == 'false'):
-        dangerous_query = False
-    elif (dangerous_query == 'true'):
-        dangerous_query = True
+    dangerous_query = False if dangerous_query == 'false' else True
 
     transport_services_query = str(request.args.get('transport_services')) 
-    if (transport_services_query == 'false'):
-        transport_services_query = False
-    elif (transport_services_query == 'true'):
-        transport_services_query = True
+    transport_services_query = False if transport_services_query == 'false' else True
 
     custom_query = str(request.args.get('custom')) 
-    if (custom_query == 'false'):
-        custom_query = False
-    elif (custom_query == 'true'):
-        custom_query = True
+    custom_query = False if custom_query == 'false' else True
 
     crossdock_query = str(request.args.get('crossdock')) 
-    if (crossdock_query == 'false'):
-        crossdock_query = False
-    elif (crossdock_query == 'true'):
-        crossdock_query = True
+    crossdock_query = False if crossdock_query == 'false' else True
 
     palletization_query = str(request.args.get('palletization')) 
-    if (palletization_query == 'false'):
-        palletization_query = False
-    elif (palletization_query == 'true'):
-        palletization_query = True
+    palletization_query = False if palletization_query == 'false' else True
 
     box_pick_query = str(request.args.get('box_pick')) 
-    if (box_pick_query == 'false'):
-        box_pick_query = False
-    elif (box_pick_query == 'true'):
-        box_pick_query = True
+    box_pick_query = False if box_pick_query == 'false' else True
 
     leveling_platform_query = str(request.args.get('leveling_platform')) 
-    if (leveling_platform_query == 'false'):
-        leveling_platform_query = False
-    elif (leveling_platform_query == 'true'):
-        leveling_platform_query = True
+    leveling_platform_query = False if leveling_platform_query == 'false' else True
         
     railways_query = str(request.args.get('railways')) 
-    if (railways_query == 'false'):
-        railways_query = False
-    elif (railways_query == 'true'):
-        railways_query = True
+    railways_query = False if railways_query == 'false' else True
 
     
     # Температурный режим
     condition_query = str(request.args.get('condition')) 
-    if condition_query == 'Regulated':
-        condition_query = 0 
-    elif condition_query == 'Heated':
-        condition_query = 1
-    elif condition_query == 'Warmed':
-        condition_query = 2
-    elif condition_query == 'Non-heated':
-        condition_query = 3
+    if condition_query == 'Freezer-WH':
+        condition_query = 0
     elif condition_query == 'Cold-WH':
+        condition_query = 1
+    elif condition_query == 'Regulated':
+        condition_query = 2 
+    elif condition_query == 'Heated':
+        condition_query = 3
+    elif condition_query == 'Warmed':
         condition_query = 4
-    elif condition_query == 'Freezer-WH':
+    elif condition_query == 'Non-heated':
         condition_query = 5
     elif condition_query == 'No value':
         condition_query = 10
@@ -178,11 +151,11 @@ def get_recommendations():
         warehouse_class_query = 1
     elif warehouse_class_query == 'A':
         warehouse_class_query = 2
-    elif warehouse_class_query == 'B':
+    elif warehouse_class_query == 'B+':
         warehouse_class_query = 3
-    elif warehouse_class_query == 'C':
+    elif warehouse_class_query == 'B':
         warehouse_class_query = 4
-    elif warehouse_class_query == 'D':
+    elif warehouse_class_query == 'C':
         warehouse_class_query = 5
     else:
         warehouse_class_query = 10
@@ -201,83 +174,73 @@ def get_recommendations():
 
     # Получаю данные всех складов
     data = get_warehouses(api_url)
-    dataset = pd.json_normalize(data["results"])
-    n = data["count"]
-    df_warehouses_bool = pd.DataFrame(dataset, columns=columns_bool, index=dataset.id-1)
-
+    dataset = pd.json_normalize(data)
+    n = len(data)
+    df_warehouses_bool = pd.DataFrame(dataset, columns=columns_bool, index=dataset.id)
+    df_warehouses_bool = df_warehouses_bool.dropna()
     df_survey = pd.DataFrame([[long_term_commitment_query, freezer_query, refrigerator_query, alcohol_query, pharmaceuticals_query, food_query, dangerous_query, transport_services_query, custom_query, crossdock_query, palletization_query, box_pick_query, leveling_platform_query, railways_query]], columns=columns_bool, index=["survey"])
+    similarities = np.zeros(shape=(n, 2))
 
-    similarities = np.zeros(shape=(data["count"], 2))
-
-
-    # Записываю эвклидово расстояние между каждым объектом и опросником
+    # Записываю jaccard расстояние между каждым объектом и опросником
     for index, _ in df_warehouses_bool.iterrows():
         row = pd.DataFrame(df_warehouses_bool, columns=columns_bool, index=[index])
-        euclidean = scipy.spatial.distance.cdist(row, df_survey, metric='euclidean')
+        jaccard_similarity = 1 - pairwise_distances(row, df_survey, metric = "hamming") #https://stackoverflow.com/questions/37003272/how-to-compute-jaccard-similarity-from-a-pandas-dataframe
         similarities[index][0] = index
-        similarities[index][1] = euclidean[0][0]
-    
-    # отсекает 50% значений (от 5 элементов)
-    if data["count"] <= 5:
-        n_after_bool = n
-    elif (data["count"] > 5 and data["count"] <= 10):
-        n_after_bool = data["count"]
-    else:
-        n_after_bool = round(n*0.5)
-    
-    # сортируем по возрастанию эвклидовых расстояний, отсекаем значения и берем только индексы полученных значений
+        similarities[index][1] = jaccard_similarity[0][0]
+
+    similarities = similarities[~np.all(similarities == 0, axis=1)] #удаляем строки, где только нули
+
+    # сортируем по возрастанию эвклидовых расстояний и берем только индексы полученных значений
     k = similarities[similarities[:, 1].argsort()]
-    k = k[:n_after_bool]
-    bool_closest_indexes = k[:,0].tolist()
+    # bool_closest_indexes = k[:,0].tolist()
+    print(k)
     
-
     exp_survey = pd.Series(data = {"wh_lon": wh_lon_query, "wh_lat": wh_lat_query, "features.condition": condition_query, "warehouse_class": warehouse_class_query}, index = ['wh_lon', 'wh_lat', 'features.condition', 'warehouse_class'])
-    exp_similarity = np.zeros(shape=(data["count"], 2))
+    exp_similarity = np.zeros(shape=(n, 2))
 
-    df_warehouses_class_cond_pos = pd.DataFrame(dataset, columns=["wh_lon", "wh_lat", "features.condition", "warehouse_class"], index=dataset.id-1)
+    df_warehouses_class_cond_pos = pd.DataFrame(dataset, columns=["wh_lon", "wh_lat", "features.condition", "warehouse_class"], index=dataset.id)
+    df_warehouses_class_cond_pos = df_warehouses_class_cond_pos.dropna()
 
     i = 0
     for index, row in df_warehouses_class_cond_pos.iterrows():
-        if index in bool_closest_indexes:
-            # сравниваем местоположение самых похожих по всем остальным значениям объектов
-            # TODO: проработать этот момент с регулируемой температурой
-            if row["features.condition"] == 'Regulated':
-                row["features.condition"] = 0 
-            if row["features.condition"] == 'Heated':
-                row["features.condition"] = 1
-            if row["features.condition"] == 'Warmed':
-                row["features.condition"] = 2
-            if row["features.condition"] == 'Non-heated':
-                row["features.condition"] = 3
-            if row["features.condition"] == 'Cold-WH':
-                row["features.condition"] = 4
-            if row["features.condition"] == 'Freezer-WH':
-                row["features.condition"] = 5
-            if row["features.condition"] == 'No value':
-                row["features.condition"] = 10
+        # сравниваем местоположение самых похожих по всем остальным значениям объектов
+        # TODO: проработать этот момент с регулируемой температурой
+        if condition_query == 'Freezer-WH':
+            condition_query = 0
+        elif condition_query == 'Cold-WH':
+            condition_query = 1
+        elif condition_query == 'Regulated':
+            condition_query = 2 
+        elif condition_query == 'Heated':
+            condition_query = 3
+        elif condition_query == 'Warmed':
+            condition_query = 4
+        elif condition_query == 'Non-heated':
+            condition_query = 5
+        elif condition_query == 'No value':
+            condition_query = 10
             
-            if row["warehouse_class"] == 'A+':
-                row["warehouse_class"] = 1
-            elif row["warehouse_class"]== 'A':
-                row["warehouse_class"] = 2
-            elif row["warehouse_class"] == 'B':
-                row["warehouse_class"] = 3
-            elif row["warehouse_class"] == 'C':
-                row["warehouse_class"] = 4
-            elif row["warehouse_class"] == 'D':
-                row["warehouse_class"] = 5
-            else:
-                row["warehouse_class"] = 10
+        if warehouse_class_query == 'A+':
+            warehouse_class_query = 1
+        elif warehouse_class_query == 'A':
+            warehouse_class_query = 2
+        elif warehouse_class_query == 'B+':
+            warehouse_class_query = 3
+        elif warehouse_class_query == 'B':
+            warehouse_class_query = 4
+        elif warehouse_class_query == 'C':
+            warehouse_class_query = 5
+        else:
+            warehouse_class_query = 10
 
-            exp_similarity[i][0] = index
-            exp_similarity[i][1] = computeConditionSimilarity(row, exp_survey) * computeClassSimilarity(row, exp_survey) * computePositionSimilarity(row, exp_survey)
-            i = i+1
+        exp_similarity[i][0] = index
+        exp_similarity[i][1] = computeConditionSimilarity(row, exp_survey) * computeClassSimilarity(row, exp_survey) * computePositionSimilarity(row, exp_survey)
+        i = i+1
 
     
     # сортируем по убыванию
     k_pos = exp_similarity[(-exp_similarity)[:, 1].argsort()]
-    k_pos = k_pos[:5]
-    top_recs_indexes = k_pos[:,0].tolist()
+    # top_recs_indexes = k_pos[:,0].tolist()
     top_recs_indexes = [x+1 for x in top_recs_indexes]
 
 
