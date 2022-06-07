@@ -236,13 +236,11 @@ def get_recommendations():
         exp_similarity[i][0] = index
         exp_similarity[i][1] = computeConditionSimilarity(row, exp_survey) * computeClassSimilarity(row, exp_survey) * computePositionSimilarity(row, exp_survey)
         i = i+1
-
     
     # сортируем по убыванию
     k_pos = exp_similarity[(-exp_similarity)[:, 1].argsort()]
     # top_recs_indexes = k_pos[:,0].tolist()
-    top_recs_indexes = [x+1 for x in top_recs_indexes]
-
+    # top_recs_indexes = [x+1 for x in top_recs_indexes]
 
     top_recs_sim = k_pos[:,1].tolist()
     

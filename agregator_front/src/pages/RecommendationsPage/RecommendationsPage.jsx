@@ -32,9 +32,6 @@ const GoBackLink = styled(Link)({
 });
 
 
-
-
-
 const RecommendationsPage = () => {
     const classes = useStyles();
     const navigate = useNavigate();
@@ -76,7 +73,6 @@ const RecommendationsPage = () => {
                     <RecommendationsSurvey/>
                 </Grid>
             </Grid>
-            {/* <img src={pallet} alt = "Pallete" className={classes.pallet_image}/> */}
         </div>
     )
 }
