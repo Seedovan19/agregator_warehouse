@@ -3,6 +3,12 @@ import { MapContainer as LeafletMap, TileLayer, Marker, Popup, useMapEvents } fr
 import "leaflet/dist/leaflet.css";
 import L from 'leaflet';
 
+const iconMarker = new L.Icon({
+  iconUrl: require('../../../components/Map/markerWithShadow.png'),
+  iconRetinaUrl: require('../../../components/Map/markerWithShadow.png'),
+  popupAnchor:  [-1, -5],
+  iconSize: new L.Point(33, 33)
+});
 
 function LocationMarkers({ values, handleChange, handleWhLatLonChange }) {
 
@@ -23,9 +29,9 @@ function LocationMarkers({ values, handleChange, handleWhLatLonChange }) {
 
   return (
     <React.Fragment>
-      <Marker 
+      <Marker
+        icon={iconMarker}
         position={marker} 
-        icon={defaultIcon}
         key={1}
     ></Marker>)
     </React.Fragment>
@@ -42,7 +48,7 @@ function RecommendationsMap({ values, handleChange, handleWhLatLonChange }) {
           zoom={13}
         >
         <TileLayer
-            url="https://api.mapbox.com/styles/v1/seedovan/cl0cs50x7001s14taxgl4jj9t/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1Ijoic2VlZG92YW4iLCJhIjoiY2wwY3M5MDJtMDI4aTNjcDkyem9hdnI4YiJ9.G7t_vQ3A7RlXG6zMx__-mg"
+            url="https://api.mapbox.com/styles/v1/seedovan/cl418ry37003e14rihe9tdrxa/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1Ijoic2VlZG92YW4iLCJhIjoiY2wwY3M5MDJtMDI4aTNjcDkyem9hdnI4YiJ9.G7t_vQ3A7RlXG6zMx__-mg"
             attribution="Map data &copy; <a href=&quot;https://www.openstreetmap.org/&quot;>OpenStreetMap</a> contributors, <a href=&quot;https://creativecommons.org/licenses/by-sa/2.0/&quot;>CC-BY-SA</a>, Imagery &copy; <a href=&quot;https://www.mapbox.com/&quot;>Mapbox</a>"
         />
         <LocationMarkers 

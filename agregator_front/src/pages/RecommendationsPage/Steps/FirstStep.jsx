@@ -21,6 +21,9 @@ const StyledChip = styled(Chip)({
   ".MuiChip-label": {
     fontFamily: 'Lato-Regular',
   },
+  "&.MuiChip-root:hover": {
+    borderColor: 'black',
+  },
 });
 
 const CheckedChip = styled(Chip)({
@@ -176,22 +179,23 @@ export default function FirstStep({ values, handleChange, handleSelectChange, ha
           </StyledSelect>
           </StyledFormControl>
           <Stack 
+            spacing = {1}
             direction="row" 
             sx = {{
               paddingTop: "10px",
             }}
           >
-          {values.freezer ? (
-            <CheckedChip onClick={() => handleUnselectChange('freezer') }  variant="outlined" label="Морозильная камера"/>
-          ) : (
-            <StyledChip onClick={() => handleSelectChange('freezer') } variant="outlined" label="Морозильная камера"/>
-          )}
+            {values.freezer ? (
+              <CheckedChip onClick={() => handleUnselectChange('freezer') }  variant="outlined" label="Морозильная камера"/>
+            ) : (
+              <StyledChip onClick={() => handleSelectChange('freezer') } variant="outlined" label="Морозильная камера"/>
+            )}
 
-          {values.refrigerator ? (
-            <CheckedChip onClick={() => handleUnselectChange('refrigerator') }  variant="outlined" label="Холодильная камера"/>
-          ) : (
-            <StyledChip onClick={() => handleSelectChange('refrigerator') } variant="outlined" label="Холодильная камера"/>
-          )}
+            {values.refrigerator ? (
+              <CheckedChip onClick={() => handleUnselectChange('refrigerator') }  variant="outlined" label="Холодильная камера"/>
+            ) : (
+              <StyledChip onClick={() => handleSelectChange('refrigerator') } variant="outlined" label="Холодильная камера"/>
+            )}
           </Stack>
         </Stack>
         <Typography sx ={{
@@ -200,6 +204,10 @@ export default function FirstStep({ values, handleChange, handleSelectChange, ha
         }}>
           Лицезии на хранение:
         </Typography>
+        <Stack 
+            spacing = {1}
+            direction="row" 
+        >
           {values.alcohol ? (
             <CheckedChip onClick={() => handleUnselectChange('alcohol') }  variant="outlined" label="Алкогольная продукция"/>
           ) : (
@@ -210,8 +218,9 @@ export default function FirstStep({ values, handleChange, handleSelectChange, ha
           ) : (
             <StyledChip onClick={() => handleSelectChange('pharmaceuticals') } variant="outlined" label="Фармацевтическая продукция"/>
           )}
-          
+        </Stack>
           <Stack
+            spacing = {1}
             direction="row"
             sx = {{
               paddingTop: '10px',

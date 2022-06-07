@@ -13,7 +13,15 @@ import FourthStep from '../Steps/FourthStep'
 import Results from '../Steps/Results'
 import { withStyles } from "@material-ui/core/styles";
 import { deepPurple } from '@material-ui/core/colors';
+import { styled } from '@mui/material/styles';
 
+const SubtitleTypography = styled(Typography)({
+  fontFamily: 'Montserrat-medium',
+  paddingTop: '1rem',
+  paddingBottom: '1rem',
+  fontSize: '17px',
+  textAlign: 'center',
+});
 
 const styles = theme => ({
 
@@ -31,14 +39,6 @@ title: {
 
 stepper_number:{
   fontFamily: 'Lato-Light',
-},
-
-subtitle: {
-  fontFamily: 'Montserrat-medium',
-  paddingTop: '1rem',
-  paddingBottom: '1rem',
-  fontSize: '17px',
-  textAlign: 'center',
 },
 
 button: {
@@ -203,7 +203,7 @@ class RecommendationsSurvey extends Component {
                         activeStep={activeStep}
                         sx={{ width: '400px', justifyContent:'center' }}
                     />
-                    <Typography className={classes.subtitle}>Укажите тип товара или условия хранения</Typography>
+                    <SubtitleTypography>Укажите тип товара или условия хранения</SubtitleTypography>
                     <FirstStep
                       handleSelectChange = {this.handleSelectChange}
                       handleUnselectChange = {this.handleUnselectChange}
@@ -256,7 +256,7 @@ class RecommendationsSurvey extends Component {
                         activeStep={activeStep}
                         sx={{ width: '400px', justifyContent:'center' }}
                     />
-                    <Typography className={classes.subtitle}>Выберите класс склада и желаемое местоположение</Typography>
+                    <SubtitleTypography>Выберите класс склада и желаемое местоположение</SubtitleTypography>
                     <SecondStep
                       values = {values}
                       handleChange = {this.handleChange}
@@ -308,7 +308,7 @@ class RecommendationsSurvey extends Component {
                         activeStep={activeStep}
                         sx={{ width: '400px', justifyContent:'center' }}
                     />
-                    <Typography className={classes.subtitle}>Выберите необходимые услуги</Typography>
+                    <SubtitleTypography>Выберите необходимые услуги</SubtitleTypography>
                     <ThirdStep
                       values = {values}
                       handleChange = {this.handleChange}
@@ -361,7 +361,7 @@ class RecommendationsSurvey extends Component {
                         activeStep={activeStep}
                         sx={{ width: '400px', justifyContent:'center' }}
                     />
-                    <Typography className={classes.subtitle}>Контактные данные</Typography>
+                    <SubtitleTypography>Контактные данные</SubtitleTypography>
                     <FourthStep
                     
                       handleWH = {this.handleWH}

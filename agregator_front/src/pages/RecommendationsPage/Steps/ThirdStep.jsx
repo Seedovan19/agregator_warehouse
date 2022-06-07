@@ -2,6 +2,9 @@ import React from 'react'
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Chip from '@mui/material/Chip';
+import Typography from '@mui/material/Typography';
+import Tooltip from '@mui/material/Tooltip';
+import TextField from '@mui/material/TextField';
 import InputLabel from '@mui/material/InputLabel';
 import Select from '@mui/material/Select';
 import FormControl from '@mui/material/FormControl';
@@ -9,25 +12,36 @@ import MenuItem from '@mui/material/MenuItem';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import useStyles from './styles';
 import { styled } from '@mui/material/styles';
+import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 
+const SubtitleTypography = styled(Typography)({
+  fontFamily: 'Montserrat-medium',
+  paddingTop: '1rem',
+  paddingBottom: '1rem',
+  fontSize: '17px',
+  textAlign: 'center',
+});
 
 const StyledChip = styled(Chip)({
-    height: '32px',
-    borderColor: '#E2E5EA',
-  
-    ".MuiChip-label": {
-      fontFamily: 'Lato-Regular',
-    },
+  height: '32px',
+  borderColor: '#E2E5EA',
+
+  ".MuiChip-label": {
+    fontFamily: 'Lato-Regular',
+  },
+  "&.MuiChip-root:hover": {
+    borderColor: 'black',
+  },
 });
 
 const CheckedChip = styled(Chip)({
-height: '32px',
-borderColor: '#284AC2',
+  height: '32px',
+  borderColor: '#284AC2',
 
-".MuiChip-label": {
-    fontFamily: 'Lato-Regular',
-    color: '#284AC2',
-},
+  ".MuiChip-label": {
+      fontFamily: 'Lato-Regular',
+      color: '#284AC2',
+  },
 });
 
 
@@ -82,7 +96,10 @@ export default function ThirdStep({ values, handleChange, handleSelectChange, ha
                 </Select>
                 </FormControl>
             </Box>
-
+            <Stack
+              spacing ={1}
+              direction="row"
+            >
             {values.palletization ? (
               <CheckedChip onClick={() => handleUnselectChange('palletization') }  variant="outlined" label="Паллетизация грузов"/>
             ) : (
@@ -93,12 +110,14 @@ export default function ThirdStep({ values, handleChange, handleSelectChange, ha
             ) : (
               <StyledChip onClick={() => handleSelectChange('box_pick') } variant="outlined" label="Отгрузки коробками"/>
             )}
+            </Stack>
             <Stack
-            direction="row"
-            sx = {{
-              paddingTop: '10px',
-              marginBottom: '15px',
-            }}
+              spacing ={1}
+              direction="row"
+              sx = {{
+                paddingTop: '10px',
+                marginBottom: '15px',
+              }}
             >
             {values.transport_services ? (
               <CheckedChip onClick={() => handleUnselectChange('transport_services') }  variant="outlined" label="Транспортные услуги"/>
@@ -116,6 +135,34 @@ export default function ThirdStep({ values, handleChange, handleSelectChange, ha
               <StyledChip onClick={() => handleSelectChange('custom') } variant="outlined" label="Таможенные услуги"/>
             )}
             </Stack>
+            <Box sx = {{textAlign: 'center'}}>
+              <SubtitleTypography>
+                Укажите любые другие параметры поиска
+
+                <Tooltip 
+                  title="Комментарии учитываются при выдаче рекомендаций"
+                >
+                <HelpOutlineIcon
+                  sx = {{
+                    position: "relative",
+                    top: "2px",
+                    right: "-2px"
+                  }}
+                  fontSize = "small"
+                />
+                </Tooltip>
+              </SubtitleTypography>
+              
+              <TextField
+                sx ={{ 
+                  width:'25rem',
+                  marginBottom: '1rem'
+                }}
+                label="Дополнительный комментарий"
+                multiline
+                rows={5}
+              />
+            </Box>
         </div>
     )
 }
