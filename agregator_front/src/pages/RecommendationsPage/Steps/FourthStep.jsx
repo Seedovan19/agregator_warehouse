@@ -10,7 +10,6 @@ export default function FourthStep({ values, handleChange, handleWH, handleNext,
     // сейчас происходит так: как только я захожу на этот шаг, у меня уже отправляется запрос на сервак за рекомендациями
     // когда я возвращаюсь на этот шаг, запрос отправляется снова (это не очень, лишний запрос), но могу изменить любые данные и изменятся рекомендации
     useEffect(() => {
-        
         getRecommendations(values)
         .then((data) => {
             console.log(data)

@@ -161,6 +161,7 @@ export default function ThirdStep({ values, handleChange, handleSelectChange, ha
                 label="Дополнительный комментарий"
                 multiline
                 rows={5}
+                value = {values.comment}
               />
             </Box>
         </div>

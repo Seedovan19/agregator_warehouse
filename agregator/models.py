@@ -243,10 +243,15 @@ class SurveyResults(models.Model):
     custom = models.BooleanField()
     crossdock = models.BooleanField()
     palletization = models.BooleanField()
+    long_term_commitment = models.BooleanField(default=False) #TODO: добавить на фронте
+    leveling_platform = models.BooleanField(default=False, verbose_name="Оборудование для выравнивания")
+    railways = models.BooleanField(default=False, verbose_name="Ж/д пути")
+    comment = models.CharField(max_length=2000, blank=True, null=True) #TODO: до сюда
     name = models.CharField(max_length=100, blank=True, null=True)
     company = models.CharField(max_length=100, blank=True, null=True)
     email = models.CharField(max_length=100, blank=True, null=True)
     phone = models.CharField(max_length=100, blank=True, null=True)
+    
     user = models.ForeignKey(to=User, on_delete=models.CASCADE, blank=True, null=True)
 
     class Meta:

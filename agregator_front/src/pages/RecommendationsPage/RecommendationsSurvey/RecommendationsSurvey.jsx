@@ -118,6 +118,7 @@ class RecommendationsSurvey extends Component {
     email: '',
     mobile: '',
     company: '',
+    comment: '',
     firstWH: null,
     secondWH: null,
     thirdWH: null,
@@ -171,8 +172,8 @@ class RecommendationsSurvey extends Component {
     const { activeStep } = this.state;
     const { isLoading } = this.state
     const { firstWH, secondWH, thirdWH, fourthWH, fifthWH } = this.state
-    const { product_type, condition, freezer, refrigerator, alcohol, pharmaceuticals, food, dangerous, warehouse_class, wh_latlon, transport_services, custom, crossdock, palletization, box_pick, leveling_platform, railways, palletQuantity, long_term_commitment, fullName, email, mobile, company } = this.state;
-    const values = { product_type, condition, freezer, refrigerator, alcohol, pharmaceuticals, food, dangerous, warehouse_class, wh_latlon, transport_services, custom, crossdock, palletization, box_pick, leveling_platform, railways, palletQuantity, long_term_commitment, fullName, email, mobile, company };
+    const { product_type, condition, freezer, refrigerator, alcohol, pharmaceuticals, food, dangerous, warehouse_class, wh_latlon, transport_services, custom, crossdock, palletization, box_pick, leveling_platform, railways, palletQuantity, long_term_commitment, fullName, email, mobile, company, comment } = this.state;
+    const values = { product_type, condition, freezer, refrigerator, alcohol, pharmaceuticals, food, dangerous, warehouse_class, wh_latlon, transport_services, custom, crossdock, palletization, box_pick, leveling_platform, railways, palletQuantity, long_term_commitment, fullName, email, mobile, company, comment };
     const { classes } = this.props;
 
     switch(activeStep) {
