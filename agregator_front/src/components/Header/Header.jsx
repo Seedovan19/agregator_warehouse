@@ -106,48 +106,9 @@ const Header = ({height}) => {
         height: '85px',
         display: 'flex',
         backgroundColor: '#fafafa',
-      }}  >
-        <img className = { classes.logo } src={require('./logo.png')} onClick={handleLogoClick} ></img>
-        <div>
-          <Grid container>
-            <Stack 
-              alignItems='center' 
-              onClick={handleRecommendationsClick}
-              sx = {{
-                cursor: 'grab',
-              }}
-            >
-              <AutoFixHighIcon 
-                sx = {{
-                  color: 'black',
-                  fontSize: '25px',
-                }}
-              />
-              <LatoTypography >Мои рекомендации</LatoTypography>
-            </Stack>
-
-            <Stack
-
-              onClick={handleLoginClick}
-              sx = {{
-                alignItems: 'center',
-                paddingLeft: '2rem',
-                paddingRight: '1rem',
-                cursor: 'grab',
-              }}
-            >
-              <AccountCircleOutlinedIcon 
-                sx = {{
-                  color: 'black',
-                  fontSize: '25px',
-                }}
-              />
-              <LatoTypography>Вход</LatoTypography>
-            </Stack>
-          </Grid>
-        </div>
+      }}>
       </Toolbar>
- </AppBar>
+    </AppBar>
     </>
   );
 }

@@ -43,7 +43,9 @@ const RecommendationsPage = () => {
     }
     return (
         <div>
-        <Header/>
+        <Header
+            height = {70}
+        />
             <Grid container sx= {{
                 display: 'flex',
                 justifyContent: 'center',
