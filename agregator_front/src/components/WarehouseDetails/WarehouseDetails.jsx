@@ -19,11 +19,18 @@ const MontTypography = styled(Typography)({
   fontFamily: 'Montserrat-medium',
   color: 'black',
 });
+
 const HighlightedCostText = styled('span')({
   fontSize: '150%',
   color: '#0C4284',
   paddingRight: '3px',
   paddingLeft: '3px',
+});
+
+const HighlightedPalletText = styled('span')({
+  fontSize: '150%',
+  color: '#0C4284',
+  paddingRight: '3px',
 });
 
 
@@ -121,39 +128,75 @@ const WarehouseDetails = ({ warehouse, selected, refProp }) => {
             </Grid>
           </Grid>
           <Grid container spacing={3}>
+            {warehouse?.storage_conditions.pallet_storage_cost !== 0 ? ( 
+              <Grid item md={4}>
+                <MontTypography sx={{ 
+                  fontSize: '10px',
+                  alignItems: 'flex-end',
+                }}>
+                  от <HighlightedCostText > 
+                      { warehouse.storage_conditions.pallet_storage_cost } 
+                    </HighlightedCostText>
+                  руб/сутки
+                </MontTypography>
+              </Grid>
+            ) : (
+              <Grid item md={4}>
+                <MontTypography sx={{ 
+                  fontSize: '12px',
+                  alignItems: 'flex-end',
+                  color: '#0C4284',
+                }}>
+                  Не указано
+                </MontTypography>
+              </Grid>
+            )}
+            {warehouse?.storage_conditions.pallet_handling_cost !== 0 ? ( 
+              <Grid item md={4}>
+                <MontTypography sx={{ 
+                  fontSize: '10px',
+                  alignItems: 'flex-end',
+                }}>
+                  от <HighlightedCostText > 
+                      { warehouse.storage_conditions.pallet_handling_cost } 
+                    </HighlightedCostText>
+                  руб
+                </MontTypography>
+              </Grid>
+            ) : (
+              <Grid item md={4}>
+                <MontTypography sx={{ 
+                  fontSize: '12px',
+                  alignItems: 'flex-end',
+                  color: '#0C4284',
+                }}>
+                  Не указано
+                </MontTypography>
+              </Grid>
+            )}
+            {warehouse?.storage_conditions.pallet_storage_capacity !== 0 ? ( 
             <Grid item md={4}>
               <MontTypography sx={{ 
                 fontSize: '10px',
                 alignItems: 'flex-end',
               }}>
-                от <HighlightedCostText > 
-                    { warehouse.storage_conditions.pallet_storage_cost } 
-                  </HighlightedCostText>
-                руб/сутки
-              </MontTypography>
-            </Grid>
-            <Grid item md={4}>
-              <MontTypography sx={{ 
-                fontSize: '10px',
-                alignItems: 'flex-end',
-              }}>
-                от <HighlightedCostText > 
-                    { warehouse.storage_conditions.pallet_handling_cost } 
-                  </HighlightedCostText>
-                руб
-              </MontTypography>
-            </Grid>
-            <Grid item md={4}>
-              <MontTypography sx={{ 
-                fontSize: '10px',
-                alignItems: 'flex-end',
-              }}>
-                <HighlightedCostText > 
+                <HighlightedPalletText> 
                   { warehouse.storage_conditions.pallet_storage_capacity } 
-                </HighlightedCostText>
+                </HighlightedPalletText>
                 палет
               </MontTypography>
             </Grid>
+            ) : (
+              <Grid item md={4}>
+                <MontTypography sx={{ 
+                  fontSize: '12px',
+                  alignItems: 'flex-end',
+                  color: '#0C4284',
+                }}>
+                  Не указано
+                </MontTypography>
+              </Grid>
+            )}
           </Grid>
           </Box>
         </Box>

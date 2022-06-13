@@ -10,7 +10,7 @@ const Costs = ({warehouse}) => {
     return (
         <div>
             <Grid container>
-                {warehouse?.storage_conditions.pallet_storage_cost === 0 && (
+                {warehouse?.storage_conditions.pallet_storage_cost !== 0 && (
                     <Stack className={classes.cost_stack}>
                         <Typography className={classes.cost_text}>Стоимость хранения от</Typography>
                         <Typography className={classes.highlighted_cost_text}>{warehouse.storage_conditions.pallet_storage_cost}</Typography>
@@ -18,7 +18,7 @@ const Costs = ({warehouse}) => {
                     </Stack>
                 )}
 
-                {warehouse?.storage_conditions.pallet_handling_cost === 0 && (
+                {warehouse?.storage_conditions.pallet_handling_cost !== 0 && (
                     <Stack className={classes.cost_stack}>
                         <Typography className={classes.cost_text}>Прием/отгрузка от</Typography>
                         <Typography className={classes.highlighted_cost_text}>{warehouse?.storage_conditions.pallet_handling_cost}</Typography>
@@ -26,9 +26,9 @@ const Costs = ({warehouse}) => {
                     </Stack>
                 )}
 
-                {warehouse?.storage_conditions.pallet_storage_capacity === 0 && (
+                {warehouse?.storage_conditions.pallet_storage_capacity !== 0 && (
                 <Stack className={classes.cost_stack}>
-                    <Typography className={classes.cost_text}>Вместимость</Typography>
+                    <Typography className={classes.cost_text}>Вместимость (палет)</Typography>
                     <Typography className={classes.highlighted_cost_text}>{warehouse?.storage_conditions.pallet_storage_capacity}</Typography>
                 </Stack>
                 )}
