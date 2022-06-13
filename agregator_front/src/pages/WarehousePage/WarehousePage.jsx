@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Grid, Link, CircularProgress, Typography } from '@material-ui/core';
 import Slideshow from '../../components/Slideshow/Slideshow'
-import Header from '../../components/Header/Header'
+import WarehousePageHeader from './WarehousePageHeader'
 import WarehouseVariant from '../../components/WarehouseDetails/WarehouseVariant/WarehouseVariant'
 import {Costs} from './Costs/Costs'
 import {ApplicationCard} from './ApplicationCard/ApplicationCard'
@@ -37,7 +37,9 @@ const WarehousePage = () => {
 
     return (
     <div>
-        <Header/>
+        <WarehousePageHeader
+            height={70}
+        />
         <Grid container className={classes.page_content}>
         <Grid item md={10}>
         <div className={classes.go_back_link} onClick={handleLinkClick}>
@@ -46,12 +48,13 @@ const WarehousePage = () => {
                 position: 'relative',
                 top: 1,
                 height: '15px',
+                zIndex: 1000,
             }}
             />
             <Link
-            component="button" 
-            underline="always"
-            className={classes.go_back_link_text}
+                component="button" 
+                underline="always"
+                className={classes.go_back_link_text}
             >
                 Вернуться к поиску
             </Link>

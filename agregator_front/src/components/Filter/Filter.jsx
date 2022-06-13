@@ -1,5 +1,6 @@
 import React from 'react';
 import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
@@ -8,26 +9,32 @@ import InputLabel from '@mui/material/InputLabel';
 import Select from '@mui/material/Select';
 import FormControl from '@mui/material/FormControl';
 import MenuItem from '@mui/material/MenuItem';
+import Popper from '@mui/material/Popper';
 import useStyles from './styles';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { styled } from '@mui/material/styles';
 
 
-const StyledAutocomplete = styled(Autocomplete)({  
+const borderRadiusBottom = '20px';
+const heightBottom = '35px';
+
+const StyledAutocomplete = styled(Autocomplete)({
+
   "& .MuiInputLabel-outlined:not(.MuiInputLabel-shrink)": {
     // Default transform is "translate(14px, 20px) scale(1)""
     // This lines up the label with the initial cursor position in the input
     // after changing its padding-left.
-    transform: "translate(16px, 18px) scale(1);",
+    transform: "translate(14px, calc(50% + 2px)) scale(1)",
     fontFamily: "Lato-Regular",
     fontSize: "15px",
     color: '#BFD1E4',
   },
+
   "& .MuiAutocomplete-inputRoot": {
-    height: '55px',
     fontFamily: "Lato-Regular",
     fontSize: "15px",
+    height: "47px",
 
     "& .MuiOutlinedInput-notchedOutline": {
       borderColor: "#E2E5EA",
@@ -43,16 +50,20 @@ const StyledAutocomplete = styled(Autocomplete)({
       borderColor: "#284AC2",
       boxShadow: '0px 0px 5px 5px #F0F2FB',
       borderRadius: "10px"
+    },
+    ".MuiAutocomplete-endAdornment": {
+      top: 'calc(50% - 13px)'
     }
   }
 });
 
 const StyledSelect = styled(Select)({
-  height: '38px',
+  width: '100%',
+  height: heightBottom,
   "& .MuiOutlinedInput-notchedOutline": {
 
     borderColor: "#E2E5EA",
-    borderRadius: "10px",
+    borderRadius: borderRadiusBottom,
   },
   "& .MuiSvgIcon-root": {
     color: "#000000",
@@ -60,21 +71,21 @@ const StyledSelect = styled(Select)({
 });
 
 const StyledButton = styled(Button)({
-  width: '155px',
+  width: '157px',
   fontFamily: 'Montserrat-medium',
   textTransform: 'None',
-  height: '38px',
+  height: heightBottom,
   backgroundColor: '#ffffff',
   borderWidth: '1px',
-  borderRadius: '10px',
+  borderRadius: borderRadiusBottom,
   borderColor: '#E2E5EA',
   color: '#000000',
 });
 
 const StyledFormControl = styled(FormControl)({
-  width: '140px',
+  width: '150px',
   backgroundColor: '#ffffff',
-  borderRadius: "10px",
+  borderRadius: borderRadiusBottom,
 
   "& .MuiInputLabel-root": {
     fontFamily: 'Montserrat-medium',
@@ -96,32 +107,30 @@ const Filter = ({ resultsCount, type, setType, palletQuantity, setPalletQuantity
   // moves the menu below the select input
   const menuProps = {
     classes: {
-      paper: classes.paper,
       list: classes.list
     },
     anchorOrigin: {
       vertical: "bottom",
-        horizontal: "left"
+      horizontal: "left"
     },
     transformOrigin: {
       vertical: "top",
-        horizontal: "left"
+      horizontal: "left"
     },
     getcontentanchorel: null
   };
     
     return (
-      <div className = {classes.filter_container}>
+      <Box>
         <StyledAutocomplete
-          popupIcon ={<ExpandMoreIcon className={classes.icon_search}/>}
+          popupIcon ={<ExpandMoreIcon/>}
           options={regions}
           style={{
-            display: 'inline-block',
-            width: 500,
-            height: 55,
+            width: '100%',
+            height: '47px',
             backgroundColor: '#FFFFFF',
             borderRadius: "10px",
-            marginTop: "10px",
+            marginTop: "1.5rem",
           }}
           renderInput={(params) => (
             <TextField
@@ -141,7 +150,7 @@ const Filter = ({ resultsCount, type, setType, palletQuantity, setPalletQuantity
           direction="row"
           alignItems="flex-end"
           sx = {{
-            paddingTop: "10px",
+            paddingTop: "1rem",
           }}
         >
           <Typography
@@ -167,7 +176,8 @@ const Filter = ({ resultsCount, type, setType, palletQuantity, setPalletQuantity
           container 
           spacing={2}
           sx = {{
-            paddingTop: '10px',
+            paddingTop: '1rem',
+            paddingBottom: '1rem',
           }}
         >
           <Grid item>
@@ -225,7 +235,7 @@ const Filter = ({ resultsCount, type, setType, palletQuantity, setPalletQuantity
           
           {/* //TODO: нарисовать кнопку класс filter_button */}
           </Grid>
-      </div>
+      </Box>
     );
 }
   

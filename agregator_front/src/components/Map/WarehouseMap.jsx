@@ -1,8 +1,8 @@
 import React from 'react';
+import Box from '@mui/material/Box'
 import { MapContainer as LeafletMap, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { useMediaQuery } from '@material-ui/core';
-import useStyles from './styles'
 import L from 'leaflet';
 
 const iconMarker = new L.Icon({
@@ -20,14 +20,19 @@ const iconMarkerSelected = new L.Icon({
 });
 
 const WarehouseMap = ({ warehouses, setChildClicked }) => {
-    const classes = useStyles();
     const isMobile = useMediaQuery('(min-width:600px)')
 
 
     return  (
-        <div className={classes.mapContainer}>
+        <Box sx ={ {
+            height: '88vh', 
+            width: '57vw',
+            borderRadius: '10px',
+            position:'fixed',
+            zIndex: 100,
+        }}>
             <LeafletMap 
-                style={{height: "100%", width: "57vw", borderRadius: "10px", zIndex: 100}} 
+                style={{height: "100%", width: "55.5vw", borderRadius: "10px", zIndex: 100}} 
                 center={[59.9386, 30.3141]} 
                 zoom={13}
             >
@@ -62,7 +67,7 @@ const WarehouseMap = ({ warehouses, setChildClicked }) => {
                     attribution="Map data &copy; <a href=&quot;https://www.openstreetmap.org/&quot;>OpenStreetMap</a> contributors, <a href=&quot;https://creativecommons.org/licenses/by-sa/2.0/&quot;>CC-BY-SA</a>, Imagery &copy; <a href=&quot;https://www.mapbox.com/&quot;>Mapbox</a>"
                 />
             </LeafletMap>
-        </div>
+        </Box>
     )
 }
 

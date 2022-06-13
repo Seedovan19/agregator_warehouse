@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import { getIsochrone } from '../../../api/isochrone'
-import { Grid, Typography, Divider } from '@material-ui/core';
+import { Grid, Divider } from '@material-ui/core';
+import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import Select from '@mui/material/Select';
 import FormControl from '@mui/material/FormControl';
@@ -12,7 +13,6 @@ import ListItem from "@mui/material/ListItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import DoneIcon from '@mui/icons-material/Done';
-import CloseIcon from '@mui/icons-material/Close';
 import SingleWarehouseMap from '../SingleWarehouseMap/SingleWarehouseMap'
 import {RecommendationsBlock} from '../RecommendationsBlock/RecommendationsBlock'
 import useStyles from './styles'
@@ -47,26 +47,22 @@ const StyledFormControl = styled(FormControl)({
 
 
 const StyledList = styled(List)({
-    // // selected and (selected + hover) states
-    // '&& .Mui-selected, && .Mui-selected:hover': {
-    //   backgroundColor: 'red',
-    //   '&, & .MuiListItemIcon-root': {
-    //     color: 'pink',
-    //   },
-    // },
-    // // hover states
-    // '& .MuiListItemButton-root:hover': {
-    //   backgroundColor: 'orange',
-    //   '&, & .MuiListItemIcon-root': {
-    //     color: 'yellow',
-    //   },
-    // },
     '&&& .MuiListItemText-primary': {
         fontFamily: 'Montserrat-Bold',
         fontSize: '13px',
         color: '#4B4B4B'
     }
-    
+});
+
+const SectionTitle = styled(Typography)({
+    fontFamily: 'Montserrat-medium',
+    fontSize: '15px',
+});
+
+const ValueText = styled(Typography)({
+    fontFamily: 'Montserrat-Bold',
+    fontSize: '14px',
+    color: '#000000',
 });
 
 
@@ -89,7 +85,6 @@ const WarehouseInfo = ({warehouse}) => {
     // moves the menu below the select input
     const menuProps = {
     classes: {
-        paper: classes.paper,
         list: classes.list
     },
     anchorOrigin: {
@@ -108,70 +103,88 @@ const WarehouseInfo = ({warehouse}) => {
             <div className={classes.divider}>
                 <Divider/>
             </div>
-            <Grid container>
+            <Grid container spacing={10}>
+                {warehouse.office_premises && (
                 <Grid item md={6}>
                 <Stack>
-                    <Typography className={classes.section_title}>Характеристики склада</Typography>
-                </Stack>
-                </Grid>
-
-                <Grid item md={6}>
-                <Stack>
-                    <Typography className={classes.section_title}>Услуги</Typography>
-                    <StyledList >
-                        <ListItem disablePadding>
-                            <ListItemIcon>
-                                {warehouse.services.palletization ? (
-                                    <DoneIcon className={classes.done_icon}/>
-                                ) : (
-                                    <CloseIcon className={classes.close_icon}/>
-                                )}
-                            </ListItemIcon>
-                            <ListItemText primary="Паллетизация грузов" className={classes.list_text}/>
-                        </ListItem>
-                        <ListItem disablePadding>
-                            <ListItemIcon>
-                                {warehouse.services.box_pick ? (
-                                    <DoneIcon className={classes.done_icon}/>
-                                ) : (
-                                    <CloseIcon className={classes.close_icon}/>
-                                )}
-                            </ListItemIcon>
-                            <ListItemText primary="Отгрузки коробками" className={classes.list_text}/>
-                        </ListItem>
-                        <ListItem disablePadding>
-                            <ListItemIcon>
-                                {warehouse.services.transport_services ? (
-                                    <DoneIcon className={classes.done_icon}/>
-                                ) : (
-                                    <CloseIcon className={classes.close_icon}/>
-                                )}     
-                            </ListItemIcon>
-                            <ListItemText primary="Транспортные услуги" className={classes.list_text}/>
-                        </ListItem>
-                        <ListItem disablePadding>
-                            <ListItemIcon>
-                                {warehouse.services.crossdock ? (
-                                    <DoneIcon className={classes.done_icon}/>
-                                ) : (
-                                    <CloseIcon className={classes.close_icon}/>
-                                )}     
-                            </ListItemIcon>
-                            <ListItemText primary="Кросс-докинг" className={classes.list_text}/>
-                        </ListItem>
-                        <ListItem disablePadding>
-                            <ListItemIcon>
-                                {warehouse.services.custom ? (
-                                    <DoneIcon className={classes.done_icon}/>
-                                ) : (
-                                    <CloseIcon className={classes.close_icon}/>
-                                )}     
-                            </ListItemIcon>
-                            <ListItemText primary="Таможенный склад" className={classes.list_text}/>
-                        </ListItem>
+                    <SectionTitle>Характеристики склада</SectionTitle>
+                    <StyledList>
+                        {warehouse.office_premises_square !== 0 ? (
+                        <Stack direction="row">
+                        <ListItemText>Возможность аренды офисных помещений</ListItemText>
+                        <Stack direction="row" spacing={1} sx = {{alignItems: "center"}} >
+                            <ValueText>{warehouse.office_premises_square}</ValueText> 
+                            <Typography sx={{
+                                fontFamily: 'Montserrat-Bold',
+                                fontSize: '13px',
+                                alignItems: 'flex-end',
+                            }}>м2
+                            </Typography>
+                        </Stack>
+                        </Stack>
+                        ):(
+                            <Stack direction="row" spacing={1}>
+                                <DoneIcon className={classes.done_icon}/>
+                                <ListItemText>Возможность аренды офисных помещений</ListItemText>
+                            </Stack>
+                        )}
+                            
                     </StyledList>
                 </Stack>
                 </Grid>
+                )}
+
+                {warehouse.services.palletization || warehouse.services.box_pick || warehouse.services.transport_services || warehouse.services.crossdock || warehouse.services.custom ? (
+                <Grid item md={6}>
+                <Stack>
+                    <>
+                    <SectionTitle>Услуги</SectionTitle>
+                    <StyledList >
+                        {warehouse.services.palletization && (
+                            <ListItem disablePadding>
+                                <ListItemIcon>
+                                    <DoneIcon className={classes.done_icon}/>
+                                </ListItemIcon>
+                                <ListItemText primary="Паллетизация грузов" className={classes.list_text}/>
+                            </ListItem>
+                        )}
+                        {warehouse.services.box_pick && (
+                            <ListItem disablePadding>
+                                <ListItemIcon>
+                                    <DoneIcon className={classes.done_icon}/>
+                                </ListItemIcon>
+                                <ListItemText primary="Отгрузки коробками" className={classes.list_text}/>
+                            </ListItem>
+                        )}
+                        {warehouse.services.transport_services && (
+                            <ListItem disablePadding>
+                                <ListItemIcon>
+                                    <DoneIcon className={classes.done_icon}/>
+                                </ListItemIcon>
+                                <ListItemText primary="Транспортные услуги" className={classes.list_text}/>
+                            </ListItem>
+                        )}
+                        {warehouse.services.crossdock && (
+                            <ListItem disablePadding>
+                                <ListItemIcon>
+                                    <DoneIcon className={classes.done_icon}/>
+                                </ListItemIcon>
+                                <ListItemText primary="Кросс-докинг" className={classes.list_text}/>
+                            </ListItem>
+                        )}
+                        {warehouse.services.custom && (
+                            <ListItem disablePadding>
+                                <ListItemIcon>
+                                    <DoneIcon className={classes.done_icon}/> 
+                                </ListItemIcon>
+                                <ListItemText primary="Таможенный склад" className={classes.list_text}/>
+                            </ListItem>
+                        )}
+                    </StyledList>
+                    </>
+                </Stack>
+                </Grid>
+                ) : (<></>)}
             </Grid>
 
             <div className={classes.divider}>
@@ -181,55 +194,56 @@ const WarehouseInfo = ({warehouse}) => {
             <Grid container>
                 <Grid item md={6}>
                 <Stack>
-                    <Typography className={classes.section_title}>Температурный режим</Typography>
+                    <SectionTitle>Температурный режим</SectionTitle>
                 </Stack>
                 </Grid>
 
                 <Grid item md={6}>
                 <Stack>
-                    <Typography className={classes.section_title}>Возможность хранения</Typography>
+                
+                {warehouse.features.alcohol || warehouse.features.pharmacy || warehouse.features.food || warehouse.features.dangerous ? (
+                    <>
+                    <SectionTitle>Возможность хранения</SectionTitle>
+                    
                     <StyledList >
-                        <ListItem disablePadding>
-                            <ListItemIcon>
-                                {warehouse.features.alcohol ? (
+                        {warehouse.features.alcohol && (
+                            <ListItem disablePadding>
+                                <ListItemIcon>
                                     <DoneIcon className={classes.done_icon}/>
-                                ) : (
-                                    <CloseIcon className={classes.close_icon}/>
-                                )}
-                            </ListItemIcon>
-                            <ListItemText primary="Алкогольная продукция" className={classes.list_text}/>
-                        </ListItem>
-                        <ListItem disablePadding>
-                            <ListItemIcon>
-                                {warehouse.features.pharmacy ? (
+                                </ListItemIcon>
+                                <ListItemText primary="Алкогольная продукция" className={classes.list_text}/>
+                            </ListItem>
+                        )}
+
+                        {warehouse.features.pharmacy && (
+                            <ListItem disablePadding>
+                                <ListItemIcon>
                                     <DoneIcon className={classes.done_icon}/>
-                                ) : (
-                                    <CloseIcon className={classes.close_icon}/>
-                                )}
-                            </ListItemIcon>
-                            <ListItemText primary="Фармацевтическая продукция" className={classes.list_text}/>
-                        </ListItem>
-                        <ListItem disablePadding>
-                            <ListItemIcon>
-                                {warehouse.features.food ? (
+                                </ListItemIcon>
+                                <ListItemText primary="Фармацевтическая продукция" className={classes.list_text}/>
+                            </ListItem>
+                        )}
+
+                        {warehouse.features.food && (
+                            <ListItem disablePadding>
+                                <ListItemIcon>
                                     <DoneIcon className={classes.done_icon}/>
-                                ) : (
-                                    <CloseIcon className={classes.close_icon}/>
-                                )}     
-                            </ListItemIcon>
-                            <ListItemText primary="Пищевая продукция" className={classes.list_text}/>
-                        </ListItem>
-                        <ListItem disablePadding>
-                            <ListItemIcon>
-                                {warehouse.features.dangerous ? (
+                                </ListItemIcon>
+                                <ListItemText primary="Пищевая продукция" className={classes.list_text}/>
+                            </ListItem>
+                        )}
+                        
+                        {warehouse.features.dangerous && (
+                            <ListItem disablePadding>
+                                <ListItemIcon>
                                     <DoneIcon className={classes.done_icon}/>
-                                ) : (
-                                    <CloseIcon className={classes.close_icon}/>
-                                )}     
-                            </ListItemIcon>
-                            <ListItemText primary="Опасные грузы" className={classes.list_text}/>
-                        </ListItem>
+                                </ListItemIcon>
+                                <ListItemText primary="Опасные грузы" className={classes.list_text}/>
+                            </ListItem>
+                        )}
                     </StyledList>
+                </>
+                ) : (<></>)}
                 </Stack>
                 </Grid>
             </Grid>
@@ -241,7 +255,44 @@ const WarehouseInfo = ({warehouse}) => {
             <Grid container>
                 <Grid item md={12}>
                 <Stack>
-                    <Typography className={classes.section_title}>Режим работы</Typography>
+                    <SectionTitle>Режим работы</SectionTitle>
+                    {warehouse.working_hours.time_from !== 0 && (
+                        <Grid container spacing={3}> 
+                        <Grid item>
+                            <StyledList >
+                                <ListItem disablePadding>
+                                    <Typography>Пн</Typography>
+                                    <Typography>{warehouse.working_hours.time_from/100}:00
+                                    - {warehouse.working_hours.time_to/100}:{warehouse.working_hours.time_to/100}</Typography>
+                                </ListItem>
+                                <ListItem disablePadding>
+                                    <Typography>Вт</Typography>
+
+                                </ListItem>
+                                <ListItem disablePadding>
+                                    <Typography>Ср</Typography>
+                                </ListItem>
+                                <ListItem disablePadding>
+                                    <Typography>Чт</Typography>
+
+                                </ListItem>
+                            </StyledList>
+                        </Grid>
+                        <Grid item>
+                            <StyledList >
+                            <ListItem disablePadding>
+                                <Typography>Пт</Typography>
+                            </ListItem>
+                            <ListItem disablePadding>
+                                <Typography>Сб</Typography>
+                            </ListItem>
+                            <ListItem disablePadding>
+                                <Typography>Вс</Typography>
+                            </ListItem>
+                            </StyledList>
+                        </Grid>
+                        </Grid>
+                    )}
                 </Stack>
                 </Grid>
             </Grid>
@@ -252,8 +303,8 @@ const WarehouseInfo = ({warehouse}) => {
 
             <Grid container>
                 <Grid item md={12}>
-                <Stack>
-                    <Typography className={classes.section_title}>Расположение склада</Typography>
+                <Stack spacing={1.5}>
+                    <SectionTitle>Расположение склада</SectionTitle>
                     <StyledFormControl size="small">
                     <InputLabel>Транспорт</InputLabel>
                         <StyledSelect

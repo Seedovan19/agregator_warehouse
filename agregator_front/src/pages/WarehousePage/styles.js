@@ -15,6 +15,7 @@ export default makeStyles((theme) => ({
         textAlign: 'center',
         paddingTop: '15px',
         paddingBottom: '15px',
+        zIndex: 1000,
     },
 
     arrow_back: {
@@ -32,12 +33,13 @@ export default makeStyles((theme) => ({
         textDecorationThickness: '2px',
         textUnderlinePosition: 'under',
         position: 'relative',
+        zIndex: 1000,
     },
 
     apply_card_div :{
         position: '-webkit-sticky',
         position: 'sticky',
-        top: '1.5rem',
+        top: '5.5rem',
         left: 0,
     }, 
 
@@ -59,6 +61,9 @@ export default makeStyles((theme) => ({
         paddingTop: '7px',
         paddingBottom: '11px',
     },
-
+    logo: {
+        width: '135px',
+        cursor: 'grab',
+    },
     
 }))

@@ -3,27 +3,26 @@ import { deepPurple } from '@material-ui/core/colors';
 
 export default makeStyles((theme) => ({
   list: {
-    paddingTop:0,
+    marginTop: '2rem',
+    paddingTop: '1rem',
     paddingBottom:0,
     background:'white',
     "& li":{
       fontWeight:200,
-      paddingTop:12,
+      paddingTop:7,
       paddingBottom:12,
     },
     "& li:hover":{
-      background: deepPurple[100]
+      background: "#284AC2",
+      color: "#ffffff",
     },
     "& li.Mui-selected":{
-      color:'white',
-      background: deepPurple[400]
+      color:'#000',
+      background: "#284AC2",
     },
     "& li.Mui-selected:hover":{
-      background: deepPurple[500]
+      background: "#284AC2",
+      color: "#ffffff",
     }
   },
-  // filter_container: {
-  //   position: 'fixed',
-  // }
-  
 }));

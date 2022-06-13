@@ -9,7 +9,7 @@ import { createTheme, ThemeProvider, styled } from '@mui/material/styles';
 
 const theme = createTheme({
   card: {
-    card_height: 150,
+    card_height: 130,
     pic_width: 150,
     margin_inside: '5px',
   },
@@ -62,7 +62,6 @@ const WarehouseDetails = ({ warehouse, selected, refProp }) => {
             width: theme.card.pic_width,
             maxHeight: { xs: 233, md: theme.card.card_height },
             maxWidth: { xs: 500, md: theme.card.pic_width },
-            
             m: 1,
             display: 'block',
             borderRadius: '7px',

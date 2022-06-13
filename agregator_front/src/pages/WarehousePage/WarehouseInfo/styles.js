@@ -14,8 +14,4 @@ export default makeStyles((theme) => ({
     done_icon: {
         color: '#00BC12'
     },
-
-    close_icon: {
-        color: '#AEAEB0'
-    },
 }))

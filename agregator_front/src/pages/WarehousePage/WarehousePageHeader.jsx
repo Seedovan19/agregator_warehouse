@@ -21,7 +21,7 @@ const StyledToolbar = styled(Toolbar)({
   paddingRight: '1rem',
 });
 
-const Header = ({height}) => {
+const WarehousePageHeader = ({height}) => {
   const classes = useStyles();
   const navigate = useNavigate();
 
@@ -49,7 +49,7 @@ const Header = ({height}) => {
         backgroundColor: 'white',
         boxShadow: '0 0px 0px 1px #ECEDED',
         zIndex: 10,
-        marginBottom: '2rem',
+        marginBottom: '1.5rem',
       }}
     >
       <StyledToolbar 
@@ -61,7 +61,7 @@ const Header = ({height}) => {
           justifyContent: "space-between",
         }} 
       >
-        <img className = { classes.logo } src={require('./logo.png')} onClick={handleLogoClick} ></img>
+        <img className = { classes.logo } src={require('../../components/Header/logo.png')} onClick={handleLogoClick} ></img>
         <div>
           <Grid container>
             <Stack 
@@ -101,22 +101,8 @@ const Header = ({height}) => {
         </div>
       </StyledToolbar>
     </AppBar>
-    <AppBar 
-      position = "fixed"
-      sx = {{
-        boxShadow: '0',
-        zIndex: 1,
-      }}
-    >
-      <Toolbar sx = {{
-        height: '120px',
-        display: 'flex',
-        backgroundColor: '#fafafa',
-      }}>
-      </Toolbar>
-    </AppBar>
     </>
   );
 }
 
-export default Header;
+export default WarehousePageHeader;

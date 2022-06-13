@@ -10,6 +10,7 @@ import Filter from '../components/Filter/Filter';
 import ModalFilter from '../components/ModalFilter/ModalFilter';
 import ModalFeedback from '../components/Feedback/ModalFeedback/ModalFeedback';
 
+const menuHeight = 70;
 
 const AgregatorPage = () => {
 
@@ -42,7 +43,6 @@ const AgregatorPage = () => {
     const [ crossdocking, setCrossdocking ] = useState(false);
     const [ customs, setCustoms ] = useState(false);
 
-    const menuHeight = 70;
 
     useEffect(() => {
         setIsLoading(true);
@@ -69,23 +69,36 @@ const AgregatorPage = () => {
       <Grid 
         item 
         xs={12} md={5} 
-        sx = {{
-          paddingLeft: '1rem',
-        }}
-        >
-        <Box sx = {{position:'fixed', zIndex: 10, backgroundColor:'#fafafa', width: '100%'}}>
-        <Feedback
-          modalFeedbackActive = {modalFeedbackActive}
-          setModalFeedbackActive = {setModalFeedbackActive}
-        />
-        <Filter
-            type = {type}
-            setType = {setType}
-            palletQuantity = {palletQuantity}
-            setPalletQuantity = {setPalletQuantity}
-            setModalActive = {setModalActive}
-            resultsCount = {resultsCount}
-        />
+      >
+        <Box sx = {{
+          position:'fixed', 
+          zIndex: 10, 
+          backgroundColor:'#fafafa', 
+          width: '100%'
+        }}>
+          <Grid container>
+            <Grid 
+              item 
+              xs={12} md={5}
+              sx = {{
+                paddingLeft: '1.5rem',
+                paddingRight: '1rem',
+              }}>
+                <Feedback
+                  modalFeedbackActive = {modalFeedbackActive}
+                  setModalFeedbackActive = {setModalFeedbackActive}
+                />
+                <Filter
+                    type = {type}
+                    setType = {setType}
+                    palletQuantity = {palletQuantity}
+                    setPalletQuantity = {setPalletQuantity}
+                    setModalActive = {setModalActive}
+                    resultsCount = {resultsCount}
+                />
+            </Grid>
+            <Grid item xs={0} md={7}></Grid>
+          </Grid>
         </Box>
         
         <List 
@@ -97,7 +110,13 @@ const AgregatorPage = () => {
         />
       </Grid>
       
-      <Grid item md={7}>
+      <Grid 
+        item 
+        xs={0} md={7}
+        sx = {{
+          paddingLeft: '1rem',
+        }}
+      >
         <WarehouseMap
           warehouses = {warehouses}
           setChildClicked = {setChildClicked}
