@@ -58,16 +58,18 @@ const WarehouseDetails = ({ warehouse, selected, refProp }) => {
         <Box
           component="img"
           sx={{
-            height: theme.card.card_height,
+            height: '100%',
+            minHeight: theme.card.card_height,
             width: theme.card.pic_width,
             maxHeight: { xs: 233, md: theme.card.card_height },
             maxWidth: { xs: 500, md: theme.card.pic_width },
             m: 1,
+            objectFit:  'cover',
             display: 'block',
             borderRadius: '7px',
           }}
           alt="The house from the offer."
-          src={warehouse.image ? warehouse.image : 'https://www.foodserviceandhospitality.com/wp-content/uploads/2016/09/Restaurant-Placeholder-001.jpg'}
+          src={warehouse.image ? warehouse.image : require('./profile_pic.png')}
         />
         <Box
           sx={{

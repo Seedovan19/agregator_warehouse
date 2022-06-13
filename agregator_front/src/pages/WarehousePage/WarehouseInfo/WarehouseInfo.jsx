@@ -261,33 +261,37 @@ const WarehouseInfo = ({warehouse}) => {
                         <Grid item>
                             <StyledList >
                                 <ListItem disablePadding>
-                                    <Typography>Пн</Typography>
-                                    <Typography>{warehouse.working_hours.time_from/100}:00
-                                    - {warehouse.working_hours.time_to/100}:{warehouse.working_hours.time_to/100}</Typography>
+                                    <Typography>Пн {warehouse.working_hours.time_from/100}:00
+                                    - {warehouse.working_hours.time_to/100}:00</Typography>
                                 </ListItem>
                                 <ListItem disablePadding>
-                                    <Typography>Вт</Typography>
+                                    <Typography>Вт {warehouse.working_hours.time_from/100}:00
+                                    - {warehouse.working_hours.time_to/100}:00</Typography>
 
                                 </ListItem>
                                 <ListItem disablePadding>
-                                    <Typography>Ср</Typography>
+                                    <Typography>Ср {warehouse.working_hours.time_from/100}:00
+                                    - {warehouse.working_hours.time_to/100}:00</Typography>
                                 </ListItem>
                                 <ListItem disablePadding>
-                                    <Typography>Чт</Typography>
-
+                                    <Typography>Чт {warehouse.working_hours.time_from/100}:00
+                                    - {warehouse.working_hours.time_to/100}:00</Typography>
                                 </ListItem>
                             </StyledList>
                         </Grid>
                         <Grid item>
                             <StyledList >
                             <ListItem disablePadding>
-                                <Typography>Пт</Typography>
+                                <Typography>Пт {warehouse.working_hours.time_from/100}:00
+                                    - {warehouse.working_hours.time_to/100}:00</Typography>
                             </ListItem>
                             <ListItem disablePadding>
-                                <Typography>Сб</Typography>
+                                <Typography>Сб {warehouse.working_hours.time_from/100}:00
+                                    - {warehouse.working_hours.time_to/100}:00</Typography>
                             </ListItem>
                             <ListItem disablePadding>
-                                <Typography>Вс</Typography>
+                                <Typography>Вс {warehouse.working_hours.time_from/100}:00
+                                    - {warehouse.working_hours.time_to/100}:00</Typography>
                             </ListItem>
                             </StyledList>
                         </Grid>
