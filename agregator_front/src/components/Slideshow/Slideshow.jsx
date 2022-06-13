@@ -8,7 +8,7 @@ const Slideshow = ({warehouseImages}) => {
     const [slideIndex, setSlideIndex] = useState(1)
 
     const nextSlide = () => {
-        if (slideIndex !== warehouseImages?.count) {
+        if (slideIndex !== warehouseImages?.count) { //TODO: бывает багает, что каунта нет, почему? Через раз
             setSlideIndex(slideIndex + 1)
         } else if (slideIndex === warehouseImages?.count) {
             setSlideIndex(1)

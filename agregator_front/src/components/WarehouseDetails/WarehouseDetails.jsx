@@ -68,7 +68,7 @@ const WarehouseDetails = ({ warehouse, selected, refProp }) => {
             height: '100%',
             minHeight: theme.card.card_height,
             width: theme.card.pic_width,
-            maxHeight: { xs: 233, md: theme.card.card_height },
+            maxHeight: { xs: 250, md: theme.card.card_height + 30 },
             maxWidth: { xs: 500, md: theme.card.pic_width },
             m: 1,
             objectFit:  'cover',
@@ -101,7 +101,7 @@ const WarehouseDetails = ({ warehouse, selected, refProp }) => {
           />
           
           
-          <Grid container spacing={3} alignItems='center' >
+          <Grid container spacing={3} alignItems='center' sx ={{paddingBottom: '0.1rem', paddingTop: '0.4rem'}}>
             <Grid item md={4}>
               <MontTypography sx={{ 
                 fontSize: '10px',
