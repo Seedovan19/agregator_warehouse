@@ -1,12 +1,6 @@
 import { makeStyles } from '@material-ui/core/styles';
 
 export default makeStyles((theme) => ({
-    page_content: {
-        display: 'flex',
-        justifyContent: 'center',
-        margin: '0 auto',
-        position: 'relative',
-    },
     go_back_link : {
         width: '200px',
         display: 'flex',
@@ -61,6 +55,7 @@ export default makeStyles((theme) => ({
         paddingTop: '7px',
         paddingBottom: '11px',
     },
+    
     logo: {
         width: '135px',
         cursor: 'grab',

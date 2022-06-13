@@ -104,36 +104,6 @@ const WarehouseInfo = ({warehouse}) => {
                 <Divider/>
             </div>
             <Grid container spacing={10}>
-                {warehouse.office_premises && (
-                <Grid item md={6}>
-                <Stack>
-                    <SectionTitle>Характеристики склада</SectionTitle>
-                    <StyledList>
-                        {warehouse.office_premises_square !== 0 ? (
-                        <Stack direction="row">
-                        <ListItemText>Возможность аренды офисных помещений</ListItemText>
-                        <Stack direction="row" spacing={1} sx = {{alignItems: "center"}} >
-                            <ValueText>{warehouse.office_premises_square}</ValueText> 
-                            <Typography sx={{
-                                fontFamily: 'Montserrat-Bold',
-                                fontSize: '13px',
-                                alignItems: 'flex-end',
-                            }}>м2
-                            </Typography>
-                        </Stack>
-                        </Stack>
-                        ):(
-                            <Stack direction="row" spacing={1}>
-                                <DoneIcon className={classes.done_icon}/>
-                                <ListItemText>Возможность аренды офисных помещений</ListItemText>
-                            </Stack>
-                        )}
-                            
-                    </StyledList>
-                </Stack>
-                </Grid>
-                )}
-
                 {warehouse.services.palletization || warehouse.services.box_pick || warehouse.services.transport_services || warehouse.services.crossdock || warehouse.services.custom ? (
                 <Grid item md={6}>
                 <Stack>
@@ -185,19 +155,6 @@ const WarehouseInfo = ({warehouse}) => {
                 </Stack>
                 </Grid>
                 ) : (<></>)}
-            </Grid>
-
-            <div className={classes.divider}>
-                <Divider/>
-            </div>
-
-            <Grid container>
-                <Grid item md={6}>
-                <Stack>
-                    <SectionTitle>Температурный режим</SectionTitle>
-                </Stack>
-                </Grid>
-
                 <Grid item md={6}>
                 <Stack>
                 
@@ -247,16 +204,60 @@ const WarehouseInfo = ({warehouse}) => {
                 </Stack>
                 </Grid>
             </Grid>
+
+            <div className={classes.divider}>
+                <Divider/>
+            </div>
+
+            <Grid container>
+            {warehouse.office_premises && (
+                <Grid item md={6}>
+                <Stack>
+                    <SectionTitle>Характеристики склада</SectionTitle>
+                    <StyledList>
+                        {warehouse.office_premises_square !== 0 ? (
+                        <Stack direction="row">
+                        <ListItemText>Возможность аренды офисных помещений</ListItemText>
+                        <Stack direction="row" spacing={1} sx = {{alignItems: "center"}} >
+                            <ValueText>{warehouse.office_premises_square}</ValueText> 
+                            <Typography sx={{
+                                fontFamily: 'Montserrat-Bold',
+                                fontSize: '13px',
+                                alignItems: 'flex-end',
+                            }}>м2
+                            </Typography>
+                        </Stack>
+                        </Stack>
+                        ):(
+                            <Stack direction="row" spacing={1}>
+                                <DoneIcon className={classes.done_icon}/>
+                                <ListItemText>Возможность аренды офисных помещений</ListItemText>
+                            </Stack>
+                        )}
+                            
+                    </StyledList>
+                </Stack>
+                </Grid>
+                )}
+
+                <Grid item md={6}>
+                
+                <Stack>
+                    <SectionTitle>Температурный режим</SectionTitle>
+                </Stack>
+                </Grid>
+            </Grid>
             
+            {warehouse.working_hours.time_from !== 0 && (
+            <div>
             <div className={classes.divider}>
                 <Divider/>
             </div>
 
             <Grid container>
                 <Grid item md={12}>
-                <Stack>
+                    <Stack>
                     <SectionTitle>Режим работы</SectionTitle>
-                    {warehouse.working_hours.time_from !== 0 && (
                         <Grid container spacing={3}> 
                         <Grid item>
                             <StyledList >
@@ -296,10 +297,11 @@ const WarehouseInfo = ({warehouse}) => {
                             </StyledList>
                         </Grid>
                         </Grid>
-                    )}
-                </Stack>
+                    </Stack>
                 </Grid>
             </Grid>
+            </div>
+            )}
             
             <div className={classes.divider}>
                 <Divider/>

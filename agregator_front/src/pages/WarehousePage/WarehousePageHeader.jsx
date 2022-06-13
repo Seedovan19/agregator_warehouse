@@ -48,8 +48,8 @@ const WarehousePageHeader = ({height}) => {
         boxShadow: '0',
         backgroundColor: 'white',
         boxShadow: '0 0px 0px 1px #ECEDED',
-        zIndex: 10,
-        marginBottom: '1.5rem',
+        zIndex: 100,
+        marginBottom: '1rem',
       }}
     >
       <StyledToolbar 

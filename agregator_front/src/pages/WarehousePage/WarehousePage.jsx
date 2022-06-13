@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { Grid, Link, CircularProgress, Typography } from '@material-ui/core';
+import {Link, CircularProgress, Typography } from '@material-ui/core';
+import Grid from '@mui/material/Grid'
 import Slideshow from '../../components/Slideshow/Slideshow'
 import WarehousePageHeader from './WarehousePageHeader'
 import WarehouseVariant from '../../components/WarehouseDetails/WarehouseVariant/WarehouseVariant'
@@ -10,6 +11,7 @@ import { getWarehouseImagesData } from '../../api'
 import { useParams } from 'react-router-dom'
 import { useNavigate } from "react-router-dom";
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import SingleWarehouseMap from './SingleWarehouseMap/SingleWarehouseMap'
 import useStyles from './styles'
 
 const WarehousePage = () => {
@@ -40,7 +42,10 @@ const WarehousePage = () => {
         <WarehousePageHeader
             height={70}
         />
-        <Grid container className={classes.page_content}>
+        <Grid container sx ={{
+            display: 'flex',
+            justifyContent: 'center',
+        }}>
         <Grid item md={10}>
         <div className={classes.go_back_link} onClick={handleLinkClick}>
             <ArrowBackIosIcon
@@ -65,24 +70,25 @@ const WarehousePage = () => {
         <Grid container>
             <Typography className={classes.warehouse_id}>ID склада: {warehouse?.id}</Typography>
         </Grid>
-
-
         </Grid>
         </Grid>
-        <Grid container className={classes.page_content}>
-
-        <Grid item md ={7} sm={12}>
+        <Grid sx ={{
+            display: 'flex',
+            justifyContent: 'center',
+        }}>
+        
+        <Grid item md={7} sm={12}>
             <div>
             {warehouse ? (
                 <>
+
                 <Slideshow warehouseImages={warehouseImages}/>
                 <div className={classes.warehouse_variant}>
-                    <WarehouseVariant 
-                        warehouse_variant = {warehouse?.warehouse_variant}
-                        is_long_term = {warehouse?.long_term_commitment}
-                    />
+                <WarehouseVariant 
+                    warehouse_variant = {warehouse?.warehouse_variant}
+                    is_long_term = {warehouse?.long_term_commitment}
+                />
                 </div>
-
                 <Costs warehouse = {warehouse} />
                 <WarehouseInfo warehouse = {warehouse} />
                 </>
@@ -93,15 +99,14 @@ const WarehousePage = () => {
                 </div>
                 </>
             )}
-
             </div>
         </Grid>
+
         <Grid item md ={3} sm={12}>
             <div className={classes.apply_card_div}>
                 <ApplicationCard/>
             </div>
         </Grid>
-        
         </Grid>
     </div>
   )
