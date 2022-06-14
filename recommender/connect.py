@@ -2,10 +2,10 @@ from flask import *
 import json, time
 import numpy as np
 import pandas as pd
-import scipy
-import scipy.spatial
 from sklearn.metrics.pairwise import pairwise_distances
+from sklearn import preprocessing
 import math
+from math import cos, asin, sqrt, pi
 from urllib.request import urlopen
 from flask_cors import CORS, cross_origin
 
@@ -75,6 +75,20 @@ def computeConditionSimilarity(condition1, condition2):
     diff = abs(condition1["features.condition"] - condition2["features.condition"])
     sim = math.exp(-diff / 5.0)
     return sim
+
+def distance(lat1, lon1, lat2, lon2):
+    p = pi/180
+    a = 0.5 - cos((lat2-lat1)*p)/2 + cos(lat1*p) * cos(lat2*p) * (1-cos((lon2-lon1)*p))/2
+    return 12742 * asin(sqrt(a))
+
+# Сравниваем класс и условия хранения
+def computeClassConditionSimilarity(warehouse, query):
+    q1 = abs(warehouse["warehouse_class"] - query["warehouse_class"])
+    q2 = abs(warehouse["features.condition"] - query["condition"])
+    w1 = 1.2
+    w2 = 1
+    return np.sqrt((w1*q1*q1)+(w2*q2*q2))
+
 
 
 @app.route('/', methods=['GET'])
@@ -176,6 +190,11 @@ def get_recommendations():
     data = get_warehouses(api_url)
     dataset = pd.json_normalize(data)
     n = len(data)
+    print('#############################################')
+    print('Number of rows')
+    print(n)
+    print('#############################################\n')
+    
     df_warehouses_bool = pd.DataFrame(dataset, columns=columns_bool, index=dataset.id)
     df_warehouses_bool = df_warehouses_bool.dropna()
     df_survey = pd.DataFrame([[long_term_commitment_query, freezer_query, refrigerator_query, alcohol_query, pharmaceuticals_query, food_query, dangerous_query, transport_services_query, custom_query, crossdock_query, palletization_query, box_pick_query, leveling_platform_query, railways_query]], columns=columns_bool, index=["survey"])
@@ -228,7 +247,7 @@ def get_recommendations():
 
         exp_similarity[index][0] = index
         exp_similarity[index][1] = computeConditionSimilarity(row, exp_survey) * computeClassSimilarity(row, exp_survey) * computePositionSimilarity(row, exp_survey)
-    
+        
     exp_similarity = exp_similarity[~np.all(exp_similarity == 0, axis=1)] #удаляем строки, где только нули
     # сортируем по убыванию
     k_pos = exp_similarity[(-exp_similarity)[:, 1].argsort()]
