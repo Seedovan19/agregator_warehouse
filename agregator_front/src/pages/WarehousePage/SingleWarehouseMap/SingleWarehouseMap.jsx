@@ -28,7 +28,7 @@ const SingleWarehouseMap = ({ warehouse }) => {
     return  (
         <div className={classes.mapContainer}>
             <LeafletMap 
-                style={{height: "100%", width: "100%"}} 
+                style={{height: "50vh", width: "100%"}} 
                 center={[Number(warehouse.wh_latitude), Number(warehouse.wh_longitude)]} 
                 zoom={13}
             >

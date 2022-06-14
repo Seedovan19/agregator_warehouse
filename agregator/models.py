@@ -21,7 +21,7 @@ class Storagecond(TrackingModel, models.Model):
     pallet_storage_capacity = models.IntegerField(choices=PALLET_QUANTITY, default=0, verbose_name='Вместимость (палет)')
     pallet_storage_cost = models.FloatField(default=0, verbose_name='Стоимость хранения палет (с НДС)')
     pallet_handling_cost = models.FloatField(default=0, verbose_name='Стоимость приемки/отгрузки палет (с НДС)')
-    max_storage_weight = models.IntegerField(default=1200)
+    max_storage_weight = models.IntegerField(default=1000)
     max_storage_height = models.FloatField(default=1.7)
     bulky_cargo_storage = models.BooleanField(default=False, verbose_name='Возможность хранения крупногабаритного груза') #TODO: в нейронке отразить
 

@@ -11,13 +11,15 @@ import { getWarehouseImagesData } from '../../api'
 import { useParams } from 'react-router-dom'
 import { useNavigate } from "react-router-dom";
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
-import SingleWarehouseMap from './SingleWarehouseMap/SingleWarehouseMap'
 import useStyles from './styles'
 
 const WarehousePage = () => {
     const { id } = useParams();
     const [ warehouse, setWarehouse ] = useState(null);
     const [ warehouseImages, setWarehouseImages ] = useState(null);
+    const [ conditionValue, setConditionValue ] = useState('No value');
+    const [ fireSysTypeValue, setFireSysType ] = useState('No value');
+
     const classes = useStyles();
     const navigate = useNavigate();
 
@@ -25,7 +27,37 @@ const WarehousePage = () => {
     useEffect(() => {
         fetch(`http://127.0.0.1:8000/api/warehouses/warehouse-detail/${id}`)
         .then(res => res.json())
-        .then(data => setWarehouse(data))
+
+        .then((data) => {
+            if (data.features.condition === "Regulated") {
+                setConditionValue('Регулируемый температурный режим')
+            } else if (data.features.condition === "Heated") {
+                setConditionValue('Отапливаемый')
+            } else if (data.features.condition === "Warmed") {
+                setConditionValue('Утепленный')
+            } else if (data.features.condition === "Non-heated") {
+                setConditionValue('Неотапливаемый')
+            } else if (data.features.condition === "Freezer-WH") {
+                setConditionValue('Морозильный')
+            } else if (data.features.condition === "Cold-WH") {
+                setConditionValue('Холодильный')
+            }
+
+            if (data.security.fire_system_type === "Alarm") {
+                setFireSysType('Сигнализация')
+            } else if (data.security.fire_system_type === "Sprinkler") {
+                setFireSysType('Спринклерная')
+            } else if (data.security.fire_system_type === "Powder") {
+                setFireSysType('Порошковая')
+            } else if (data.security.fire_system_type === "Gaz") {
+                setFireSysType('Газовая')
+            } else if (data.security.fire_system_type === "Hydrant") {
+                setFireSysType('Гидрантная')
+            } else if (data.security.fire_system_type === "None") {
+                setFireSysType('Нет')
+            }
+            setWarehouse(data)
+        })
 
         getWarehouseImagesData(id)
         .then(data => setWarehouseImages(data))
@@ -90,7 +122,11 @@ const WarehousePage = () => {
                 />
                 </div>
                 <Costs warehouse = {warehouse} />
-                <WarehouseInfo warehouse = {warehouse} />
+                <WarehouseInfo 
+                    warehouse = {warehouse} 
+                    conditionValue = {conditionValue}
+                    fireSysTypeValue = {fireSysTypeValue}
+                />
                 </>
             ) : (
                 <>
@@ -101,12 +137,13 @@ const WarehousePage = () => {
             )}
             </div>
         </Grid>
-
+        {warehouse ? (
         <Grid item md ={3} sm={12}>
             <div className={classes.apply_card_div}>
                 <ApplicationCard/>
             </div>
         </Grid>
+        ) : (<></>)}
         </Grid>
     </div>
   )
