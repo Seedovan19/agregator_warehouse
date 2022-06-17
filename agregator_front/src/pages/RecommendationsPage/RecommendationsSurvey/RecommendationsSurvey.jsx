@@ -1,4 +1,4 @@
-import React, { Component, useState } from 'react'
+import React, { Component } from 'react'
 import { Card, Typography, Button } from '@material-ui/core';
 import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
@@ -28,6 +28,8 @@ const styles = theme => ({
 recommendations_card: {
   boxShadow: '0px 0px 12px #32274414,0px 0px 1px #32274452,0px 8px 16px -8px #32274405',
   borderWidth: 0,
+  marginLeft: '10rem',
+  marginRight: '10rem',
 },
 
 title: {
@@ -120,10 +122,35 @@ class RecommendationsSurvey extends Component {
     company: '',
     comment: '',
     firstWH: null,
+    firstWhRating: '0',
+    firstWhImages: '',
+    firstPalletStorage: '',
+    firstConditionValue: 'No value',
+    firstFireSysTypeValue: 'No value',
     secondWH: null,
+    secondWhRating: '0',
+    secondWhImages: '',
+    secondPalletStorage: '',
+    secondConditionValue: 'No value',
+    secondFireSysTypeValue: 'No value',
     thirdWH: null,
+    thirdWhRating: '0',
+    thirdWhImages: '',
+    thirdPalletStorage: '',
+    thirdConditionValue: 'No value',
+    thirdFireSysTypeValue: 'No value',
     fourthWH: null,
+    fourthWhRating: '0',
+    fourthWhImages: '',
+    fourthPalletStorage: '',
+    fourthConditionValue: 'No value',
+    fourthFireSysTypeValue: 'No value',
     fifthWH: null,
+    fifthWhRating: '0',
+    fifthWhImages: '',
+    fifthPalletStorage: '',
+    fifthConditionValue: 'No value',
+    fifthFireSysTypeValue: 'No value',
   }
   
   handleNext = () => {
@@ -170,8 +197,12 @@ class RecommendationsSurvey extends Component {
     const steps = 4;
     const submitSignal = 0;
     const { activeStep } = this.state;
-    const { isLoading } = this.state
-    const { firstWH, secondWH, thirdWH, fourthWH, fifthWH } = this.state
+    const { isLoading } = this.state;
+    const { firstWH, secondWH, thirdWH, fourthWH, fifthWH } = this.state;
+    const { firstWhImages, secondWhImages, thirdWhImages, fourthWhImages, fifthWhImages } = this.state;
+    const { firstPalletStorage, secondPalletStorage, thirdPalletStorage, fourthPalletStorage, fifthPalletStorage } = this.state;
+    const { firstWhRating, secondWhRating, thirdWhRating, fourthWhRating, fifthWhRating } = this.state;
+    const { firstConditionValue, firstFireSysTypeValue, secondConditionValue, secondFireSysTypeValue, thirdConditionValue, thirdFireSysTypeValue, fourthConditionValue, fourthFireSysTypeValue, fifthConditionValue, fifthFireSysTypeValue } = this.state;
     const { product_type, condition, freezer, refrigerator, alcohol, pharmaceuticals, food, dangerous, warehouse_class, wh_latlon, transport_services, custom, crossdock, palletization, box_pick, leveling_platform, railways, palletQuantity, long_term_commitment, fullName, email, mobile, company, comment } = this.state;
     const values = { product_type, condition, freezer, refrigerator, alcohol, pharmaceuticals, food, dangerous, warehouse_class, wh_latlon, transport_services, custom, crossdock, palletization, box_pick, leveling_platform, railways, palletQuantity, long_term_commitment, fullName, email, mobile, company, comment };
     const { classes } = this.props;
@@ -411,10 +442,33 @@ class RecommendationsSurvey extends Component {
                 thirdWH = {thirdWH}
                 fourthWH = {fourthWH}
                 fifthWH = {fifthWH}
+                firstWhRating = {firstWhRating}
+                secondWhRating = {secondWhRating}
+                thirdWhRating = {thirdWhRating}
+                fourthWhRating = {fourthWhRating}
+                fifthWhRating = {fifthWhRating}
+                firstWhImages = {firstWhImages}
+                secondWhImages = {secondWhImages}
+                thirdWhImages = {thirdWhImages}
+                fourthWhImages = {fourthWhImages}
+                fifthWhImages = {fifthWhImages}
+                firstPalletStorage = {firstPalletStorage}
+                secondPalletStorage = {secondPalletStorage}
+                thirdPalletStorage = {thirdPalletStorage}
+                fourthPalletStorage = {fourthPalletStorage}
+                fifthPalletStorage = {fifthPalletStorage}
+                firstConditionValue = {firstConditionValue}
+                firstFireSysTypeValue = {firstFireSysTypeValue}
+                secondConditionValue = {secondConditionValue}
+                secondFireSysTypeValue = {secondFireSysTypeValue}
+                thirdConditionValue = {thirdConditionValue}
+                thirdFireSysTypeValue = {thirdFireSysTypeValue}
+                fourthConditionValue = {fourthConditionValue}
+                fourthFireSysTypeValue = {fourthFireSysTypeValue}
+                fifthConditionValue = {fifthConditionValue}
+                fifthFireSysTypeValue = {fifthFireSysTypeValue}
                 handleBack = {this.handleBack}
-              >
-
-              </Results>
+              />
             )
             }
             </div>

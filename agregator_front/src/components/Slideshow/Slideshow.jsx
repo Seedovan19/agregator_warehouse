@@ -27,12 +27,10 @@ const Slideshow = ({warehouseImages}) => {
     const moveDot = index => {
         setSlideIndex(index)
     }
-
-    console.log(warehouseImages)
     return (
         <>
         { warehouseImages.count === 0 ? (
-            <div>Привет</div>
+            <div></div>
         ) : (
         <div className="container-slider">
             { warehouseImages?.results?.map((image, i) => {

@@ -1,5 +1,5 @@
 import React from 'react'
-import Header from '../../components/Header/Header'
+import WarehousePageHeader from '../WarehousePage/WarehousePageHeader'
 import Grid from '@mui/material/Grid';
 import Link from '@mui/material/Link'
 import RecommendationsSurvey from './RecommendationsSurvey/RecommendationsSurvey'
@@ -43,7 +43,7 @@ const RecommendationsPage = () => {
     }
     return (
         <div>
-        <Header
+        <WarehousePageHeader
             height = {70}
         />
             <Grid container sx= {{
@@ -52,7 +52,7 @@ const RecommendationsPage = () => {
                 margin: '0 auto',
                 position: 'relative',
             }}>
-            <Grid item md={7}>
+            <Grid item md={12} sx = {{ marginLeft: '8rem'}}>
             <GoBackDiv onClick={handleBackClick}>
                 <ArrowBackIosIcon
                 sx={{
@@ -71,7 +71,7 @@ const RecommendationsPage = () => {
             </Grid>
             </Grid>
             <Grid container className={classes.recommendations_window}>
-                <Grid item md = {7}>
+                <Grid item md = {12}>
                     <RecommendationsSurvey/>
                 </Grid>
             </Grid>

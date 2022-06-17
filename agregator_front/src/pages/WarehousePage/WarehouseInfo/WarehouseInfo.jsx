@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState} from 'react'
 import { getIsochrone } from '../../../api/isochrone'
 import { Grid, Divider } from '@material-ui/core';
 import Typography from '@mui/material/Typography';
@@ -20,6 +20,16 @@ import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import FmdGoodIcon from '@mui/icons-material/FmdGood';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 
+import Button from '@mui/material/Button';
+import LoadingButton from '@mui/lab/LoadingButton';
+import SaveIcon from '@mui/icons-material/Save';
+import TextField from '@mui/material/TextField';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import Slider from '@mui/material/Slider';
+
+
 import SingleWarehouseMap from '../SingleWarehouseMap/SingleWarehouseMap'
 import {RecommendationsBlock} from '../RecommendationsBlock/RecommendationsBlock'
 import useStyles from './styles'
@@ -28,7 +38,7 @@ import { styled } from '@mui/system';
 
 
 const StyledSelect = styled(Select)({
-  height: '38px',
+  height: '3.5rem',
   "& .MuiOutlinedInput-notchedOutline": {
 
     borderColor: "#E2E5EA",
@@ -75,20 +85,34 @@ const ValueText = styled(Typography)({
 
 const WarehouseInfo = ({warehouse, conditionValue, fireSysTypeValue}) => {
     const classes = useStyles();
+    const [ loadingIso, setLoadingIso ] = useState(false);
     const [ vehicle, setVehicle ] = useState('');
+    const [ isoData, setIsoData ] = useState([]);
+    const [ dateValue, setDateValue] = useState(new Date());
+    const [ actualDateValue, setActualDateValue] = useState(0);
 
-    useEffect(() => {
-        getIsochrone(vehicle)
+    const [ timeValue, setTimeValue] = useState(0);
+    const [ timeOfTheDay, setTimeOfTheDay ] = useState(0);
+
+    const handleTimeChange = (event, newValue) => {
+        setTimeValue(newValue);
+    };
+
+    const handleIsochroneChange = (event) => {
+        setLoadingIso(true)
+        setActualDateValue(dateValue.getMonth() + 1);
+        getIsochrone(warehouse, vehicle, actualDateValue, timeValue, timeOfTheDay)
         .then((data) => {
-            console.log(data)
+            setIsoData(data)
+            setLoadingIso(false)
         })
-    },[vehicle]);
+    };
 
     const iconComponent = (props) => {
     return (
         <ExpandMoreIcon className={props.className + " " + classes.icon}/>
     )};
-    
+
     // moves the menu below the select input
     const menuProps = {
     classes: {
@@ -152,7 +176,7 @@ const WarehouseInfo = ({warehouse, conditionValue, fireSysTypeValue}) => {
                         {warehouse.services.custom && (
                             <ListItem disablePadding>
                                 <ListItemIcon>
-                                    <DoneIcon className={classes.done_icon}/> 
+                                    <DoneIcon className={classes.done_icon}/>
                                 </ListItemIcon>
                                 <ListItemText primary="Таможенный склад" className={classes.list_text}/>
                             </ListItem>
@@ -164,11 +188,11 @@ const WarehouseInfo = ({warehouse, conditionValue, fireSysTypeValue}) => {
                 ) : (<></>)}
                 <Grid item md={6}>
                 <Stack>
-                
+
                 {warehouse.features.alcohol || warehouse.features.pharmacy || warehouse.features.food || warehouse.features.dangerous ? (
                     <>
                     <SectionTitle>Возможность хранения</SectionTitle>
-                    
+
                     <StyledList >
                         {warehouse.features.alcohol && (
                             <ListItem disablePadding>
@@ -196,7 +220,7 @@ const WarehouseInfo = ({warehouse, conditionValue, fireSysTypeValue}) => {
                                 <ListItemText primary="Пищевая продукция" className={classes.list_text}/>
                             </ListItem>
                         )}
-                        
+
                         {warehouse.features.dangerous && (
                             <ListItem disablePadding>
                                 <ListItemIcon>
@@ -226,7 +250,7 @@ const WarehouseInfo = ({warehouse, conditionValue, fireSysTypeValue}) => {
                         <Stack direction="row">
                             <ListItemText>Возможность аренды офисных помещений</ListItemText>
                             <Stack direction="row" spacing={1} sx = {{alignItems: "center"}} >
-                                <ValueText>{warehouse.office_premises_square}</ValueText> 
+                                <ValueText>{warehouse.office_premises_square}</ValueText>
                                 <Typography sx={{
                                     fontFamily: 'Montserrat-Bold',
                                     fontSize: '13px',
@@ -249,19 +273,19 @@ const WarehouseInfo = ({warehouse, conditionValue, fireSysTypeValue}) => {
                             <ListItemText>Возможность хранения крупногабаритных грузов</ListItemText>
                         )}
                         {warehouse.storage_conditions.max_storage_weight !== 0 && (
-                            <Stack 
-                                direction="row" 
+                            <Stack
+                                direction="row"
                                 sx ={{
                                     alignItems: "center",
                                     maxWidth: '19rem'
                                 }}
                             >
                                 <ListItemText>Максимальная высота груза</ListItemText>
-                                <ValueText>{warehouse.storage_conditions.max_storage_weight}</ValueText> 
+                                <ValueText>{warehouse.storage_conditions.max_storage_weight}</ValueText>
                             </Stack>
                         )}
                         {warehouse.storage_conditions.max_storage_height !== 0 && (
-                            <Stack 
+                            <Stack
                                 direction="row"
                                 sx ={{
                                     alignItems: "center",
@@ -269,7 +293,7 @@ const WarehouseInfo = ({warehouse, conditionValue, fireSysTypeValue}) => {
                                 }}
                             >
                                 <ListItemText>Максимальный вес груза</ListItemText>
-                                <ValueText>{warehouse.storage_conditions.max_storage_height}</ValueText> 
+                                <ValueText>{warehouse.storage_conditions.max_storage_height}</ValueText>
                             </Stack>
                         )}
                     </StyledList>
@@ -285,7 +309,7 @@ const WarehouseInfo = ({warehouse, conditionValue, fireSysTypeValue}) => {
                             <ListItem disablePadding>
                                 <Stack direction="row" spacing={1} sx = {{alignItems: "center"}} >
                                     <ListItemText>Режим хранения</ListItemText>
-                                    <ValueText>{conditionValue}</ValueText> 
+                                    <ValueText>{conditionValue}</ValueText>
                                 </Stack>
                             </ListItem>
                             {warehouse.features.freezer && (
@@ -295,7 +319,7 @@ const WarehouseInfo = ({warehouse, conditionValue, fireSysTypeValue}) => {
                                         {warehouse.features.freezer_size !== 0 && (
                                             <Stack direction="row" spacing={1} sx = {{alignItems: "center"}} >
                                                 <ValueText>{warehouse.features.freezer_size}</ValueText>
-                                                <Typography 
+                                                <Typography
                                                     sx={{
                                                         fontFamily: 'Montserrat-Bold',
                                                         fontSize: '13px',
@@ -317,7 +341,7 @@ const WarehouseInfo = ({warehouse, conditionValue, fireSysTypeValue}) => {
                                         {warehouse.features.refrigerator_size !== 0 && (
                                             <Stack direction="row" spacing={1} sx = {{alignItems: "center"}} >
                                                 <ValueText>{warehouse.features.refrigerator_size}</ValueText>
-                                                <Typography 
+                                                <Typography
                                                     sx={{
                                                         fontFamily: 'Montserrat-Bold',
                                                         fontSize: '13px',
@@ -335,7 +359,7 @@ const WarehouseInfo = ({warehouse, conditionValue, fireSysTypeValue}) => {
                     </Stack>
                 </Grid>
             </Grid>
-            
+
             {warehouse.working_hours.time_from !== 0 && (
             <div>
             <div className={classes.divider}>
@@ -350,7 +374,7 @@ const WarehouseInfo = ({warehouse, conditionValue, fireSysTypeValue}) => {
                         <AccessTimeIcon sx ={{color:"#284AC2"}}></AccessTimeIcon>
                         <SectionTitle>Режим работы</SectionTitle>
                     </Stack>
-                        <Grid container spacing={3}> 
+                        <Grid container spacing={3}>
                         <Grid item>
                             <StyledList >
                                 <ListItem disablePadding>
@@ -394,7 +418,7 @@ const WarehouseInfo = ({warehouse, conditionValue, fireSysTypeValue}) => {
             </Grid>
             </div>
             )}
-            
+
             <div className={classes.divider}>
                 <Divider/>
             </div>
@@ -414,7 +438,7 @@ const WarehouseInfo = ({warehouse, conditionValue, fireSysTypeValue}) => {
                                 <ListItemIcon>
                                     <FiberManualRecordIcon sx ={{
                                         fontSize: '11px'
-                                    }}/> 
+                                    }}/>
                                 </ListItemIcon>
                                 <ListItemText>Охраняемая территория</ListItemText>
                             </ListItem>
@@ -424,7 +448,7 @@ const WarehouseInfo = ({warehouse, conditionValue, fireSysTypeValue}) => {
                                 <ListItemIcon>
                                     <FiberManualRecordIcon sx ={{
                                         fontSize: '11px'
-                                    }}/> 
+                                    }}/>
                                 </ListItemIcon>
                                 <ListItemText>Круглосуточная охрана</ListItemText>
                             </ListItem>
@@ -434,7 +458,7 @@ const WarehouseInfo = ({warehouse, conditionValue, fireSysTypeValue}) => {
                                 <ListItemIcon>
                                     <FiberManualRecordIcon sx ={{
                                         fontSize: '11px'
-                                    }}/> 
+                                    }}/>
                                 </ListItemIcon>
                                 <ListItemText>Видеонаблюдение</ListItemText>
                             </ListItem>
@@ -444,7 +468,7 @@ const WarehouseInfo = ({warehouse, conditionValue, fireSysTypeValue}) => {
                                 <ListItemIcon>
                                     <FiberManualRecordIcon sx ={{
                                         fontSize: '11px'
-                                    }}/> 
+                                    }}/>
                                 </ListItemIcon>
                                 <ListItemText>Магнитные замки доступа</ListItemText>
                             </ListItem>
@@ -454,7 +478,7 @@ const WarehouseInfo = ({warehouse, conditionValue, fireSysTypeValue}) => {
                                 <ListItemIcon>
                                     <FiberManualRecordIcon sx ={{
                                         fontSize: '11px'
-                                    }}/> 
+                                    }}/>
                                 </ListItemIcon>
                                 <ListItemText>Наличие автономного источника энергии</ListItemText>
                             </ListItem>
@@ -464,12 +488,12 @@ const WarehouseInfo = ({warehouse, conditionValue, fireSysTypeValue}) => {
                                 <ListItemIcon>
                                     <FiberManualRecordIcon sx ={{
                                         fontSize: '11px'
-                                    }}/> 
+                                    }}/>
                                 </ListItemIcon>
                                 <ListItemText>Охранная сигнализация</ListItemText>
                             </ListItem>
                         )}
-                        
+
                         {warehouse.security.fire_system_type !== "No value" && (
                             <ListItem disablePadding sx = {{
                                 paddingTop: '0.7rem',
@@ -493,7 +517,7 @@ const WarehouseInfo = ({warehouse, conditionValue, fireSysTypeValue}) => {
             <Grid container>
             <Grid item md={12}>
             <Stack spacing={1}>
-            
+
                 {warehouse.logistics.leveling_platform || warehouse.logistics.railways || warehouse.logistics.parking || warehouse.logistics.parking_security ? (
                 <>
                 <Stack direction="row" spacing={2}>
@@ -506,7 +530,7 @@ const WarehouseInfo = ({warehouse, conditionValue, fireSysTypeValue}) => {
                                 <ListItemIcon>
                                     <FiberManualRecordIcon sx ={{
                                         fontSize: '11px'
-                                    }}/> 
+                                    }}/>
                                 </ListItemIcon>
                                 <ListItemText>Наличие оборудования для выравнивания</ListItemText>
                             </ListItem>
@@ -516,7 +540,7 @@ const WarehouseInfo = ({warehouse, conditionValue, fireSysTypeValue}) => {
                                 <ListItemIcon>
                                     <FiberManualRecordIcon sx ={{
                                         fontSize: '11px'
-                                    }}/> 
+                                    }}/>
                                 </ListItemIcon>
                                 <ListItemText>Наличие ж/д сообщения</ListItemText>
                             </ListItem>
@@ -526,7 +550,7 @@ const WarehouseInfo = ({warehouse, conditionValue, fireSysTypeValue}) => {
                                 <ListItemIcon>
                                     <FiberManualRecordIcon sx ={{
                                         fontSize: '11px'
-                                    }}/> 
+                                    }}/>
                                 </ListItemIcon>
                                 <ListItemText>Возможность оставить грузовой транспорт на парковке</ListItemText>
                             </ListItem>
@@ -536,7 +560,7 @@ const WarehouseInfo = ({warehouse, conditionValue, fireSysTypeValue}) => {
                                 <ListItemIcon>
                                     <FiberManualRecordIcon sx ={{
                                         fontSize: '11px'
-                                    }}/> 
+                                    }}/>
                                 </ListItemIcon>
                                 <ListItemText>Охраняемая парковка</ListItemText>
                             </ListItem>
@@ -546,16 +570,16 @@ const WarehouseInfo = ({warehouse, conditionValue, fireSysTypeValue}) => {
                                 <Stack direction="row">
                                     {/* TODO: проверить */}
                                 <ListItemText>Стоимость охраняемой парковки</ListItemText>
-                                <Stack direction="row" spacing={1} sx = {{alignItems: "center"}} >
-                                    <ValueText>{warehouse.features.parking_cost}</ValueText>
-                                    <Typography 
+                                <Stack direction="row" spacing={0.5} sx = {{ paddingLeft: '0.5rem', alignItems: "center"}} >
+                                    <ValueText>{warehouse.logistics.parking_cost}</ValueText>
+                                    <Typography
                                         sx={{
                                             fontFamily: 'Montserrat-Bold',
                                             fontSize: '13px',
                                             alignItems: 'flex-end',
                                         }}
                                     >
-                                        руб
+                                        руб/сутки
                                     </Typography>
                                 </Stack>
                                 </Stack>
@@ -573,48 +597,153 @@ const WarehouseInfo = ({warehouse, conditionValue, fireSysTypeValue}) => {
             <Grid container>
                 <Grid item md={12}>
                 <Stack spacing={1.5}>
-                
+
                 <Stack direction="row" spacing={2}>
                     <FmdGoodIcon sx ={{color:"#284AC2"}}></FmdGoodIcon>
                     <SectionTitle>Расположение склада</SectionTitle>
                 </Stack>
-                    <StyledFormControl size="small">
-                    <InputLabel>Транспорт</InputLabel>
+                <Stack direction="row" spacing={2}>
+                        <StyledFormControl size="small">
+                            <InputLabel>Транспорт</InputLabel>
+                                <StyledSelect
+                                    label="Выберите транспорт"
+                                    value={vehicle}
+                                    IconComponent={iconComponent}
+                                    onChange={(e) => setVehicle(e.target.value)}
+                                    MenuProps={menuProps}
+                                >
+                                <MenuItem value="" >
+                                    <em>Не задано</em>
+                                </MenuItem>
+                                <MenuItem value="drive">Грузовик</MenuItem>
+                                <MenuItem value="bike">Велосипед</MenuItem>
+                                <MenuItem value="walk">Пешеход</MenuItem>
+                                </StyledSelect>
+                        </StyledFormControl>
+                        <LocalizationProvider dateAdapter={AdapterDateFns}>
+                            <DatePicker
+                                label="Basic example"
+                                value={dateValue}
+                                onChange={(dateValue) => {
+                                    setDateValue(dateValue);
+                                }}
+                                renderInput={(params) => <TextField {...params} />}
+                            />
+                        </LocalizationProvider>
+                </Stack>
+                <Stack>
+                    <Typography>Время покрытия</Typography>
+                    <Typography>{timeValue} минут</Typography>
+                    <Slider
+                        sx ={{
+                            width: '15rem',
+                            marginLeft: '0.5rem'
+                        }}
+                        aria-label="Time"
+                        defaultValue={10}
+
+                        onChange={handleTimeChange}
+                        valueLabelDisplay="auto"
+                        step={10}
+                        marks
+                        min={10}
+                        max={120}
+                    />
+                </Stack>
+                <StyledFormControl size="small">
+                    <InputLabel>Время суток</InputLabel>
                         <StyledSelect
-                            label="Выберите транспорт"
-                            value={vehicle} 
+                            label="Выберите время суток"
+                            value={timeOfTheDay}
                             IconComponent={iconComponent}
-                            onChange={(e) => setVehicle(e.target.value)} 
+                            onChange={(e) => setTimeOfTheDay(e.target.value)}
                             MenuProps={menuProps}
                         >
                         <MenuItem value="" >
                             <em>Не задано</em>
                         </MenuItem>
-                        <MenuItem value="truck">Грузовик</MenuItem>
-                        <MenuItem value="bicycle">Велосипед</MenuItem>
-                        <MenuItem value="pedestrian">Пешеход</MenuItem>
+                        <MenuItem value="0">00:00</MenuItem>
+                        <MenuItem value="30">00:30</MenuItem>
+                        <MenuItem value="60">01:00</MenuItem>
+                        <MenuItem value="90">01:30</MenuItem>
+                        <MenuItem value="120">02:00</MenuItem>
+                        <MenuItem value="150">02:30</MenuItem>
+                        <MenuItem value="180">03:00</MenuItem>
+                        <MenuItem value="210">03:30</MenuItem>
+                        <MenuItem value="240">04:00</MenuItem>
+                        <MenuItem value="270">04:30</MenuItem>
+                        <MenuItem value="300">05:00</MenuItem>
+                        <MenuItem value="330">05:30</MenuItem>
+                        <MenuItem value="360">06:00</MenuItem>
+                        <MenuItem value="390">06:30</MenuItem>
+                        <MenuItem value="420">07:00</MenuItem>
+                        <MenuItem value="450">07:30</MenuItem>
+                        <MenuItem value="480">08:00</MenuItem>
+                        <MenuItem value="510">08:30</MenuItem>
+                        <MenuItem value="540">09:00</MenuItem>
+                        <MenuItem value="570">09:30</MenuItem>
+                        <MenuItem value="600">10:00</MenuItem>
+                        <MenuItem value="630">10:30</MenuItem>
+                        <MenuItem value="660">11:00</MenuItem>
+                        <MenuItem value="690">11:30</MenuItem>
+                        <MenuItem value="720">12:00</MenuItem>
+                        <MenuItem value="750">12:30</MenuItem>
+                        <MenuItem value="780">13:00</MenuItem>
+                        <MenuItem value="810">13:30</MenuItem>
+                        <MenuItem value="840">14:00</MenuItem>
+                        <MenuItem value="870">14:30</MenuItem>
+                        <MenuItem value="900">15:00</MenuItem>
+                        <MenuItem value="930">15:30</MenuItem>
+                        <MenuItem value="960">16:00</MenuItem>
+                        <MenuItem value="990">16:30</MenuItem>
+                        <MenuItem value="1020">17:00</MenuItem>
+                        <MenuItem value="1050">17:30</MenuItem>
+                        <MenuItem value="1080">18:00</MenuItem>
+                        <MenuItem value="1110">18:30</MenuItem>
+                        <MenuItem value="1140">19:00</MenuItem>
+                        <MenuItem value="1170">19:30</MenuItem>
+                        <MenuItem value="1200">20:00</MenuItem>
+                        <MenuItem value="1230">20:30</MenuItem>
+                        <MenuItem value="1260">21:00</MenuItem>
+                        <MenuItem value="1290">21:30</MenuItem>
+                        <MenuItem value="1320">22:00</MenuItem>
+                        <MenuItem value="1350">22:30</MenuItem>
+                        <MenuItem value="1380">23:00</MenuItem>
+                        <MenuItem value="1410">23:30</MenuItem>
                         </StyledSelect>
-                    </StyledFormControl>
-                    <SingleWarehouseMap warehouse = {warehouse}/>
+                </StyledFormControl>
+                {loadingIso ? (
+                    <>
+                    <LoadingButton
+                        loading
+                        loadingPosition="start"
+                        startIcon={<SaveIcon />}
+                        variant="outlined"
+                    >
+                        Загрузка
+                    </LoadingButton>
+                        </>
+                ) : (
+                    <>
+                    <Button 
+                    variant="outlined"
+                    onClick={(e) => (
+                        handleIsochroneChange()
+                    )}>
+                        Применить
+                    </Button> 
+                    </>
+                )}
+                <SingleWarehouseMap warehouse = {warehouse} isoData={isoData}/>
                 </Stack>
                 </Grid>
             </Grid>
-            
-            
-            <RecommendationsBlock />
-            
+
+
+            {/* <RecommendationsBlock /> */}
+
         </div>
     )
 }
 
 export {WarehouseInfo}
-
-
-// Безопасность (security)
-// security_post
-// all_day_security
-// video_control
-// magnetic_access_locks
-// generator
-// alarm_system
-// fire_system_type

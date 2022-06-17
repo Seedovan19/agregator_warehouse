@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react'
-import {Link, CircularProgress, Typography } from '@material-ui/core';
+import { Link, CircularProgress, Typography } from '@material-ui/core';
 import Grid from '@mui/material/Grid'
 import Slideshow from '../../components/Slideshow/Slideshow'
 import WarehousePageHeader from './WarehousePageHeader'
 import WarehouseVariant from '../../components/WarehouseDetails/WarehouseVariant/WarehouseVariant'
-import {Costs} from './Costs/Costs'
-import {ApplicationCard} from './ApplicationCard/ApplicationCard'
-import {WarehouseInfo} from './WarehouseInfo/WarehouseInfo'
+import { Costs } from './Costs/Costs'
+import { ApplicationCard } from './ApplicationCard/ApplicationCard'
+import { WarehouseInfo } from './WarehouseInfo/WarehouseInfo'
 import { getWarehouseImagesData } from '../../api'
 import { useParams } from 'react-router-dom'
 import { useNavigate } from "react-router-dom";
@@ -19,6 +19,7 @@ const WarehousePage = () => {
     const [ warehouseImages, setWarehouseImages ] = useState(null);
     const [ conditionValue, setConditionValue ] = useState('No value');
     const [ fireSysTypeValue, setFireSysType ] = useState('No value');
+    const [ palletStorage, setPalletStorage ] = useState('');
 
     const classes = useStyles();
     const navigate = useNavigate();
@@ -27,7 +28,7 @@ const WarehousePage = () => {
     useEffect(() => {
         fetch(`http://127.0.0.1:8000/api/warehouses/warehouse-detail/${id}`)
         .then(res => res.json())
-
+        
         .then((data) => {
             if (data.features.condition === "Regulated") {
                 setConditionValue('Регулируемый температурный режим')
@@ -56,6 +57,19 @@ const WarehousePage = () => {
             } else if (data.security.fire_system_type === "None") {
                 setFireSysType('Нет')
             }
+            
+            if (data.storage_conditions.pallet_storage_capacity === 1) {
+                setPalletStorage('50')
+            } else if (data.storage_conditions.pallet_storage_capacity === 2) {
+                setPalletStorage('50-250')
+            } else if (data.storage_conditions.pallet_storage_capacity === 3) {
+                setPalletStorage('250-500')
+            } else if (data.storage_conditions.pallet_storage_capacity === 4) {
+                setPalletStorage('500-1000')
+            } else if (data.storage_conditions.pallet_storage_capacity === 5) {
+                setPalletStorage('1000+')
+            }
+
             setWarehouse(data)
         })
 
@@ -113,15 +127,14 @@ const WarehousePage = () => {
             <div>
             {warehouse ? (
                 <>
-
                 <Slideshow warehouseImages={warehouseImages}/>
                 <div className={classes.warehouse_variant}>
-                <WarehouseVariant 
-                    warehouse_variant = {warehouse?.warehouse_variant}
-                    is_long_term = {warehouse?.long_term_commitment}
-                />
+                    <WarehouseVariant 
+                        warehouse_variant = {warehouse?.warehouse_variant}
+                        is_long_term = {warehouse?.long_term_commitment}
+                    />
                 </div>
-                <Costs warehouse = {warehouse} />
+                <Costs warehouse = {warehouse} palletStorage = {palletStorage} />
                 <WarehouseInfo 
                     warehouse = {warehouse} 
                     conditionValue = {conditionValue}

@@ -91,7 +91,9 @@ const WarehouseDetails = ({ warehouse, selected, refProp }) => {
           <MontTypography sx = {{
             marginBottom: theme.card.margin_inside,
             alignItems: 'top',
-            fontSize: '15px'
+            fontSize: '15px',
+            height: '3rem',
+            overflow: 'hidden',
           }}>
             { warehouse.adress }
           </MontTypography>
@@ -174,18 +176,88 @@ const WarehouseDetails = ({ warehouse, selected, refProp }) => {
                 </MontTypography>
               </Grid>
             )}
-            {warehouse?.storage_conditions.pallet_storage_capacity !== 0 ? ( 
-            <Grid item md={4}>
-              <MontTypography sx={{ 
-                fontSize: '10px',
-                alignItems: 'flex-end',
-              }}>
-                <HighlightedPalletText> 
-                  { warehouse.storage_conditions.pallet_storage_capacity } 
-                </HighlightedPalletText>
-                палет
-              </MontTypography>
-            </Grid>
+            {warehouse?.storage_conditions.pallet_storage_capacity !== 0 ? (
+              <>
+              {warehouse.storage_conditions.pallet_storage_capacity === 1 && (
+                <Grid item md={4}>
+                  <MontTypography sx={{ 
+                    fontSize: '10px',
+                    alignItems: 'flex-end',
+                  }}>
+                    меньше
+                    <HighlightedPalletText> 
+                    &nbsp;50 
+                    </HighlightedPalletText>
+                    палет
+                  </MontTypography>
+                </Grid>
+              )}
+              {warehouse.storage_conditions.pallet_storage_capacity === 2 && (
+                <Grid item md={4}>
+                  <MontTypography sx={{ 
+                    fontSize: '10px',
+                    alignItems: 'flex-end',
+                  }}>
+                    <HighlightedPalletText> 
+                      50-250
+                    </HighlightedPalletText>
+                    палет
+                  </MontTypography>
+                </Grid>
+              )}
+              {warehouse.storage_conditions.pallet_storage_capacity === 3 && (
+                <Grid item md={4}>
+                  <MontTypography sx={{ 
+                    fontSize: '10px',
+                    alignItems: 'flex-end',
+                  }}>
+                    <HighlightedPalletText> 
+                      250-500
+                    </HighlightedPalletText>
+                    палет
+                  </MontTypography>
+                </Grid>
+              )}
+              {warehouse.storage_conditions.pallet_storage_capacity === 4 && (
+                <Grid item md={4}>
+                  <MontTypography sx={{ 
+                    fontSize: '10px',
+                    alignItems: 'flex-end',
+                  }}>
+                    <HighlightedPalletText> 
+                      500-1000
+                    </HighlightedPalletText>
+                    палет
+                  </MontTypography>
+                </Grid>
+              )}
+              {warehouse.storage_conditions.pallet_storage_capacity === 5 && (
+                <Grid item md={4}>
+                  <MontTypography sx={{ 
+                    fontSize: '10px',
+                    alignItems: 'flex-end',
+                  }}>
+                    <HighlightedPalletText> 
+                      1000+
+                    </HighlightedPalletText>
+                    палет
+                  </MontTypography>
+                </Grid>
+              )}
+              {warehouse.storage_conditions.pallet_storage_capacity !== 1 && warehouse.storage_conditions.pallet_storage_capacity !== 2 && warehouse.storage_conditions.pallet_storage_capacity !== 3 && warehouse.storage_conditions.pallet_storage_capacity !== 4 && warehouse.storage_conditions.pallet_storage_capacity !== 5 && (
+                <Grid item md={4}>
+                  <MontTypography sx={{ 
+                    fontSize: '10px',
+                    alignItems: 'flex-end',
+                  }}>
+                    <HighlightedPalletText> 
+                      {warehouse.storage_conditions.pallet_storage_capacity}
+                    </HighlightedPalletText>
+                    палет
+                  </MontTypography>
+                </Grid>
+              )}
+              </>
             ) : (
               <Grid item md={4}>
                 <MontTypography sx={{ 

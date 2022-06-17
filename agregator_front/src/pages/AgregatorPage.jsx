@@ -15,6 +15,7 @@ const menuHeight = 70;
 const AgregatorPage = () => {
 
     const [ warehouses, setWarehouses ] = useState([]);
+
     const [ childClicked, setChildClicked ] = useState(null);
     const [ resultsCount, setResultsCount ] = useState(0);
 
