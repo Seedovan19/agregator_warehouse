@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import Box from '@mui/material/Box'
 import Stack from '@mui/material/Stack';
+import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import { MapContainer as LeafletMap, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import WarehouseVariant from '../WarehouseDetails/WarehouseVariant/WarehouseVariant';
@@ -24,6 +25,12 @@ const iconMarkerSelected = new L.Icon({
     iconRetinaUrl: require('./markerSelectedWithShadow.png'),
     popupAnchor:  [-1, -5],
     iconSize: new L.Point(33, 33)
+});
+
+const HighlightedPalletText = styled('span')({
+    fontSize: '150%',
+    color: '#0C4284',
+    paddingRight: '3px',
 });
 
 function MyComponent({regionPosition}) {
@@ -111,20 +118,17 @@ const WarehouseMap = ({ warehouses, setChildClicked, regionPosition, noRegionFla
                         > 
                         <Popup 
                             className={classes.popup}
-                            onClick={() => {
-                                handleMarkerCardClick(warehouse)
-                            }}
                         >
                             <Stack
                                 sx = {{ 
-                                    height: "14rem",
+                                    height: "15rem",
                                     maxWidth: "15rem",
                                     cursor: "grab"
                                 }}
                             >
                             <img
                                 className = {classes.popup_image}
-                                height = "150rem"
+                                height = "155rem"
                                 src={
                                     warehouse.image ? warehouse.image : require('../WarehouseDetails/profile_pic.png')
                                 }
@@ -133,15 +137,141 @@ const WarehouseMap = ({ warehouses, setChildClicked, regionPosition, noRegionFla
                                 sx = {{
                                     fontSize: '11px',
                                     fontFamily: 'Montserrat-medium',
-                                    
+                                    maxHeight: '3.2rem',
+                                    overflow: 'hidden',
+                                    paddingTop: '0.2rem',
+                                    paddingBottom: '0.3rem',
+                                }}
+                                onClick={() => {
+                                    handleMarkerCardClick(warehouse)
                                 }}
                             >
                                 {warehouse.adress}
                             </Typography>
+                            <Box sx = {{
+                                paddingBottom: '0.3rem'
+                            }}>
                             <WarehouseVariant
                                 warehouse_variant = {warehouse.warehouse_variant} 
                                 is_long_term = {warehouse.long_term_commitment}
                             />
+                            </Box>
+                            <Stack direction="row" spacing={3}>
+                                <Typography
+                                    sx = {{
+                                        fontSize: '10px',
+                                        fontFamily: 'Montserrat-Bold',
+                                        color: "#4B4B4B",
+                                        maxHeight: '3.2rem',
+                                        overflow: 'hidden',
+                                        paddingTop: '0.2rem',
+                                        paddingBottom: '0.3rem',
+                                    }}
+                                >
+                                    Вместимость
+                                </Typography>
+                                {warehouse?.storage_conditions.pallet_storage_capacity !== 0 ? (
+                                    <>
+                                    {warehouse.storage_conditions.pallet_storage_capacity === 1 && (
+                                        <Grid item >
+                                        <Typography sx={{ 
+                                            fontSize: '10px',
+                                            fontFamily: 'Montserrat-medium',
+                                            alignItems: 'flex-end',
+                                        }}>
+                                            меньше
+                                            <HighlightedPalletText> 
+                                            &nbsp;50 
+                                            </HighlightedPalletText>
+                                            палет
+                                        </Typography>
+                                        </Grid>
+                                    )}
+                                    {warehouse.storage_conditions.pallet_storage_capacity === 2 && (
+                                        <Grid item >
+                                        <Typography sx={{ 
+                                            fontSize: '10px',
+                                            fontFamily: 'Montserrat-medium',
+                                            alignItems: 'flex-end',
+                                        }}>
+                                            <HighlightedPalletText> 
+                                            50-250
+                                            </HighlightedPalletText>
+                                            палет
+                                        </Typography>
+                                        </Grid>
+                                    )}
+                                    {warehouse.storage_conditions.pallet_storage_capacity === 3 && (
+                                        <Grid item >
+                                        <Typography sx={{ 
+                                            fontSize: '10px',
+                                            fontFamily: 'Montserrat-medium',
+                                            alignItems: 'flex-end',
+                                        }}>
+                                            <HighlightedPalletText> 
+                                            250-500
+                                            </HighlightedPalletText>
+                                            палет
+                                        </Typography>
+                                        </Grid>
+                                    )}
+                                    {warehouse.storage_conditions.pallet_storage_capacity === 4 && (
+                                        <Grid item>
+                                        <Typography sx={{ 
+                                            fontSize: '9px',
+                                            fontFamily: 'Montserrat-medium',
+                                            alignItems: 'flex-end',
+                                        }}>
+                                            <HighlightedPalletText> 
+                                            500-1000
+                                            </HighlightedPalletText>
+                                            палет
+                                        </Typography>
+                                        </Grid>
+                                    )}
+                                    {warehouse.storage_conditions.pallet_storage_capacity === 5 && (
+                                        <Grid item >
+                                        <Typography sx={{ 
+                                            fontSize: '10px',
+                                            fontFamily: 'Montserrat-medium',
+                                            alignItems: 'flex-end',
+                                        }}>
+                                            <HighlightedPalletText> 
+                                            1000+
+                                            </HighlightedPalletText>
+                                            палет
+                                        </Typography>
+                                        </Grid>
+                                    )}
+                                    {warehouse.storage_conditions.pallet_storage_capacity !== 1 && warehouse.storage_conditions.pallet_storage_capacity !== 2 && warehouse.storage_conditions.pallet_storage_capacity !== 3 && warehouse.storage_conditions.pallet_storage_capacity !== 4 && warehouse.storage_conditions.pallet_storage_capacity !== 5 && (
+                                        <Grid item >
+                                        <Typography sx={{ 
+                                            fontSize: '10px',
+                                            fontFamily: 'Montserrat-medium',
+                                            alignItems: 'flex-end',
+                                        }}>
+                                            <HighlightedPalletText> 
+                                            {warehouse.storage_conditions.pallet_storage_capacity}
+                                            </HighlightedPalletText>
+                                            палет
+                                        </Typography>
+                                        </Grid>
+                                    )}
+                                    </>
+                                    ) : (
+                                    <Grid item >
+                                        <Typography sx={{ 
+                                        fontSize: '12px',
+                                        alignItems: 'flex-end',
+                                        fontFamily: 'Montserrat-medium',
+                                        color: '#0C4284',
+                                        }}>
+                                        Не указано
+                                        </Typography>
+                                    </Grid>
+                                    )}
+
+                            </Stack>
                             </Stack>
                             
                         </Popup>
