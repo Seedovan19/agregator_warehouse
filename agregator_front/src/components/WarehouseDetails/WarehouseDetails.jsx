@@ -1,4 +1,4 @@
-import React  from 'react'
+import React, { useEffect } from 'react'
 import { useNavigate } from "react-router-dom";
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
@@ -33,9 +33,21 @@ const HighlightedPalletText = styled('span')({
   paddingRight: '3px',
 });
 
+let instancesCount = 0
 
-const WarehouseDetails = ({ warehouse, selected, refProp }) => {
+
+const WarehouseDetails = ({ warehouse, selected, refProp, setResultsCount }) => {
   if (selected) refProp?.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  
+  useEffect(() => {
+    instancesCount += 1
+    setResultsCount(instancesCount)
+    return () => {
+      instancesCount -= 1
+      setResultsCount(instancesCount)
+    }
+  }, [])
+
   const navigate = useNavigate();
   
 
@@ -92,7 +104,7 @@ const WarehouseDetails = ({ warehouse, selected, refProp }) => {
             marginBottom: theme.card.margin_inside,
             alignItems: 'top',
             fontSize: '15px',
-            height: '3rem',
+            maxHeight: '3rem',
             overflow: 'hidden',
           }}>
             { warehouse.adress }

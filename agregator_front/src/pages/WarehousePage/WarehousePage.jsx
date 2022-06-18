@@ -23,12 +23,12 @@ const WarehousePage = () => {
 
     const classes = useStyles();
     const navigate = useNavigate();
-
+    
 
     useEffect(() => {
         fetch(`http://127.0.0.1:8000/api/warehouses/warehouse-detail/${id}`)
         .then(res => res.json())
-        
+
         .then((data) => {
             if (data.features.condition === "Regulated") {
                 setConditionValue('Регулируемый температурный режим')

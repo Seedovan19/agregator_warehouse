@@ -26,6 +26,10 @@ const AgregatorPage = () => {
     const [ type, setType ] = useState('');
     const [ palletQuantity, setPalletQuantity ] = useState('');
 
+    // для изменения региона
+    const [ regionPosition, setRegionPosition ] = useState([59.939096, 30.315871]);
+    const [ noRegionFlag, setNoRegionFlag ] = useState(true);
+
     // Всплывающий фильтр
     const [ modalActive, setModalActive ] = useState(false);
     const [ modalFeedbackActive, setModalFeedbackActive ] = useState(false);
@@ -96,6 +100,8 @@ const AgregatorPage = () => {
                     setPalletQuantity = {setPalletQuantity}
                     setModalActive = {setModalActive}
                     resultsCount = {resultsCount}
+                    setRegionPosition = {setRegionPosition}
+                    setNoRegionFlag = {setNoRegionFlag}
                 />
             </Grid>
             <Grid item xs={0} md={7}></Grid>
@@ -108,6 +114,9 @@ const AgregatorPage = () => {
           isLoading = {isLoading}
           type = {type}
           setType = {setType}
+          setResultsCount = {setResultsCount}
+          regionPosition = {regionPosition}
+          noRegionFlag = {noRegionFlag}
         />
       </Grid>
       
@@ -121,6 +130,8 @@ const AgregatorPage = () => {
         <WarehouseMap
           warehouses = {warehouses}
           setChildClicked = {setChildClicked}
+          regionPosition = {regionPosition}
+          noRegionFlag = {noRegionFlag}
         />
       </Grid>
       
