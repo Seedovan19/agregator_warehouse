@@ -17,12 +17,19 @@ export default makeStyles((theme) => ({
       color: "#ffffff",
     },
     "& li.Mui-selected":{
-      color:'#000',
+      color:'#ffffff',
       background: "#284AC2",
     },
     "& li.Mui-selected:hover":{
+      backgroundColor: "rgba(25, 118, 210, 0.2)",
+      color: "#000",
+    },
+    "& .MuiMenuItem-root.Mui-selected.Mui-focusVisible" : {
       background: "#284AC2",
-      color: "#ffffff",
+    },
+    "& .MuiMenuItem-root:hover": {
+      backgroundColor: "rgba(25, 118, 210, 0.2)",
+      color: "#000",
     }
   },
 }));
