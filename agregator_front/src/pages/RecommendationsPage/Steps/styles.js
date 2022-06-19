@@ -61,18 +61,27 @@ export default makeStyles((theme) => ({
         background:'white',
         "& li":{
           fontWeight:200,
-          paddingTop:12,
+          paddingTop:7,
           paddingBottom:12,
         },
         "& li:hover":{
-          background: deepPurple[100]
+          background: "#284AC2",
+          color: "#ffffff",
         },
         "& li.Mui-selected":{
-          color:'white',
-          background: deepPurple[400]
+          color:'#ffffff',
+          background: "#284AC2",
         },
         "& li.Mui-selected:hover":{
-          background: deepPurple[500]
+          backgroundColor: "rgba(25, 118, 210, 0.2)",
+          color: "#000",
+        },
+        "& .MuiMenuItem-root.Mui-selected.Mui-focusVisible" : {
+          background: "#284AC2",
+        },
+        "& .MuiMenuItem-root:hover": {
+          backgroundColor: "rgba(25, 118, 210, 0.2)",
+          color: "#000",
         }
       },
       filter_button: {

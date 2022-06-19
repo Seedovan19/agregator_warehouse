@@ -69,6 +69,7 @@ const WarehouseDetails = ({ warehouse, selected, refProp, setResultsCount }) => 
         borderRadius: '7px',
         transition: '0.4s',
         backgroundColor: '#ffffff',
+        cursor:"pointer",
         '&:hover': {
           boxShadow: '1px 10px 12px #32274414,0px 0px 1px #32274452,8px 8px 16px 8px #32274405',
         },

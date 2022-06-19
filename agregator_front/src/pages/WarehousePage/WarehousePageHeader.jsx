@@ -68,7 +68,7 @@ const WarehousePageHeader = ({height}) => {
               alignItems='center' 
               onClick={handleRecommendationsClick}
               sx = {{
-                cursor: 'grab',
+                cursor: 'pointer',
                 paddingRight: '1rem',
               }}
             >

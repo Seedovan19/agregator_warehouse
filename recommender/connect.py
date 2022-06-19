@@ -36,10 +36,10 @@ columns_bool = [
     'long_term_commitment', # не критично
     'features.freezer', # средней критичности
     'features.refrigerator', # средней критичности
-    'features.alcohol', # КРИТИЧНО
-    'features.pharmacy', # КРИТИЧНО
+    # 'features.alcohol', # КРИТИЧНО
+    # 'features.pharmacy', # КРИТИЧНО
     'features.food', # не критично
-    'features.dangerous', # КРИТИЧНО
+    # 'features.dangerous', # КРИТИЧНО
     'services.transport_services', # не критично
     'services.custom', # не критично
     'services.crossdock', # не критично
@@ -69,8 +69,8 @@ def distance(lat1, lon1, lat2, lon2):
 def computeClassConditionSimilarity(warehouse, query):
     q1 = abs(warehouse["warehouse_class"] - query["warehouse_class"].astype(int))
     q2 = abs(warehouse["features.condition"] - query["features.condition"].astype(int))
-    w1 = 1.2
-    w2 = 1
+    w1 = 1
+    w2 = 1.2
     return np.sqrt((w1 * q1 * q1) + (w2 * q2 * q2))
 
 
@@ -170,13 +170,14 @@ def get_recommendations():
     data_warehouses = pd.json_normalize(data_warehouses)
     data_warehouses = data_warehouses.dropna(subset=['features.pharmacy'])
     n = len(data_warehouses)
+    
     print('#############################################')
     print('Number of rows')
     print(n)
     print('#############################################\n')
 
-    df_survey = pd.DataFrame([[long_term_commitment_query, freezer_query, refrigerator_query, alcohol_query,
-                               pharmaceuticals_query, food_query, dangerous_query, transport_services_query,
+    df_survey = pd.DataFrame([[long_term_commitment_query, freezer_query, refrigerator_query,
+                               food_query, transport_services_query,
                                custom_query, crossdock_query, palletization_query, box_pick_query,
                                leveling_platform_query, railways_query]], columns=columns_bool, index=["survey"])
     exp_survey = pd.Series(
@@ -184,7 +185,7 @@ def get_recommendations():
               "warehouse_class": warehouse_class_query},
         index=['wh_latitude', 'wh_longitude', 'features.condition', 'warehouse_class'])
 
-    similarities = np.zeros(shape=(n, 4))
+    similarities = np.zeros(shape=(n, 5))
 
     for index, row in data_warehouses.iterrows():
         # сравниваем местоположение самых похожих по всем остальным значениям объектов
@@ -215,14 +216,38 @@ def get_recommendations():
             row["warehouse_class"] = 5
         else:
             row["warehouse_class"] = 10
-
+        
         df_warehouse = pd.DataFrame([[row['long_term_commitment'], row['features.freezer'],
-                                      row['features.refrigerator'], row['features.alcohol'], row['features.pharmacy'],
-                                      row['features.food'], row['features.dangerous'],
+                                      row['features.refrigerator'], row['features.food'],
                                       row['services.transport_services'], row['services.custom'],
                                       row['services.crossdock'], row['services.palletization'],
                                       row['services.box_pick'], row['logistics.leveling_platform'],
                                       row['logistics.railways']]], columns=columns_bool, index=[index])
+
+
+        if (alcohol_query == True and row['features.alcohol'] == True):
+            alcohol_coefficient = 1.25
+        elif (alcohol_query == True and row['features.alcohol'] == False): 
+            alcohol_coefficient = 0.4
+        elif (alcohol_query == False and row['features.alcohol'] == False or alcohol_query == False and row['features.alcohol'] == True):
+            alcohol_coefficient = 1
+        
+        if (pharmaceuticals_query == True and row['features.pharmacy'] == True):
+            pharma_coefficient = 1.25
+        elif (pharmaceuticals_query == True and row['features.pharmacy'] == False): 
+            pharma_coefficient = 0.4
+        elif (pharmaceuticals_query == False and row['features.pharmacy'] == False or pharmaceuticals_query == False and row['features.pharmacy'] == True):
+            pharma_coefficient = 1
+
+        if (dangerous_query == True and row['features.dangerous'] == True):
+            dangerous_coefficient = 1.25
+        elif (dangerous_query == True and row['features.dangerous'] == False): 
+            dangerous_coefficient = 0.4
+        elif (dangerous_query == False and row['features.dangerous'] == False or dangerous_query == False and row['features.dangerous'] == True):
+            dangerous_coefficient = 1
+        
+        print(pharma_coefficient)
+
         jaccard_similarity = 1 - pairwise_distances(df_warehouse, df_survey,
                                                     metric="hamming")  # https://stackoverflow.com/questions/37003272/how-to-compute-jaccard-similarity-from-a-pandas-dataframe
         similarities[index][0] = row["id"]
@@ -230,13 +255,15 @@ def get_recommendations():
         similarities[index][2] = jaccard_similarity[0][0]
         similarities[index][3] = distance(row["wh_latitude"], row["wh_longitude"], exp_survey["wh_latitude"],
                                           exp_survey["wh_longitude"])  # haversine
+        similarities[index][4] = alcohol_coefficient * pharma_coefficient * dangerous_coefficient
 
     similarities = similarities[~np.all(similarities == 0, axis=1)]  # удаляем строки, где только нули
     similarities = np.delete(similarities, np.where(similarities[:, 3] > 250),
                              axis=0)  # удаляем строки, где расстояние больше 250 км от заданной в запросе точки
     similarities[:, 1] = [i / max(similarities[:, 1]) for i in
                           similarities[:, 1]]  # нормализуем столбец с классом и условиями хранения
-    similarities[:, 1] = (1.2 * similarities[:, 1] + 0.9 * similarities[:, 2]) / 2  # общая похожесть
+    similarities[:, 1] = ((1.2 * similarities[:, 1] + 0.9 * similarities[:, 2]) / 2)*similarities[:,4]  # общая похожесть
+    similarities = np.delete(similarities, -1, axis=1)  # удаляем столбец с коэффициентами
     similarities = np.delete(similarities, -1, axis=1)  # удаляем столбец с расстояниями в киллометрах
     similarities = np.delete(similarities, -1,
                              axis=1)  # удаляем столбец с метрикой похожести jaccard, оставляем только общую
