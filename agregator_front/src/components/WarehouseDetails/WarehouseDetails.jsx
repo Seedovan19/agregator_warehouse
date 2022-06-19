@@ -37,7 +37,7 @@ let instancesCount = 0
 
 
 const WarehouseDetails = ({ warehouse, selected, refProp, setResultsCount }) => {
-  if (selected) refProp?.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  if (selected) refProp?.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
   
   useEffect(() => {
     instancesCount += 1

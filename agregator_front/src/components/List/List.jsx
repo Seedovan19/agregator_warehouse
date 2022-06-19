@@ -93,7 +93,7 @@ const List = ({ warehouses, childClicked, isLoading, regionPosition, setResultsC
                 xs={12}
               >
                 <WarehouseDetails 
-                  selected={childClicked?.lng === warehouse?.wh_longitude && childClicked?.lat === warehouse?.wh_latitude} //TODO: WAT? исправить где-то местами все перепутал
+                  selected={childClicked?.lng === warehouse?.wh_longitude && childClicked?.lat === warehouse?.wh_latitude}
                   refProp={elRefs[i]}
                   warehouse={warehouse}
                   setResultsCount = {setResultsCount}

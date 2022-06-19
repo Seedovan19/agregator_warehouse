@@ -38,7 +38,7 @@ export default function ModalFeedback(props) {
             <DialogContent dividers>
             <div className={classes.pageContent} >
             <Form >
-                <Grid container>
+                <Grid container sx = {{textAlign: 'center'}}>
                 <Grid item xs = {12}>
                     <Controls.Input
                             name = 'fullName'
@@ -68,7 +68,7 @@ export default function ModalFeedback(props) {
                             onChange = {handleInputChange}
                             error={errors.fullName}
                     />
-                <Grid item xs = {12}>
+                <Grid item xs = {12} sx = {{marginTop: '1.5rem'}}>
                     <Controls.Button
                         variant = 'contained'
                         color = 'primary'

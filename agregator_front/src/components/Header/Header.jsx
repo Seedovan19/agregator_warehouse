@@ -69,6 +69,7 @@ const Header = ({height}) => {
               onClick={handleRecommendationsClick}
               sx = {{
                 cursor: 'grab',
+                paddingRight: '1rem',
               }}
             >
               <AutoFixHighIcon 
@@ -80,7 +81,7 @@ const Header = ({height}) => {
               <LatoTypography >Мои рекомендации</LatoTypography>
             </Stack>
 
-            <Stack
+            {/* <Stack
               onClick={handleLoginClick}
               sx = {{
                 alignItems: 'center',
@@ -96,7 +97,7 @@ const Header = ({height}) => {
                 }}
               />
               <LatoTypography>Вход</LatoTypography>
-            </Stack>
+            </Stack> */}
           </Grid>
         </div>
       </StyledToolbar>

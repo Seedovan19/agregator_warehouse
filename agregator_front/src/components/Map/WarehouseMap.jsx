@@ -125,6 +125,9 @@ const WarehouseMap = ({ warehouses, setChildClicked, regionPosition, noRegionFla
                                     maxWidth: "15rem",
                                     cursor: "grab"
                                 }}
+                                onClick={(e) => {
+                                    handleMarkerCardClick(e,warehouse)
+                                }}
                             >
                             <img
                                 className = {classes.popup_image}
@@ -141,9 +144,6 @@ const WarehouseMap = ({ warehouses, setChildClicked, regionPosition, noRegionFla
                                     overflow: 'hidden',
                                     paddingTop: '0.2rem',
                                     paddingBottom: '0.3rem',
-                                }}
-                                onClick={() => {
-                                    handleMarkerCardClick(warehouse)
                                 }}
                             >
                                 {warehouse.adress}
