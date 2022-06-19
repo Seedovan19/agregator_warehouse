@@ -262,7 +262,7 @@ def get_recommendations():
                              axis=0)  # удаляем строки, где расстояние больше 250 км от заданной в запросе точки
     similarities[:, 1] = [i / max(similarities[:, 1]) for i in
                           similarities[:, 1]]  # нормализуем столбец с классом и условиями хранения
-    similarities[:, 1] = ((1.2 * similarities[:, 1] + 0.9 * similarities[:, 2]) / 2)*similarities[:,4]  # общая похожесть
+    similarities[:, 1] = ((1.2 * similarities[:, 1] + similarities[:, 2]) / 2)*similarities[:,4]  # общая похожесть
     similarities = np.delete(similarities, -1, axis=1)  # удаляем столбец с коэффициентами
     similarities = np.delete(similarities, -1, axis=1)  # удаляем столбец с расстояниями в киллометрах
     similarities = np.delete(similarities, -1,
