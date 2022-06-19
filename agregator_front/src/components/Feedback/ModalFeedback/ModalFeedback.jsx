@@ -33,7 +33,7 @@ export default function ModalFeedback(props) {
             maxWidth={'md'}
         >
             <DialogTitle>
-                Фильтры
+                Оставьте контактные данные
             </DialogTitle>
             <DialogContent dividers>
             <div className={classes.pageContent} >
@@ -73,7 +73,7 @@ export default function ModalFeedback(props) {
                         variant = 'contained'
                         color = 'primary'
                         size = 'large'
-                        text = 'Войти'
+                        text = 'Отправить'
                     />
                 </Grid>
                 </Grid>

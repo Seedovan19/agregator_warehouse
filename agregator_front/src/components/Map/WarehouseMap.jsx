@@ -123,7 +123,7 @@ const WarehouseMap = ({ warehouses, setChildClicked, regionPosition, noRegionFla
                                 sx = {{ 
                                     height: "15rem",
                                     maxWidth: "15rem",
-                                    cursor: "grab"
+                                    cursor: "pointer"
                                 }}
                                 onClick={(e) => {
                                     handleMarkerCardClick(e,warehouse)
@@ -305,7 +305,7 @@ const WarehouseMap = ({ warehouses, setChildClicked, regionPosition, noRegionFla
                                 sx = {{ 
                                     height: "14rem",
                                     maxWidth: "15rem",
-                                    cursor: "grab"
+                                    cursor: "pointer"
                                 }}
                                 onClick={(e) => {
                                     handleMarkerCardClick(e,warehouse)
