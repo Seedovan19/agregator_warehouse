@@ -289,7 +289,6 @@ const WarehouseMap = ({ warehouses, setChildClicked, regionPosition, noRegionFla
                                 },
                                 mouseover: (child) => {
                                     child.target.setIcon(iconMarkerSelected)
-
                                 },
                                 mouseout: (child) => {
                                     child.target.setIcon(iconMarker)
