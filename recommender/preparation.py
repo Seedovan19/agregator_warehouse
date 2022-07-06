@@ -171,71 +171,101 @@ def compare_query_warehouse():
     similarity = similarity.astype('object')
     similarity[:,2] = similarity[:,2].astype('str')
     similarity[:,3] = similarity[:,3].astype('str')
-    
+
     i = 0
 
     for index, row in data_query.iterrows():
-        if row["condition"] == 'Freezer-WH':
-            row["condition"] = 0
-        elif row["condition"] == 'Cold-WH':
-            row["condition"] = 1
-        elif row["condition"] == 'Regulated':
-            row["condition"] = 2 
-        elif row["condition"]== 'Heated':
-            row["condition"] = 3
-        elif row["condition"] == 'Warmed':
-            row["condition"] = 4
-        elif row["condition"] == 'Non-heated':
-            row["condition"] = 5
-        elif row["condition"] == 'No value':
-            row["condition"] = 10
-            
-        if row["warehouse_class"] == 'A+':
-            row["warehouse_class"] = 1
-        elif row["warehouse_class"] == 'A':
-            row["warehouse_class"] = 2
-        elif row["warehouse_class"] == 'B+':
-            row["warehouse_class"] = 3
-        elif row["warehouse_class"] == 'B':
-            row["warehouse_class"] = 4
-        elif row["warehouse_class"] == 'C':
-            row["warehouse_class"] = 5
-        else:
-            row["warehouse_class"] = 10
-
         for index_wh, row_wh in data_warehouses.iterrows():
+            if similarity[i][2] == '0.0':
+                similarity[i][2] = ''
+            if similarity[i][3] == '0.0':
+                similarity[i][3] = ''
+
+            # токенизируем атрибуты запроса и склада
+            if row["condition"] == 'Freezer-WH' or row["condition"] == 0:
+                row["condition"] = 0
+                similarity[i][2] += 'freezerWH, '
+            elif row["condition"] == 'Cold-WH' or row["condition"] == 1:
+                row["condition"] = 1
+                similarity[i][2] += 'coldWH, '
+            elif row["condition"] == 'Regulated' or row["condition"] == 2 :
+                row["condition"] = 2 
+                similarity[i][2] += 'regulated, '
+            elif row["condition"] == 'Heated' or row["condition"] == 3:
+                row["condition"] = 3
+                similarity[i][2] += 'heated, '
+            elif row["condition"] == 'Warmed' or row["condition"] == 4:
+                row["condition"] = 4
+                similarity[i][2] += 'warmed, '
+            elif row["condition"] == 'Non-heated' or row["condition"] == 5:
+                row["condition"] = 5
+                similarity[i][2] += 'nonHeated, '
+            elif row["condition"] == 'No value' or row["condition"] == 10:
+                row["condition"] = 10
+                similarity[i][2] += 'noTemperature, '
+
+
+            if row["warehouse_class"] == 'A+' or row["warehouse_class"] == 1:
+                row["warehouse_class"] = 1
+                similarity[i][2] += 'classAplus, '
+            elif row["warehouse_class"] == 'A' or row["warehouse_class"] == 2:
+                row["warehouse_class"] = 2
+                similarity[i][2] += 'classA, '
+            elif (row["warehouse_class"] == 'B+' or row["warehouse_class"] == 3):
+                row["warehouse_class"] = 3
+                similarity[i][2] += 'classBplus, '
+            elif row["warehouse_class"] == 'B' or row["warehouse_class"] == 4:
+                row["warehouse_class"] = 4
+                similarity[i][2] += 'classB, '
+            elif row["warehouse_class"] == 'C' or row["warehouse_class"] == 5:
+                row["warehouse_class"] = 5
+                similarity[i][2] += 'classC, '
+            elif row["warehouse_class"] == 'No value' or row["warehouse_class"] == 10:
+                row["warehouse_class"] = 10
+                similarity[i][2] += 'noClass, '
+
             if row_wh["features.condition"] == 'Freezer-WH':
                 row_wh["features.condition"] = 0
+                similarity[i][3]+='freezerWH, '
             elif row_wh["features.condition"] == 'Cold-WH':
                 row_wh["features.condition"] = 1
+                similarity[i][3]+='coldWH, '
             elif row_wh["features.condition"] == 'Regulated':
-                row_wh["features.condition"] = 2 
+                row_wh["features.condition"] = 2
+                similarity[i][3]+='regulated, '
             elif row_wh["features.condition"]== 'Heated':
                 row_wh["features.condition"] = 3
+                similarity[i][3]+='heated, '
             elif row_wh["features.condition"] == 'Warmed':
                 row_wh["features.condition"] = 4
+                similarity[i][3]+='warmed, '
             elif row_wh["features.condition"] == 'Non-heated':
                 row_wh["features.condition"] = 5
+                similarity[i][3]+='nonHeated, '
             elif row_wh["features.condition"] == 'No value':
                 row_wh["features.condition"] = 10
+                similarity[i][3]+='noTemperature, '
                 
             if row_wh["warehouse_class"] == 'A+':
                 row_wh["warehouse_class"] = 1
+                similarity[i][3]+='classAplus, '
             elif row_wh["warehouse_class"] == 'A':
                 row_wh["warehouse_class"] = 2
+                similarity[i][3]+='classA, '
             elif row_wh["warehouse_class"] == 'B+':
                 row_wh["warehouse_class"] = 3
+                similarity[i][3]+='classBplus, '
             elif row_wh["warehouse_class"] == 'B':
                 row_wh["warehouse_class"] = 4
+                similarity[i][3]+='classB, '
             elif row_wh["warehouse_class"] == 'C':
                 row_wh["warehouse_class"] = 5
-            else:
+                similarity[i][3]+='classC, '
+            elif row_wh["warehouse_class"] == 'No value':
                 row_wh["warehouse_class"] = 10
+                similarity[i][3]+='noClass, '
             
             
-            similarity[i][2] = ''
-            similarity[i][3] = ''
-            # токенизируем атрибуты запроса и склада
             if row['freezer']:
                 similarity[i][2]+='freezer, '
             if row['refrigerator']:
