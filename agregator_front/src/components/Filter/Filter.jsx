@@ -62,7 +62,6 @@ const StyledSelect = styled(Select)({
   width: '100%',
   height: heightBottom,
   "& .MuiOutlinedInput-notchedOutline": {
-
     borderColor: "#E2E5EA",
     borderRadius: borderRadiusBottom,
   },
