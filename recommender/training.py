@@ -9,8 +9,8 @@ import tensorflow_recommenders as tfrs
 from matplotlib import pyplot as plt
 
 
-epochs = 16
-learning_rate = 0.000001
+epochs = 19
+learning_rate = 99
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
 
@@ -19,9 +19,9 @@ df = pd.read_csv('./ratings.csv')
 df['query_id'] = df['query_id'].astype(bytes)
 df['warehouse_id'] = df['warehouse_id'].astype(bytes)
 
-# Замена NaN значений на пустую строку
-df.fillna(value='', inplace=True)
-
+# Удаление строк с NaN значениями в параметрах запроса
+df = df[df['query_features'].notna()]
+print(df)
 
 ratings = tf.data.Dataset.from_tensor_slices(dict(df)).\
     map(lambda x:{
@@ -32,11 +32,11 @@ ratings = tf.data.Dataset.from_tensor_slices(dict(df)).\
 
 query_features = ratings.map(lambda x: x["query_features"])
 
-tf.random.set_seed(42)
-shuffled = ratings.shuffle(100, seed=42, reshuffle_each_iteration=False)
+# tf.random.set_seed(42)
+shuffled = ratings.shuffle(20, seed=None, reshuffle_each_iteration=None)
 
-train = shuffled.take(10)
-test = shuffled.skip(10).take(20)
+train = shuffled.take(17)
+test = shuffled.skip(17).take(3)
 
 warehouse_id_lookup = tf.keras.layers.StringLookup()
 warehouse_id_lookup.adapt(ratings.map(lambda x: x["warehouse_id"]))
@@ -96,25 +96,27 @@ warehouse_model.warehouse_id_embedding.layers[0].adapt(
 
 class RatingsModel(tfrs.models.Model):
 
-  def __init__(self, deep_layer_sizes):
+  def __init__(self):
     super().__init__()
 
     # Модели запросов и складов
     self.query_model = tf.keras.Sequential([
       QueryModel(),
-      tf.keras.layers.Dense(32)
+      tf.keras.layers.Dense(16)
     ])
     self.candidate_model = tf.keras.Sequential([
       WarehouseModel(),
-      tf.keras.layers.Dense(32)
+      tf.keras.layers.Dense(16)
     ])
 
-    # В модель передается количество нейронов в слоях и количество слоев
-    self._deep_layers = [tf.keras.layers.Dense(layer_size, activation="relu")
-        for layer_size in deep_layer_sizes]
-
-    # Слой, который выдает результат
-    self._logit_layer = tf.keras.layers.Dense(1)
+    # A small model to take in user and movie embeddings and predict ratings.
+    # We can make this as complicated as we want as long as we output a scalar
+    # as our prediction.
+    self.rating_model = tf.keras.Sequential([
+        # tf.keras.layers.Dense(32, activation="relu"),
+        # tf.keras.layers.Dense(2, activation="relu"),
+        tf.keras.layers.Dense(1),
+    ])
 
     # Задаем задание модели, функцию потерь
     self.task = tfrs.tasks.Ranking(
@@ -133,18 +135,11 @@ class RatingsModel(tfrs.models.Model):
         "warehouse_id": features["warehouse_id"],
     })
 
-    x = tf.concat([
-        query_embeddings,
-        warehouse_embeddings
-    ], axis=1)
-    
-    # Построение нейронной сети для глубокого обучения
-    for deep_layer in self._deep_layers:
-      x = deep_layer(x)
-
     return (
         # Применяем многослойную модель для выдачи рейтингов для слоев параметров запроса и склада
-        self._logit_layer(x)
+        self.rating_model(
+            tf.concat([query_embeddings, warehouse_embeddings], axis=1)
+        ),
     )
 
   def compute_loss(self, features, training=False):
@@ -160,17 +155,17 @@ class RatingsModel(tfrs.models.Model):
     return rating_loss
 
 
-cached_train = train.shuffle(10).batch(5).cache()
-cached_test = test.batch(5).cache()
-print(cached_test.__len__())
+cached_train = train.batch(2).cache()
+cached_test = test.batch(2).cache()
+print(cached_train.__len__())
 
 
-def run_models(deep_layer_sizes, num_runs=1):
+def run_models(num_runs=1):
   models = []
   rmses = []
 
   for i in range(num_runs):
-    model = RatingsModel(deep_layer_sizes=deep_layer_sizes)
+    model = RatingsModel()
 
     model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate))
     models.append(model)
@@ -186,7 +181,7 @@ def run_models(deep_layer_sizes, num_runs=1):
 
   return {"model": models, "mean": mean, "stdv": stdv}
 
-dcn_result = run_models(deep_layer_sizes=[256, 64, 32])
+dcn_result = run_models()
 
 
 print("DCN RMSE mean: {:.4f}, stdv: {:.4f}".format(

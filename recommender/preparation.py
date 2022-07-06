@@ -167,7 +167,7 @@ def compare_query_warehouse():
     
     data_warehouses = data_warehouses.dropna(subset = ['features.pharmacy'])
     
-    similarity = np.zeros(shape=(n, 7))
+    similarity = np.zeros(shape=(n, 9))
     similarity = similarity.astype('object')
     similarity[:,2] = similarity[:,2].astype('str')
     similarity[:,3] = similarity[:,3].astype('str')
@@ -292,20 +292,22 @@ def compare_query_warehouse():
             
             similarity[i][0] = row["id"]
             similarity[i][1] = row_wh["id"] # ИЗМЕНЕНО
-            similarity[i][4] = computeClassConditionSimilarity(row_wh, row) # euclidean weighted
-            similarity[i][5] = jaccard_similarity[0][0] #jaccard
-            similarity[i][6] = distance(row_wh["wh_latitude"],row_wh["wh_longitude"], row["wh_lat"], row["wh_lon"]) #haversine
+            similarity[i][4] = row["wh_lat"]
+            similarity[i][5] = row["wh_lon"]
+            similarity[i][6] = computeClassConditionSimilarity(row_wh, row) # euclidean weighted
+            similarity[i][7] = jaccard_similarity[0][0] #jaccard
+            similarity[i][8] = distance(row_wh["wh_latitude"],row_wh["wh_longitude"], row["wh_lat"], row["wh_lon"]) #haversine
             i+=1
    
     similarity = similarity[~np.all(similarity == 0, axis=1)] # удаляем строки, где только нули
-    similarity = np.delete(similarity, np.where(similarity[:,6] > 250), axis=0) # удаляем строки, где расстояние больше 250 км от заданной в запросе точки
-    similarity[:,4] = [i/max(similarity[:,4]) for i in similarity[:,4]] # нормализуем столбец с классом и условиями хранения
-    similarity[:,4] = (1.2*similarity[:,4] + similarity[:,5]) / 2  # общая похожесть
+    similarity = np.delete(similarity, np.where(similarity[:,8] > 250), axis=0) # удаляем строки, где расстояние больше 250 км от заданной в запросе точки
+    similarity[:,6] = [i/max(similarity[:,6]) for i in similarity[:,6]] # нормализуем столбец с классом и условиями хранения
+    similarity[:,6] = (1.2*similarity[:,6] + similarity[:,7]) / 2  # общая похожесть
     similarity = np.delete(similarity, -1, axis=1) # удаляем столбец с расстояниями в киллометрах
     similarity = np.delete(similarity, -1, axis=1) # удаляем столбец с метрикой похожести jaccard, оставляем только общую
     print(similarity[:,2])
-    df_result = pd.DataFrame(similarity, columns=['query_id', 'warehouse_id', 'query_features', 'warehouse_features', 'similarity'])
-    df_result = df_result.astype({'query_id':'int64', 'warehouse_id':'int64','query_features': 'str', 'warehouse_features': 'str', 'similarity':'float64'})
+    df_result = pd.DataFrame(similarity, columns=['query_id', 'warehouse_id', 'query_features', 'warehouse_features', 'wh_latitude', 'wh_longitude', 'similarity'])
+    df_result = df_result.astype({'query_id':'int64', 'warehouse_id':'int64','query_features': 'str', 'warehouse_features': 'str', 'wh_latitude': 'float64', 'wh_longitude': 'float64', 'similarity':'float64'})
 
 
     print('#############################################')
