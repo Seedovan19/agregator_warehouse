@@ -9,8 +9,8 @@ import tensorflow_recommenders as tfrs
 from matplotlib import pyplot as plt
 
 
-epochs = 19
-learning_rate = 99
+epochs = 250
+learning_rate = 0.000001
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
 
@@ -26,13 +26,25 @@ print(df)
 ratings = tf.data.Dataset.from_tensor_slices(dict(df)).\
     map(lambda x:{
     "query_features": x["query_features"],
+    "wh_latitude": x["wh_latitude"], # желаемое местоположение склада в запросе
+    "wh_longitude": x["wh_longitude"],
     "warehouse_id": x["warehouse_id"],
     "similarity": x["similarity"]
 })
 
 query_features = ratings.map(lambda x: x["query_features"])
 
-# tf.random.set_seed(42)
+
+# print(latitude)
+lat_vocab = ratings.map(lambda x: x["wh_latitude"])
+lat_vocab = [int(item) for item in lat_vocab]
+lat_vocabulary = np.unique(list(lat_vocab))
+
+lon_vocab = ratings.map(lambda x: x["wh_longitude"])
+lon_vocab = [int(item) for item in lon_vocab]
+lon_vocabulary = np.unique(list(lon_vocab))
+
+
 shuffled = ratings.shuffle(20, seed=None, reshuffle_each_iteration=None)
 
 train = shuffled.take(17)
@@ -47,23 +59,41 @@ class QueryModel(tf.keras.Model):
     super().__init__()
 
     max_tokens = 10_000
+    self.embedding_dimension = 64
 
     self.query_features_vectorizer = tf.keras.layers.TextVectorization(
         max_tokens=max_tokens)
 
     self.query_features_embedding = tf.keras.Sequential([
       self.query_features_vectorizer,
-      tf.keras.layers.Embedding(max_tokens, 32, mask_zero=True),
+      tf.keras.layers.Embedding(max_tokens, self.embedding_dimension, mask_zero=True),
       tf.keras.layers.GlobalAveragePooling1D(),
     ])
 
     self.query_features_vectorizer.adapt(query_features)
+
+
+    self.latitude_embedding = tf.keras.Sequential(
+      [
+        tf.keras.layers.IntegerLookup(vocabulary=lat_vocabulary, mask_token=None),
+        tf.keras.layers.Embedding(len(lat_vocabulary) + 1, self.embedding_dimension)
+      ]
+    )
+
+    self.latitude_embedding = tf.keras.Sequential(
+      [
+        tf.keras.layers.IntegerLookup(vocabulary=lon_vocabulary, mask_token=None),
+        tf.keras.layers.Embedding(len(lon_vocabulary) + 1, self.embedding_dimension)
+      ]
+    )
 
   def call(self, inputs):
     # Take the input dictionary, pass it through each input layer,
     # and concatenate the result.
     return tf.concat([
         self.query_features_embedding(inputs["query_features"]),
+        self.latitude_embedding(inputs["wh_latitude"]),
+        self.latitude_embedding(inputs["wh_longitude"]),
     ], axis=1)
 
 
@@ -80,7 +110,7 @@ class WarehouseModel(tf.keras.Model):
 
     self.warehouse_id_embedding = tf.keras.Sequential([
       warehouse_id_lookup,
-      tf.keras.layers.Embedding(warehouse_id_lookup.vocabulary_size(), 32)
+      tf.keras.layers.Embedding(warehouse_id_lookup.vocabulary_size(), 64)
     ])
 
   def call(self, inputs):
@@ -113,9 +143,9 @@ class RatingsModel(tfrs.models.Model):
     # We can make this as complicated as we want as long as we output a scalar
     # as our prediction.
     self.rating_model = tf.keras.Sequential([
-        # tf.keras.layers.Dense(32, activation="relu"),
-        # tf.keras.layers.Dense(2, activation="relu"),
-        tf.keras.layers.Dense(1),
+        tf.keras.layers.Dense(16, activation="linear"),
+        tf.keras.layers.Dense(8, activation="tanh"),
+        tf.keras.layers.Dense(1, activation="linear"),
     ])
 
     # Задаем задание модели, функцию потерь
@@ -128,6 +158,8 @@ class RatingsModel(tfrs.models.Model):
     # Берем параметры запроса и передаем их в модель запросов.
     query_embeddings = self.query_model({
         "query_features": features["query_features"],
+        "wh_latitude": features["wh_latitude"],
+        "wh_longitude": features["wh_longitude"],
     })
 
     # Берем параметры складов и передаем их в модель складов.

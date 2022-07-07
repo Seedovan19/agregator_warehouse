@@ -322,15 +322,15 @@ def compare_query_warehouse():
             
             similarity[i][0] = row["id"]
             similarity[i][1] = row_wh["id"] # ИЗМЕНЕНО
-            similarity[i][4] = row["wh_lat"]
-            similarity[i][5] = row["wh_lon"]
+            similarity[i][4] = row["wh_lat"] * 100000
+            similarity[i][5] = row["wh_lon"] * 100000 # умножаем координаты на 100000, чтобы передать в модель для обучения целые числа (среди которых не будет дубликатов)
             similarity[i][6] = computeClassConditionSimilarity(row_wh, row) # euclidean weighted
             similarity[i][7] = jaccard_similarity[0][0] #jaccard
             similarity[i][8] = distance(row_wh["wh_latitude"],row_wh["wh_longitude"], row["wh_lat"], row["wh_lon"]) #haversine
             i+=1
    
     similarity = similarity[~np.all(similarity == 0, axis=1)] # удаляем строки, где только нули
-    similarity = np.delete(similarity, np.where(similarity[:,8] > 250), axis=0) # удаляем строки, где расстояние больше 250 км от заданной в запросе точки
+    similarity = np.delete(similarity, np.where(similarity[:,8] > 300), axis=0) # удаляем строки, где расстояние больше 300 км от заданной в запросе точки
     similarity[:,6] = [i/max(similarity[:,6]) for i in similarity[:,6]] # нормализуем столбец с классом и условиями хранения
     similarity[:,6] = (1.2*similarity[:,6] + similarity[:,7]) / 2  # общая похожесть
     similarity = np.delete(similarity, -1, axis=1) # удаляем столбец с расстояниями в киллометрах

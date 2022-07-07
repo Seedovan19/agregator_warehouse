@@ -5,13 +5,11 @@ from flask_cors import CORS, cross_origin
 # для рекомендательной системы
 import os
 import tensorflow as tf
-import tensorflow_recommenders as tfrs
+
 
 # для изохроны покрытия
 import numpy as np
-from urllib.request import urlopen
 import math
-from math import cos, asin, sqrt, pi
 import geojson as gj
 import geopy.distance
 import networkx as nx
@@ -19,7 +17,6 @@ import osmnx as ox
 import shapely.geometry as geometry
 from scipy.spatial import Delaunay
 from shapely.ops import unary_union, polygonize
-
 
 
 app = Flask(__name__)
@@ -31,8 +28,19 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 @app.route('/', methods=['GET'])
 @cross_origin()
 def get_recommendations():
+    query_features_arg = str(request.args.get('vehicle'))
+    wh_latitude_arg = str(request.args.get('vehicle'))
+    wh_longitude_arg = str(request.args.get('vehicle'))
+    warehouse_id_arg = str(request.args.get('vehicle'))
+
+    
     loaded = tf.saved_model.load("export")
-    arr = loaded({"query_features": np.array(["palletization"]), "warehouse_id": np.array(["10"])}).numpy()
+    arr = loaded({
+        "query_features": np.array(["palletization"]), 
+        "wh_latitude": np.array([5991142.2]).astype(np.float32),  
+        "wh_longitude": np.array([3032746.2]).astype(np.float32), 
+        "warehouse_id": np.array(["10"]),
+    })
     json_dump = json.dumps(str(arr[0][0]))
     return json_dump
 
