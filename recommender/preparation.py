@@ -119,18 +119,6 @@ def get_api(url, object_hook=None):
     with urlopen(url) as resource:  # 'with' is important to close the resource after use
         return json.load(resource, object_hook=object_hook)
 
-def download_into_csv():
-    data_warehouses = get_api(warehouse_url)
-    
-    data_warehouses = pd.json_normalize(data_warehouses)
-    
-    df_warehouses = pd.DataFrame(data_warehouses, columns=all_warehouse_columns, index=data_warehouses.id)
-    df_warehouses = df_warehouses.dropna(subset = ['features.pharmacy'])
-
-    df_warehouses.to_csv('csvfile.csv',encoding='utf-8-sig')
-    
-    return df_warehouses
-
 # расстояние между двумя координатами по формуле гаверсинуса
 def distance(lat1, lon1, lat2, lon2):
     p = pi/180
@@ -325,8 +313,8 @@ def compare_query_warehouse():
             similarity[i][4] = row["wh_lat"] * 100000
             similarity[i][5] = row["wh_lon"] * 100000 # умножаем координаты на 100000, чтобы передать в модель для обучения целые числа (среди которых не будет дубликатов)
             similarity[i][6] = computeClassConditionSimilarity(row_wh, row) # euclidean weighted
-            similarity[i][7] = jaccard_similarity[0][0] #jaccard
-            similarity[i][8] = distance(row_wh["wh_latitude"],row_wh["wh_longitude"], row["wh_lat"], row["wh_lon"]) #haversine
+            similarity[i][7] = jaccard_similarity[0][0] # jaccard
+            similarity[i][8] = distance(row_wh["wh_latitude"],row_wh["wh_longitude"], row["wh_lat"], row["wh_lon"]) # haversine
             i+=1
    
     similarity = similarity[~np.all(similarity == 0, axis=1)] # удаляем строки, где только нули
@@ -346,18 +334,6 @@ def compare_query_warehouse():
     print('#############################################\n')
     
     df_result.to_csv('ratings.csv',encoding='utf-8-sig', index=False)
-
-
-    
-    #wh_lat_query = str(request.args.get('wh_lat')) 
-    #wh_lon_query = str(request.args.get('wh_lon')) 
-    #product_type_query = str(request.args.get('product_type')) 
-    #fullName_query = str(request.args.get('fullName')) 
-    #email_query = str(request.args.get('email')) 
-    #mobile_query = str(request.args.get('mobile')) 
-    #company_query = str(request.args.get('company')) 
-    #palletQuantity_query = str(request.args.get('palletQuantity')) 
-
 
     return df_result
 

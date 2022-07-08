@@ -1,3 +1,4 @@
+from dis import dis
 from flask import *
 import json
 from flask_cors import CORS, cross_origin
@@ -5,7 +6,9 @@ from flask_cors import CORS, cross_origin
 # для рекомендательной системы
 import os
 import tensorflow as tf
-
+import pandas as pd
+from math import cos, asin, sqrt, pi
+from urllib.request import urlopen
 
 # для изохроны покрытия
 import numpy as np
@@ -23,31 +26,169 @@ app = Flask(__name__)
 cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
+warehouse_url = 'http://127.0.0.1:8000/api/warehouses/warehouse-list' # API для получения данных о всех складах в формате JSON 
 
+def get_api(url, object_hook=None):
+    with urlopen(url) as resource:  # 'with' is important to close the resource after use
+        return json.load(resource, object_hook=object_hook)
+
+
+# &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+# Рекомендательная система для JuniorML Contest. В данной функции с фронта принимаются все параметры запроса.
+# Параметры приводятся в вид, который принимает рекомендательная модель.
+# Затем производится загрузка обученной, сохраненной заранее модели и она выдает значения "релевантности" пяти складов запросу.
+
+# расстояние между двумя координатами по формуле гаверсинуса
+def distance(lat1, lon1, lat2, lon2):
+    p = pi/180
+    a = 0.5 - cos((lat2-lat1)*p)/2 + cos(lat1*p) * cos(lat2*p) * (1-cos((lon2-lon1)*p))/2
+    return 12742 * asin(sqrt(a))
 
 @app.route('/', methods=['GET'])
 @cross_origin()
 def get_recommendations():
-    query_features_arg = str(request.args.get('vehicle'))
-    wh_latitude_arg = str(request.args.get('vehicle'))
-    wh_longitude_arg = str(request.args.get('vehicle'))
-    warehouse_id_arg = str(request.args.get('vehicle'))
+    # получаем данные о всех складах в формате JSON
+    data_warehouses = get_api(warehouse_url)
 
-    
+    data_warehouses = pd.json_normalize(data_warehouses)
+
+    # загружаем обученную модель
     loaded = tf.saved_model.load("export")
-    arr = loaded({
-        "query_features": np.array(["palletization"]), 
-        "wh_latitude": np.array([5991142.2]).astype(np.float32),  
-        "wh_longitude": np.array([3032746.2]).astype(np.float32), 
-        "warehouse_id": np.array(["10"]),
-    })
-    json_dump = json.dumps(str(arr[0][0]))
+
+    # для начала все параметры запроса собираются в общую строку для передачи ее в рекомендательную модель
+    query_features = ''
+    long_term_commitment_query = str(request.args.get('long_term_commitment'))
+    if long_term_commitment_query == 'true':
+        query_features += 'long_term, '
+
+    freezer_query = str(request.args.get('freezer'))
+    if freezer_query == 'true':
+        query_features += 'freezer, '
+
+    refrigerator_query = str(request.args.get('refrigerator'))
+    if refrigerator_query == 'true':
+        query_features += 'refrigerator, '
+
+    alcohol_query = str(request.args.get('alcohol'))
+    if alcohol_query == 'true':
+        query_features += 'alcohol, '
+
+    pharmaceuticals_query = str(request.args.get('pharmaceuticals'))
+    if pharmaceuticals_query == 'true':
+        query_features += 'pharmacy, '
+
+    food_query = str(request.args.get('food'))
+    if food_query == 'true':
+        query_features += 'food, '
+
+    dangerous_query = str(request.args.get('dangerous'))
+    if dangerous_query == 'true':
+        query_features += 'dangerous, '
+
+    transport_services_query = str(request.args.get('transport_services'))
+    if transport_services_query == 'true':
+        query_features += 'transport_services, '
+
+    custom_query = str(request.args.get('custom'))
+    if custom_query == 'true':
+        query_features += 'custom, '
+
+    crossdock_query = str(request.args.get('crossdock'))
+    if crossdock_query == 'true':
+        query_features += 'crossdock, '
+        
+    palletization_query = str(request.args.get('palletization'))
+    if palletization_query == 'true':
+        query_features += 'palletization, '
+
+    box_pick_query = str(request.args.get('box_pick'))
+    if box_pick_query == 'true':
+        query_features += 'box_pick, '
+
+    leveling_platform_query = str(request.args.get('leveling_platform'))
+    if leveling_platform_query == 'true':
+        query_features += 'leveling_platform, '
+
+    railways_query = str(request.args.get('railways'))
+    if railways_query == 'true':
+        query_features += 'railways, '
+
+    # Температурный режим
+    condition_query = str(request.args.get('condition'))
+    if condition_query == 'Freezer-WH':
+        query_features += 'freezerWH, '
+    elif condition_query == 'Cold-WH':
+        query_features += 'coldWH, '
+    elif condition_query == 'Regulated':
+        query_features += 'regulated, '
+    elif condition_query == 'Heated':
+        query_features += 'heated, '
+    elif condition_query == 'Warmed':
+        query_features += 'warmed, '
+    elif condition_query == 'Non-heated':
+        query_features += 'nonHeated, '
+    elif condition_query == 'No value':
+        query_features += 'noTemperature, '
+
+    # Класс склада
+    warehouse_class_query = str(request.args.get('warehouse_class'))
+    if warehouse_class_query == 'A+':
+        query_features += 'classAplus, '
+    elif warehouse_class_query == 'A':
+        query_features += 'classA, '
+    elif warehouse_class_query == 'B+':
+        query_features += 'classBplus, '
+    elif warehouse_class_query == 'B':
+        query_features += 'classB, '
+    elif warehouse_class_query == 'C':
+        query_features += 'classC, '
+    else:
+        warehouse_class_query = 10
+        query_features += 'noClass, '
+
+    # Координаты
+    wh_lat_query = str(request.args.get('wh_lat'))
+    wh_lat_query = np.array([wh_lat_query]).astype(np.float32),
+
+    wh_lon_query = str(request.args.get('wh_lon'))
+    wh_lon_query = np.array([wh_lon_query]).astype(np.float32),
+
+    wh_lat_query_arg = wh_lat_query * 100000 # приводим координаты в тот вид, который принимается рекомендательной моделью
+    wh_lon_query_arg = wh_lon_query * 100000
+
+    # В модель для получения релевантности склада запросу будут отправлены склады, 
+    # которые находятся на расстоянии ближе 300 км к желаемой точке
+    warehouse_ids = []
+    for _, row_wh in data_warehouses.iterrows():
+        # расстояние рассчитывается по формуле гаверсинуса 
+        if distance(row_wh["wh_latitude"],row_wh["wh_longitude"], wh_lat_query[0], wh_lon_query[0]) < 300:
+            warehouse_ids.append(row_wh["id"])
+
+    results = np.zeros(shape=(len(warehouse_ids), 2))
+    i = 0
+    for wh_id in warehouse_ids:
+        results[i][0] = wh_id
+        results[i][1] = loaded({
+            "query_features": np.array([query_features]), 
+            # "wh_latitude": np.array([5991142.2]).astype(np.float32),
+            "wh_latitude": wh_lat_query_arg[0],
+            "wh_longitude": wh_lon_query_arg[0],
+            "warehouse_id": np.array([wh_id]).astype(str),
+        })[0][0]
+        i+=1
+    print(results)
+    json_dump = json.dumps(str(results))
     return json_dump
+
+
+# &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
 
 if __name__ == ' __main__':
     app.run(port=7777)
 
-# Построение изохроны покрытия склада для доставки транспортом
+
+# Построение изохроны покрытия склада для доставки транспортом (другой проект)
 @app.route('/isochrone', methods=['GET', 'POST'])
 @cross_origin()
 def get_isochrone():
