@@ -1,6 +1,4 @@
-from dis import dis
 from flask import *
-import json
 from flask_cors import CORS, cross_origin
 
 # для рекомендательной системы
@@ -8,7 +6,9 @@ import os
 import tensorflow as tf
 import pandas as pd
 from math import cos, asin, sqrt, pi
+from sklearn import preprocessing
 from urllib.request import urlopen
+import json, time
 
 # для изохроны покрытия
 import numpy as np
@@ -165,20 +165,25 @@ def get_recommendations():
         if distance(row_wh["wh_latitude"],row_wh["wh_longitude"], wh_lat_query[0], wh_lon_query[0]) < 300:
             warehouse_ids.append(row_wh["id"])
 
+
     results = np.zeros(shape=(len(warehouse_ids), 2))
     i = 0
     for wh_id in warehouse_ids:
         results[i][0] = wh_id
-        results[i][1] = loaded({
+        results[i][1] = (loaded({
             "query_features": np.array([query_features]), 
             # "wh_latitude": np.array([5991142.2]).astype(np.float32),
             "wh_latitude": wh_lat_query_arg[0],
             "wh_longitude": wh_lon_query_arg[0],
             "warehouse_id": np.array([wh_id]).astype(str),
-        })[0][0]
+        })[0][0][0])
         i+=1
-    print(results)
-    json_dump = json.dumps(str(results))
+
+    results = results[(-results)[:,1].argsort()]
+    results[:,1] = preprocessing.normalize([results[:,1]])
+
+    result_data = {'Indexes': f'{results[:,0].tolist()}', 'Top_recs': f'{results[:,1].tolist()}', 'Timestamp': time.time()}
+    json_dump = json.dumps(result_data)
     return json_dump
 
 

@@ -58,6 +58,7 @@ export const getRecommendations = async (values) => {
                 ...(values.long_term_commitment ? { long_term_commitment: values.long_term_commitment } : { long_term_commitment: false }),
             },
         });
+        console.log(data)
         return data;
     } catch (error) {
         console.log(error)

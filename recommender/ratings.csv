@@ -1026,3 +1026,48 @@
 355,72,"regulated, classC, ","regulated, classA, pharmacy, food, transport_services, custom, crossdock, palletization, box_pick, ",6002990.856001076,3063298.76370728,0.3371214551248055
 356,27,"warmed, noClass, dangerous, palletization, ","noTemperature, classB, transport_services, crossdock, palletization, box_pick, ",5487802.176729585,7343834.906816484,0.7387450704180467
 356,44,"warmed, noClass, dangerous, palletization, ","heated, noClass, food, transport_services, crossdock, palletization, box_pick, ",5487802.176729585,7343834.906816484,0.3199845538630659
+357,1,"heated, classAplus, palletization, ","nonHeated, classB, crossdock, palletization, box_pick, ",5994644.315084315,3028503.7496360024,0.5908932995623807
+357,10,"heated, classAplus, palletization, ","heated, classA, palletization, box_pick, ",5994644.315084315,3028503.7496360024,0.5063132123143291
+357,11,"heated, classAplus, palletization, ","regulated, classAplus, food, transport_services, crossdock, palletization, box_pick, ",5994644.315084315,3028503.7496360024,0.36543909931761137
+357,15,"heated, classAplus, palletization, ","heated, classBplus, crossdock, palletization, box_pick, ",5994644.315084315,3028503.7496360024,0.5126264246286583
+357,16,"heated, classAplus, palletization, ","heated, classA, crossdock, palletization, box_pick, ",5994644.315084315,3028503.7496360024,0.4608586668597836
+357,17,"heated, classAplus, palletization, ","heated, classA, crossdock, palletization, box_pick, ",5994644.315084315,3028503.7496360024,0.4608586668597836
+357,23,"heated, classAplus, palletization, ","regulated, classA, freezer, transport_services, crossdock, palletization, box_pick, ",5994644.315084315,3028503.7496360024,0.38827569355452296
+357,26,"heated, classAplus, palletization, ","heated, classA, transport_services, crossdock, palletization, box_pick, ",5994644.315084315,3028503.7496360024,0.4154041214052382
+357,68,"heated, classAplus, palletization, ","heated, classA, crossdock, palletization, box_pick, ",5994644.315084315,3028503.7496360024,0.4608586668597836
+357,69,"heated, classAplus, palletization, ","warmed, classC, palletization, box_pick, ",5994644.315084315,3028503.7496360024,0.666940516943377
+357,72,"heated, classAplus, palletization, ","regulated, classA, pharmacy, food, transport_services, custom, crossdock, palletization, box_pick, ",5994644.315084315,3028503.7496360024,0.2973666026454321
+358,13,"noTemperature, classBplus, palletization, ","regulated, classBplus, food, transport_services, crossdock, palletization, box_pick, ",5504490.922888506,8293722.398579121,0.6962400672681637
+358,67,"noTemperature, classBplus, palletization, ","heated, classB, crossdock, palletization, box_pick, ",5504490.922888506,8293722.398579121,0.7439180004999515
+359,39,"heated, classC, palletization, box_pick, ","heated, classBplus, transport_services, box_pick, ",5600173.104340225,9289800.22855103,0.5126264246286583
+359,55,"heated, classC, palletization, box_pick, ","heated, classB, food, transport_services, crossdock, palletization, box_pick, ",5600173.104340225,9289800.22855103,0.4154041214052382
+360,39,"warmed, classB, palletization, ","heated, classBplus, transport_services, box_pick, ",5600972.428264073,9287447.721697392,0.43373023900906843
+360,55,"warmed, classB, palletization, ","heated, classB, food, transport_services, crossdock, palletization, box_pick, ",5600972.428264073,9287447.721697392,0.36543909931761137
+361,4,"regulated, classA, transport_services, ","heated, classB, transport_services, box_pick, ",5419980.0188851785,3764202.609658242,0.5683560586121007
+361,12,"regulated, classA, transport_services, ","regulated, classAplus, food, transport_services, crossdock, palletization, box_pick, ",5419980.0188851785,3764202.609658242,0.3699495759506928
+361,19,"regulated, classA, transport_services, ","heated, classA, transport_services, crossdock, palletization, box_pick, ",5419980.0188851785,3764202.609658242,0.41089364477215684
+361,20,"regulated, classA, transport_services, ","heated, classA, refrigerator, transport_services, custom, crossdock, palletization, box_pick, ",5419980.0188851785,3764202.609658242,0.3199845538630659
+361,21,"regulated, classA, transport_services, ","heated, classA, transport_services, custom, crossdock, palletization, box_pick, ",5419980.0188851785,3764202.609658242,0.36543909931761137
+361,30,"regulated, classA, transport_services, ","regulated, classA, transport_services, crossdock, palletization, box_pick, ",5419980.0188851785,3764202.609658242,0.36363636363636365
+361,35,"regulated, classA, transport_services, ","heated, classB, transport_services, crossdock, palletization, box_pick, ",5419980.0188851785,3764202.609658242,0.47744696770300976
+361,43,"regulated, classA, transport_services, ","regulated, noClass, food, transport_services, crossdock, palletization, box_pick, ",5419980.0188851785,3764202.609658242,0.7323238803328147
+361,62,"regulated, classA, transport_services, ","regulated, classB, refrigerator, pharmacy, transport_services, palletization, box_pick, ",5419980.0188851785,3764202.609658242,0.4217173337195673
+361,64,"regulated, classA, transport_services, ","regulated, classB, refrigerator, food, crossdock, palletization, box_pick, ",5419980.0188851785,3764202.609658242,0.33080824281047644
+361,71,"regulated, classA, transport_services, ","nonHeated, classC, dangerous, transport_services, custom, crossdock, palletization, box_pick, ",5419980.0188851785,3764202.609658242,0.483008898845387
+361,73,"regulated, classA, transport_services, ","heated, classB, transport_services, custom, crossdock, palletization, box_pick, ",5419980.0188851785,3764202.609658242,0.43199242224846435
+361,75,"regulated, classA, transport_services, ","warmed, classA, crossdock, palletization, box_pick, ",5419980.0188851785,3764202.609658242,0.41269638045340457
+362,30,"warmed, classB, palletization, ","regulated, classA, transport_services, crossdock, palletization, box_pick, ",5120530.9185642935,3977623.9693164835,0.5038241143817732
+362,43,"warmed, classB, palletization, ","regulated, noClass, food, transport_services, crossdock, palletization, box_pick, ",5120530.9185642935,3977623.9693164835,0.6428500015327542
+362,64,"warmed, classB, palletization, ","regulated, classB, refrigerator, food, crossdock, palletization, box_pick, ",5120530.9185642935,3977623.9693164835,0.41269638045340457
+363,1,"regulated, noClass, freezer, refrigerator, food, box_pick, ","nonHeated, classB, crossdock, palletization, box_pick, ",5993860.0,3031410.0,0.6141590849272112
+363,10,"regulated, noClass, freezer, refrigerator, food, box_pick, ","heated, classA, palletization, box_pick, ",5993860.0,3031410.0,0.7350113975821138
+363,11,"regulated, noClass, freezer, refrigerator, food, box_pick, ","regulated, classAplus, food, transport_services, crossdock, palletization, box_pick, ",5993860.0,3031410.0,0.7386370926471437
+363,15,"regulated, noClass, freezer, refrigerator, food, box_pick, ","heated, classBplus, crossdock, palletization, box_pick, ",5993860.0,3031410.0,0.6381700002466122
+363,16,"regulated, noClass, freezer, refrigerator, food, box_pick, ","heated, classA, crossdock, palletization, box_pick, ",5993860.0,3031410.0,0.6895568521275683
+363,17,"regulated, noClass, freezer, refrigerator, food, box_pick, ","heated, classA, crossdock, palletization, box_pick, ",5993860.0,3031410.0,0.6895568521275683
+363,23,"regulated, noClass, freezer, refrigerator, food, box_pick, ","regulated, classA, freezer, transport_services, crossdock, palletization, box_pick, ",5993860.0,3031410.0,0.6868693348782693
+363,25,"regulated, noClass, freezer, refrigerator, food, box_pick, ","heated, classA, transport_services, crossdock, palletization, box_pick, ",5993860.0,3031410.0,0.6441023066730229
+363,26,"regulated, noClass, freezer, refrigerator, food, box_pick, ","heated, classA, transport_services, crossdock, palletization, box_pick, ",5993860.0,3031410.0,0.6441023066730229
+363,68,"regulated, noClass, freezer, refrigerator, food, box_pick, ","heated, classA, crossdock, palletization, box_pick, ",5993860.0,3031410.0,0.6895568521275683
+363,69,"regulated, noClass, freezer, refrigerator, food, box_pick, ","warmed, classC, palletization, box_pick, ",5993860.0,3031410.0,0.5937367511658085
+363,72,"regulated, noClass, freezer, refrigerator, food, box_pick, ","regulated, classA, pharmacy, food, transport_services, custom, crossdock, palletization, box_pick, ",5993860.0,3031410.0,0.5959602439691785
