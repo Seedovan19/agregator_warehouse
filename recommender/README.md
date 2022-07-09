@@ -6,4 +6,5 @@
 * export
 * connect.py
 
-<img width="1434" alt="Снимок экрана 2022-07-09 в 15 47 09" src="https://user-images.githubusercontent.com/27068383/178106406-c18ca2ca-09d0-467b-9413-37bc7e50242b.png">
+
+<img width="1382" alt="Снимок экрана 2022-07-09 в 15 52 07" src="https://user-images.githubusercontent.com/27068383/178106574-ad006eea-f92a-4373-9139-662f4ec15760.png">
