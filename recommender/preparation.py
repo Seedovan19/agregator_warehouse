@@ -153,8 +153,27 @@ def compare_query_warehouse():
     print(data_query)
     print('#############################################\n')
     
+    # определим в каких столбцах больше всего пропусков (если пропусков много в определенном столбце, то его можно удалить)
+    # есть столбцы, в которых пропусков быть не должно
+    print('#############################################')
+    print('Пропуски')
+    print(data_warehouses.isnull().mean() * 100)
+    print('#############################################\n')
+
+    # Если столбец надо удалить, нужно раскоментировать код снизу:
+    # data_warehouses = data_warehouses.drop(columns=['image'])
+
+
+    # убираем строки с NaN в столбце с тем, есть ли у склада фармацевтическая лицензия. 
+    # В этом столбце должно быть только значение true или false.
+    # Как правило, если в этом столбце пропуск для данной строки, то и в других true/false столбцах также пропуски,
+    # поэтому строка просто удаляется
     data_warehouses = data_warehouses.dropna(subset = ['features.pharmacy'])
-    
+
+    # убираем дублирующие строки
+    data_warehouses = data_warehouses.drop_duplicates()
+    data_query = data_query.drop_duplicates()
+
     similarity = np.zeros(shape=(n, 9))
     similarity = similarity.astype('object')
     similarity[:,2] = similarity[:,2].astype('str')
@@ -170,6 +189,7 @@ def compare_query_warehouse():
                 similarity[i][3] = ''
 
             # токенизируем атрибуты запроса и склада
+            # если атрибут есть, его "токен" добавляется в общую строку токенов
             if row["condition"] == 'Freezer-WH' or row["condition"] == 0:
                 row["condition"] = 0
                 similarity[i][2] += 'freezerWH, '
@@ -303,15 +323,14 @@ def compare_query_warehouse():
             
             # Сравниваем boolean-поля
             
-            # row['long_term_commitment'] row_wh['long_term_commitment'] row_wh['logistics.leveling_platform'], row_wh['logistics.railways'] , row['leveling_platform'], row['railways']
             df_survey = pd.DataFrame([[ row['freezer'], row['refrigerator'], row['alcohol'], row['pharmacy'], row['food'], row['dangerous'], row['transport_services'], row['custom'], row['crossdock'], row['palletization'], row['box_pick']]], columns=columns_bool, index=[index])
             df_warehouse = pd.DataFrame([[row_wh['features.freezer'], row_wh['features.refrigerator'], row_wh['features.alcohol'], row_wh['features.pharmacy'], row_wh['features.food'], row_wh['features.dangerous'], row_wh['services.transport_services'], row_wh['services.custom'], row_wh['services.crossdock'], row_wh['services.palletization'], row_wh['services.box_pick']]], columns=columns_bool, index=[index_wh])
             jaccard_similarity = 1 - pairwise_distances(df_warehouse, df_survey, metric = "hamming") #https://stackoverflow.com/questions/37003272/how-to-compute-jaccard-similarity-from-a-pandas-dataframe
             
             similarity[i][0] = row["id"]
-            similarity[i][1] = row_wh["id"] # ИЗМЕНЕНО
-            similarity[i][4] = row["wh_lat"] * 100000
-            similarity[i][5] = row["wh_lon"] * 100000 # умножаем координаты на 100000, чтобы передать в модель для обучения целые числа (среди которых не будет дубликатов)
+            similarity[i][1] = row_wh["id"]
+            similarity[i][4] = row["wh_lat"] * 100000 # умножаем координаты на 100000, чтобы передать в модель для обучения целые числа (среди которых не будет дубликатов)
+            similarity[i][5] = row["wh_lon"] * 100000 
             similarity[i][6] = computeClassConditionSimilarity(row_wh, row) # euclidean weighted
             similarity[i][7] = jaccard_similarity[0][0] # jaccard
             similarity[i][8] = distance(row_wh["wh_latitude"],row_wh["wh_longitude"], row["wh_lat"], row["wh_lon"]) # haversine
@@ -322,7 +341,7 @@ def compare_query_warehouse():
     similarity[:,6] = [i/max(similarity[:,6]) for i in similarity[:,6]] # нормализуем столбец с классом и условиями хранения
     similarity[:,6] = (1.2*similarity[:,6] + similarity[:,7]) / 2  # общая похожесть
     similarity = np.delete(similarity, -1, axis=1) # удаляем столбец с расстояниями в киллометрах
-    similarity = np.delete(similarity, -1, axis=1) # удаляем столбец с метрикой похожести jaccard, оставляем только общую
+    similarity = np.delete(similarity, -1, axis=1) # удаляем столбец с метрикой похожести jaccard, оставляем только общую похожесть склада на запрос
     print(similarity[:,2])
     df_result = pd.DataFrame(similarity, columns=['query_id', 'warehouse_id', 'query_features', 'warehouse_features', 'wh_latitude', 'wh_longitude', 'similarity'])
     df_result = df_result.astype({'query_id':'int64', 'warehouse_id':'int64','query_features': 'str', 'warehouse_features': 'str', 'wh_latitude': 'float64', 'wh_longitude': 'float64', 'similarity':'float64'})
