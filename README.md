@@ -6,6 +6,7 @@
 https://youtu.be/YsoO9CPFPfg
 
 ## Архитектура реализованного сервиса:
+<img width="1137" alt="Снимок экрана 2022-07-09 в 03 54 20" src="https://user-images.githubusercontent.com/27068383/178085579-57481e41-90b9-469f-8d58-6b7ca70d0c82.png">
 
 
 ## Иерархия директорий с кратким описанием:
