@@ -144,7 +144,7 @@ class RatingsModel(tfrs.models.Model):
     # as our prediction.
     self.rating_model = tf.keras.Sequential([
         tf.keras.layers.Dense(64, activation="linear"),
-        tf.keras.layers.Dense(16, activation="tanh"),
+        tf.keras.layers.Dense(32, activation="tanh"),
         tf.keras.layers.Dense(1, activation="linear"),
     ])
 
