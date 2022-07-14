@@ -220,7 +220,7 @@ def run_models(num_runs=1):
 
   mean, stdv = np.average(rmses), np.std(rmses)
 
-  return {"model": models, "mean": mean, "stdv": stdv}
+  return {"model": models, "mean": mean}
 
 result = run_models()
 
