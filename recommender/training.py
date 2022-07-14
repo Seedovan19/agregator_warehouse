@@ -9,7 +9,7 @@ import tensorflow_recommenders as tfrs
 from matplotlib import pyplot as plt
 
 
-epochs = 250
+epochs = 1500
 learning_rate = 0.000001
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
@@ -110,7 +110,7 @@ class WarehouseModel(tf.keras.Model):
 
     self.warehouse_id_embedding = tf.keras.Sequential([
       warehouse_id_lookup,
-      tf.keras.layers.Embedding(warehouse_id_lookup.vocabulary_size(), 64)
+      tf.keras.layers.Embedding(warehouse_id_lookup.vocabulary_size(), 32)
     ])
 
   def call(self, inputs):
@@ -132,18 +132,18 @@ class RatingsModel(tfrs.models.Model):
     # Модели запросов и складов
     self.query_model = tf.keras.Sequential([
       QueryModel(),
-      tf.keras.layers.Dense(16)
+      tf.keras.layers.Dense(64)
     ])
     self.candidate_model = tf.keras.Sequential([
       WarehouseModel(),
-      tf.keras.layers.Dense(16)
+      tf.keras.layers.Dense(64)
     ])
 
     # A small model to take in user and movie embeddings and predict ratings.
     # We can make this as complicated as we want as long as we output a scalar
     # as our prediction.
     self.rating_model = tf.keras.Sequential([
-        tf.keras.layers.Dense(16, activation="linear"),
+        tf.keras.layers.Dense(64, activation="linear"),
         tf.keras.layers.Dense(8, activation="tanh"),
         tf.keras.layers.Dense(1, activation="linear"),
     ])
@@ -199,15 +199,24 @@ def run_models(num_runs=1):
   for i in range(num_runs):
     model = RatingsModel()
 
-    model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate))
+    model.compile(
+      optimizer=tf.keras.optimizers.Adam(learning_rate)
+    )
     models.append(model)
 
     history = model.fit(cached_train, epochs=epochs, verbose=False)
-    pd.DataFrame(history.history).plot(figsize=(8,5))
-    plt.show()
+    # pd.DataFrame(history.history).plot(figsize=(8,5))
+    # plt.show()
     metrics = model.evaluate(cached_test, return_dict=True)
     print(metrics)
     rmses.append(metrics["RMSE"])
+    plt.plot(history.history['RMSE'])
+    plt.plot(metrics['RMSE'])
+    plt.title('Model loss')
+    plt.ylabel('RMSE')
+    plt.xlabel('epoch')
+    plt.legend(['train', 'test'], loc='upper left')
+    plt.show()
 
   mean, stdv = np.average(rmses), np.std(rmses)
 
