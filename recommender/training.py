@@ -10,7 +10,7 @@ from matplotlib import pyplot as plt
 
 
 epochs = 1500
-learning_rate = 0.00001
+learning_rate = 0.000001
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
 
@@ -144,7 +144,7 @@ class RatingsModel(tfrs.models.Model):
     # as our prediction.
     self.rating_model = tf.keras.Sequential([
         tf.keras.layers.Dense(64, activation="linear"),
-        tf.keras.layers.Dense(8, activation="tanh"),
+        tf.keras.layers.Dense(16, activation="tanh"),
         tf.keras.layers.Dense(1, activation="linear"),
     ])
 
