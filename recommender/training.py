@@ -9,7 +9,7 @@ import tensorflow_recommenders as tfrs
 from matplotlib import pyplot as plt
 
 
-epochs = 1500
+epochs = 200
 learning_rate = 0.000001
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
@@ -208,7 +208,7 @@ def run_models(num_runs=1):
     # pd.DataFrame(history.history).plot(figsize=(8,5))
     # plt.show()
     metrics = model.evaluate(cached_test, return_dict=True)
-    print(metrics)
+    print(history)
     rmses.append(metrics["RMSE"])
     plt.plot(history.history['RMSE'])
     plt.plot(metrics['RMSE'])
@@ -222,13 +222,13 @@ def run_models(num_runs=1):
 
   return {"model": models, "mean": mean, "stdv": stdv}
 
-dcn_result = run_models()
+result = run_models()
 
 
-print("DCN RMSE mean: {:.4f}, stdv: {:.4f}".format(
-    dcn_result["mean"], dcn_result["stdv"]))
+print("DCN RMSE mean: {:.4f}".format(
+    result["mean"]))
 
 
-model = dcn_result["model"][0]
+model = result["model"][0]
 
 tf.saved_model.save(model, "export")
